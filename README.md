@@ -7,8 +7,9 @@
 
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/ismarslomic/homeydash.combined.svg)
 
-![Travis (.org) branch](https://img.shields.io/travis/ismarslomic/homeydash.combined/master.svg)
+![Codecov](https://img.shields.io/codecov/c/github/ismarslomic/homeydash.combined.svg)
 
+![Travis (.org) branch](https://img.shields.io/travis/ismarslomic/homeydash.combined/master.svg)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/ismarslomic/homeydash.combined.svg)
 

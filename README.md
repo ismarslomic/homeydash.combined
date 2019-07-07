@@ -1,16 +1,10 @@
 # homeydash.combined
 ![GitHub](https://img.shields.io/github/license/ismarslomic/homeydash.combined.svg)
-
 ![David](https://img.shields.io/david/ismarslomic/homeydash.combined.svg)
-
 ![David](https://img.shields.io/david/dev/ismarslomic/homeydash.combined.svg)
-
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/ismarslomic/homeydash.combined.svg)
-
 ![Codecov](https://img.shields.io/codecov/c/github/ismarslomic/homeydash.combined.svg)
-
 ![Travis (.org) branch](https://img.shields.io/travis/ismarslomic/homeydash.combined/master.svg)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/ismarslomic/homeydash.combined.svg)
 
 Web-based Homey Dashboard written in Vue.js inspired by  [homey.ink](https://github.com/athombv/homey.ink) (e-ink compatible) and [homeydash.com](https://github.com/daneedk/homeydash.com) (iPad/iPhone compatible) dashboards.

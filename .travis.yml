@@ -15,7 +15,7 @@ jobs:
         - codecov
     - stage: Deploy
       name: Deploy to Github Pages
-      script: npm run build
+      script: CONTEXT_PATH=/homeydash.combined/ npm run build
       deploy:
         provider: pages
         skip_cleanup: true

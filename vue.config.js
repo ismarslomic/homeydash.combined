@@ -16,5 +16,5 @@ module.exports = {
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
     },
-    publicPath: process.env.NODE_ENV === 'production' ? '/homeydash.combined/' : '/'
+    publicPath: process.env.CONTEXT_PATH ? process.env.CONTEXT_PATH : '/'
 };

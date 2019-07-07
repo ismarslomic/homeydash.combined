@@ -11,8 +11,6 @@ jobs:
       script: npm run lint
     - script: npm run test:unit
       name: Unit tests
-      install:
-        - npm install -g codecov
       after_success:
         - codecov
     - stage: Deploy

@@ -1,4 +1,5 @@
 # homeydash.combined
+Web-based Homey Dashboard written in Vue.js inspired by  [homey.ink](https://github.com/athombv/homey.ink) (e-ink compatible) and [homeydash.com](https://github.com/daneedk/homeydash.com) (iPad/iPhone compatible) dashboards.
 
 ## Project setup
 ```

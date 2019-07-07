@@ -39,5 +39,8 @@
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10"
+  },
+  "gitHooks": {
+    "pre-commit": "lint"
   }
 }

@@ -35,7 +35,7 @@ npm run test:unit
 ```
 npm install -g serve
 # -s flag means serve it in Single-Page Application mode
-# which deals with the routing problem below
+# which deals with the routing problem described https://cli.vuejs.org/guide/deployment.html#previewing-locally
 serve -s dist
 ```
 

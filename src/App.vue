@@ -1,14 +1,27 @@
 <template>
-    <div id="app">
-        <div id="nav">
-            <router-link :to="{name: 'home'}">Home</router-link>
-            |
-            <router-link :to="{name: 'about'}">About</router-link>
-        </div>
-        <router-view/>
-    </div>
+    <v-app>
+
+        <TopToolbar></TopToolbar>
+
+        <v-content>
+            <router-view></router-view>
+        </v-content>
+
+        <BottomNav></BottomNav>
+
+    </v-app>
 </template>
 
-<style lang="scss">
-    @import "./styles/app.scss";
-</style>
+<script lang="ts">
+    import { Component, Vue } from 'vue-property-decorator';
+    import TopToolbar from '@/components/TopToolbar.vue';
+    import BottomNav from '@/components/BottomNav.vue';
+    @Component({
+        components: {
+            TopToolbar ,
+            BottomNav
+        }
+    })
+    export default class extends Vue {
+    }
+</script>

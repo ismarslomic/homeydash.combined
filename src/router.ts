@@ -1,15 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from './store/store';
-
+import store from '@/store/store';
 import Dashboard from '@/views/Dashboard.vue';
-import Weather from '@/views/Weather.vue';
-import Climate from '@/views/Climate.vue';
-import Security from '@/views/Security.vue';
-import Lightning from '@/views/Lightning.vue';
-import Devices from '@/views/Devices.vue';
-import Flows from '@/views/Flows.vue';
-import Energy from '@/views/Energy.vue';
 
 Vue.use(Router);
 
@@ -29,48 +21,48 @@ const router = new Router({
             path: '/',
             name: 'dashboard',
             component: Dashboard,
-            meta: new RouteMeta({title: 'Dashboard'})
+            meta: new RouteMeta({title: 'Good evening, Ismar'})
         },
         {
             path: '/weather',
             name: 'weather',
-            component: Weather,
+            component: () => import('@/views/Weather.vue'),
             meta: new RouteMeta({title: 'Weather'})
         },
         {
             path: '/climate',
             name: 'climate',
-            component: Climate,
+            component: () => import('@/views/Climate.vue'),
             meta: new RouteMeta({title: 'Climate'})
         },
         {
             path: '/security',
             name: 'security',
-            component: Security,
+            component: () => import('@/views/Security.vue'),
             meta: new RouteMeta({title: 'Security'})
         },
         {
             path: '/lightning',
             name: 'lightning',
-            component: Lightning,
+            component: () => import('@/views/Lightning.vue'),
             meta: new RouteMeta({title: 'Lightning'})
         },
         {
             path: '/devices',
             name: 'devices',
-            component: Devices,
+            component: () => import('@/views/Devices.vue'),
             meta: new RouteMeta({title: 'Devices'})
         },
         {
             path: '/flows',
             name: 'flows',
-            component: Flows,
+            component: () => import('@/views/Flows.vue'),
             meta: new RouteMeta({title: 'Flows'})
         },
         {
             path: '/energy',
             name: 'energy',
-            component: Energy,
+            component: () => import('@/views/Energy.vue'),
             meta: new RouteMeta({title: 'Energy'})
         }
     ]

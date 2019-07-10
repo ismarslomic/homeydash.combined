@@ -17,7 +17,7 @@
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuetify": "^1.5.5",
+    "vuetify": "^2.0.0-beta.7",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.2"
   },
@@ -33,14 +33,15 @@
     "babel-core": "7.0.0-bridge.0",
     "codecov": "^3.5.0",
     "node-sass": "^4.9.0",
+    "sass": "^1.17.4",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.3",
-    "vue-cli-plugin-vuetify": "^0.5.0",
+    "vue-cli-plugin-vuetify": "git+https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#dev",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.2.2"
   },
   "gitHooks": {
     "pre-commit": "npm run lint"

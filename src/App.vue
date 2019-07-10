@@ -1,10 +1,14 @@
 <template>
     <v-app>
 
-        <TopToolbar></TopToolbar>
+        <AppBar></AppBar>
 
         <v-content>
-            <router-view></router-view>
+            <v-container fluid>
+                <v-fade-transition hide-on-leave>
+                    <router-view></router-view>
+                </v-fade-transition>
+            </v-container>
         </v-content>
 
         <BottomNav></BottomNav>
@@ -14,11 +18,11 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import TopToolbar from '@/components/TopToolbar.vue';
+    import AppBar from '@/components/AppBar.vue';
     import BottomNav from '@/components/BottomNav.vue';
     @Component({
         components: {
-            TopToolbar ,
+            AppBar,
             BottomNav
         }
     })

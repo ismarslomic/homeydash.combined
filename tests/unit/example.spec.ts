@@ -1,12 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
-import HelloWorld from '@/components/HelloWorld.vue';
+import BottomNav from '@/components/BottomNav.vue';
 
-describe('HelloWorld.vue', () => {
+describe('BottomNav.vue', () => {
   it('renders props.msg when passed', () => {
-    const msg = 'new message';
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
-    });
+    const msg = 'Dashboard';
+    const wrapper = shallowMount(BottomNav);
     expect(wrapper.text()).toMatch(msg);
   });
 });

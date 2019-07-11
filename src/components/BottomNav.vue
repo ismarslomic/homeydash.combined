@@ -5,7 +5,6 @@
             :value="true"
             flat
             app
-            grow
             dark
     >
         <template v-for="(item) in navItems">
@@ -116,6 +115,5 @@ export default class BottomNav extends Vue {
            return item.visibilityClassNav;
        });
     }
-
 }
 </script>

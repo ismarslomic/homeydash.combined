@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "core-js": "^3.1.4",
+    "deepmerge": "^4.0.0",
+    "fibers": "^4.0.1",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
@@ -32,8 +34,7 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
     "codecov": "^3.5.0",
-    "node-sass": "^4.9.0",
-    "sass": "^1.17.4",
+    "sass": "^1.22.3",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",

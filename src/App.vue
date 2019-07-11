@@ -1,7 +1,7 @@
 <template>
-    <v-app>
+    <v-app dark>
 
-        <AppBar></AppBar>
+        <TopToolbar></TopToolbar>
 
         <v-content>
             <v-container fluid>
@@ -18,11 +18,11 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import AppBar from '@/components/AppBar.vue';
+    import TopToolbar from '@/components/TopToolbar.vue';
     import BottomNav from '@/components/BottomNav.vue';
     @Component({
         components: {
-            AppBar,
+            TopToolbar,
             BottomNav
         }
     })

@@ -1,9 +1,9 @@
 // Store root state
 export interface RootState {
-    topToolbar: AppBarState;
+    topToolbar: TopToolbarState;
 }
 
 // Store modules state
-export interface AppBarState {
+export interface TopToolbarState {
     title: string;
 }

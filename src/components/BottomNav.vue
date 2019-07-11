@@ -1,11 +1,13 @@
 <template>
 
-    <v-bottom-navigation
+    <v-bottom-nav
             fixed
             :value="true"
             flat
             app
-            grow>
+            grow
+            dark
+    >
         <template v-for="(item) in navItems">
             <v-btn :to="item.route" :class="item.visibilityClassNav">
                 <span>{{item.title}}</span>
@@ -14,35 +16,32 @@
         </template>
 
         <v-bottom-sheet v-model="sheet">
-            <template v-slot:activator="{ on }">
+
                 <v-btn
-                        v-on="on"
+                        slot="activator"
                         class="hidden-lg-and-up"
-                        v-model="sheet"
                 >
                     <span>More</span>
                     <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
-            </template>
+
             <v-list>
-                <v-list-item
-                        v-for="(item) in filterItems "
-                        :key="item.title"
-                        @click="sheet = false"
-                        :class="item.visibilityClassOverflow"
-                        :to="item.route"
-                >
-                    <v-list-item-avatar>
-                        <v-avatar size="32px" tile>
-                            <v-icon>{{item.icon}}</v-icon>
-                        </v-avatar>
-                    </v-list-item-avatar>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
+                <v-list-tile v-for="(item) in filterItems "
+                             :key="item.title"
+                             @click="sheet = false"
+                             :class="item.visibilityClassOverflow"
+                             :to="item.route">
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ item.title  }}</v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-icon>{{ item.icon}}</v-icon>
+                    </v-list-tile-action>
+                </v-list-tile>
             </v-list>
         </v-bottom-sheet>
 
-    </v-bottom-navigation>
+    </v-bottom-nav>
 
 </template>
 

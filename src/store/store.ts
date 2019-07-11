@@ -2,13 +2,13 @@ import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from '@/types';
 
-import { appBar } from './modules/appBar';
+import { topToolbar } from './modules/topToolbar';
 
 Vue.use(Vuex);
 
 const store: StoreOptions<RootState> = {
     modules: {
-        topToolbar: appBar
+       topToolbar
     }
 };
 

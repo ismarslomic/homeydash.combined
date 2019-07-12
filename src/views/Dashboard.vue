@@ -1,18 +1,113 @@
 <template>
-    <div>
-        <h1>Dashboard</h1>
-        <p>
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in sem nibh. Proin non suscipit nisl. Sed ultricies scelerisque purus, ullamcorper mattis magna laoreet consectetur. In finibus laoreet dolor vel hendrerit. Ut convallis tempus mauris eu iaculis. Praesent tortor magna, lobortis eu felis nec, sagittis malesuada orci. Pellentesque at nisi scelerisque, imperdiet arcu ut, varius tortor. In dignissim risus dui, eget imperdiet purus mollis sed. Morbi a elit at tellus egestas ornare. Aliquam iaculis, est eu venenatis lacinia, velit ipsum venenatis turpis, at ullamcorper dolor ligula eget ipsum. Aenean eu urna sapien. In hac habitasse platea dictumst. Aliquam mauris mauris, aliquet sit amet felis non, dictum commodo ante. Donec blandit egestas felis vel interdum. In hac habitasse platea dictumst.
+    <v-container fluid id="view-container" pa-0>
+        <v-toolbar fixed app flat color="#303030">
+            <v-toolbar-title class="display-2">Dashboard</v-toolbar-title>
+            <v-spacer></v-spacer>
+            Wednesday, February 10
+        </v-toolbar>
+        <v-container grid-list-md fluid id="view-content-container">
+            <v-layout row wrap>
+                <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
+                    <v-card color="red" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex>
+                                <v-card-title>Weather</v-card-title>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs2>
+                    <v-card color="pink" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Lightning</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs3>
+                    <v-card color="purple darken-2" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex>
+                                <v-card-title>Climate</v-card-title>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 shrink order-xs4>
+                    <v-card color="cyan" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex>
+                                <v-card-title>Security</v-card-title>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs5>
+                    <v-card color="teal" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex>
+                                <v-card-title>Energy Monitor</v-card-title>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs6>
+                    <v-card color="light-blue" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex>
+                                <v-card-title>Recent Activity</v-card-title>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
+                            </v-flex>
+                            <v-flex>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
 
-            Morbi tempor odio sed placerat elementum. In condimentum, justo sed accumsan interdum, mauris justo interdum elit, ut molestie arcu nisi vitae metus. Donec rutrum quam quis justo tristique consectetur. Nunc finibus, orci id sagittis tempor, libero neque euismod dolor, at vehicula libero mi egestas ante. Nullam laoreet mauris posuere scelerisque egestas. Ut ante mauris, interdum ac magna vitae, scelerisque commodo metus. In eu aliquet justo, et dapibus felis. Nulla tincidunt dignissim tempus. Quisque congue nibh eu convallis ultrices."
-        </p>
-    </div >
+    </v-container>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 
-    @Component({})
-    export default class Dashboard extends Vue {
-    }
+@Component({})
+export default class Dashboard extends Vue {
+
+}
 </script>

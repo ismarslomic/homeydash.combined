@@ -1,47 +1,39 @@
 <template>
+    <v-bottom-nav fixed :value="true" flat app dark>
+        <v-layout row justify-space-between>
+            <template v-for="(item) in navItems">
+                <v-flex :class="item.visibilityClassNav">
+                    <v-btn :to="item.route" >
+                        <span>{{item.title}}</span>
+                        <v-icon>{{item.icon}}</v-icon>
+                    </v-btn>
+                </v-flex>
+            </template>
+            <v-flex class="hidden-lg-and-up">
+                <v-bottom-sheet v-model="sheet">
+                    <v-btn slot="activator">
+                        <span>More</span>
+                        <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
 
-    <v-bottom-nav
-            fixed
-            :value="true"
-            flat
-            app
-            dark
-    >
-        <template v-for="(item) in navItems">
-            <v-btn :to="item.route" :class="item.visibilityClassNav">
-                <span>{{item.title}}</span>
-                <v-icon>{{item.icon}}</v-icon>
-            </v-btn>
-        </template>
-
-        <v-bottom-sheet v-model="sheet">
-
-                <v-btn
-                        slot="activator"
-                        class="hidden-lg-and-up"
-                >
-                    <span>More</span>
-                    <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-
-            <v-list>
-                <v-list-tile v-for="(item) in filterItems "
-                             :key="item.title"
-                             @click="sheet = false"
-                             :class="item.visibilityClassOverflow"
-                             :to="item.route">
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ item.title  }}</v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                        <v-icon>{{ item.icon}}</v-icon>
-                    </v-list-tile-action>
-                </v-list-tile>
-            </v-list>
-        </v-bottom-sheet>
-
+                    <v-list>
+                        <v-list-tile v-for="(item) in filterItems "
+                                     :key="item.title"
+                                     @click="sheet = false"
+                                     :class="item.visibilityClassOverflow"
+                                     :to="item.route">
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ item.title  }}</v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                                <v-icon>{{ item.icon}}</v-icon>
+                            </v-list-tile-action>
+                        </v-list-tile>
+                    </v-list>
+                </v-bottom-sheet>
+            </v-flex>
+        </v-layout>
     </v-bottom-nav>
-
 </template>
 
 <script lang="ts">

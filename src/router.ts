@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store/store';
 import Dashboard from '@/views/Dashboard.vue';
 
 Vue.use(Router);
@@ -66,14 +65,6 @@ const router = new Router({
             meta: new RouteMeta({title: 'Energy'})
         }
     ]
-});
-
-// This callback runs before every route change, including on initial load
-router.beforeEach((to, from, next) => {
-
-    const routeMeta = to.meta as RouteMeta;
-    store.dispatch('topToolbar/changeTitle', routeMeta.title);
-    next();
 });
 
 export default router;

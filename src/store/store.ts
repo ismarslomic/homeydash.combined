@@ -1,14 +1,16 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
-import { RootState } from '@/types';
+import { RootState } from '@/types/types';
 
-import { topToolbar } from './modules/topToolbar';
+import { weather } from '@/store/modules/weather';
+import { geolocation } from '@/store/modules/geolocation';
 
 Vue.use(Vuex);
 
 const store: StoreOptions<RootState> = {
     modules: {
-       topToolbar
+        weather,
+        geolocation
     }
 };
 

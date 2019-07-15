@@ -11,7 +11,10 @@
                     <v-card tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex pa-0>
-                                <v-card-title>Weather</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">mdi-weather-partlycloudy</v-icon>
+                                    Weather
+                                </v-card-title>
                             </v-flex>
                             <v-flex pa-0 v-if="loadingWeather">
                                 <v-card-text>
@@ -119,7 +122,10 @@
                     <v-card color="pink" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
-                                <v-card-title>Lightning</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">mdi-lightbulb-outline</v-icon>
+                                    Lightning
+                                </v-card-title>
                             </v-flex>
                             <v-flex grow>
                                 <v-card-text>Content<br/><br/><br/></v-card-text>
@@ -134,7 +140,10 @@
                     <v-card color="purple darken-2" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex>
-                                <v-card-title>Climate</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">mdi-thermometer</v-icon>
+                                    Climate
+                                </v-card-title>
                             </v-flex>
                             <v-flex>
                                 <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
@@ -149,7 +158,10 @@
                     <v-card color="cyan" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex>
-                                <v-card-title>Security</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">mdi-lock-open-outline</v-icon>
+                                    Security
+                                </v-card-title>
                             </v-flex>
                             <v-flex>
                                 <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
@@ -164,7 +176,10 @@
                     <v-card color="teal" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex>
-                                <v-card-title>Energy Monitor</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">mdi-power-plug</v-icon>
+                                    Energy Monitor
+                                </v-card-title>
                             </v-flex>
                             <v-flex>
                                 <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>
@@ -179,7 +194,10 @@
                     <v-card color="light-blue" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex>
-                                <v-card-title>Recent Activity</v-card-title>
+                                <v-card-title>
+                                    <v-icon class="mr-2">sms</v-icon>
+                                    Recent Activity
+                                </v-card-title>
                             </v-flex>
                             <v-flex>
                                 <v-card-text>Content<br/><br/><br/><br/><br/></v-card-text>

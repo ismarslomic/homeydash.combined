@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "generate-icons:yws": "vsvg -s ./svg-icons/yws -t ./src/icons/yws --ext ts --es6"
   },
   "dependencies": {
     "core-js": "^3.1.4",
@@ -41,6 +42,7 @@
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.3",
     "vue-cli-plugin-vuetify": "^0.5.0",
+    "vue-svgicon": "^3.2.6",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.2.2"
   },

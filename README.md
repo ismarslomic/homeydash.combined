@@ -39,6 +39,11 @@ npm run test:e2e
 npm run test:unit
 ```
 
+### Re-compile SVG icons to src
+```
+npm run generate-icons:yws
+```
+
 ### Preview production locally
 ```
 npm install -g serve

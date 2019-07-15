@@ -13,7 +13,13 @@
                             <v-flex pa-0>
                                 <v-card-title>Weather</v-card-title>
                             </v-flex>
-                            <v-flex pa-0>
+                            <v-flex pa-0 v-if="loadingWeather">
+                                <v-card-text>
+                                    Loading weather...
+                                    <v-progress-linear :indeterminate="true"></v-progress-linear>
+                                </v-card-text>
+                            </v-flex>
+                            <v-flex pa-0  v-if="!loadingWeather">
                                 <v-card-text>
                                     <h2>Oslo</h2>
                                     <h4>Sat 10:00, Sunny</h4>
@@ -44,7 +50,7 @@
                                     </v-layout>
                                 </v-card-text>
                             </v-flex>
-                            <v-flex pa-0>
+                            <v-flex pa-0  v-if="!loadingWeather">
                                 <v-card-actions class="pa-3">
                                     <v-container pa-0 text-xs-center>
                                         <v-layout row ma-0  wrap>
@@ -201,6 +207,11 @@ import '@/icons/yws/06d';
 
 @Component({})
 export default class Dashboard extends Vue {
+    loadingWeather: boolean = true;
+
+    mounted() {
+        setTimeout(() => { this.loadingWeather = false; }, 2000); // 2 sek
+    }
 }
 </script>
 

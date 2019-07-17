@@ -3,7 +3,11 @@ import {RootState, WeatherState} from '@/types/types';
 import {Weatherdata} from '@/types/weather';
 
 const state: WeatherState = {
-    weather: {},
+    weather: {
+        created: new Date(),
+        update: new Date(),
+        shortIntervals: []
+    },
 };
 
 export const getters: GetterTree<WeatherState, RootState> = {

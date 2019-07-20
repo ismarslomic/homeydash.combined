@@ -47,16 +47,14 @@
             <v-flex pa-0 v-if="!loadingWeather" shrink>
                 <v-card-actions class="pa-3">
                     <v-container pa-0 text-xs-center>
-                        <v-layout row ma-0 wrap>
-                            <v-flex xs2 class="caption" pa-0 v-for="interval in sixHoursForecasts">
-                                {{interval.start | shortTime}}
-                            </v-flex>
-                            <v-flex xs2 pa-0 v-for="interval in sixHoursForecasts">
-                                <svgicon :name="interval.symbol.iconFileName" width="24" height="24"></svgicon>
-                            </v-flex>
-                            <v-flex xs2 class="caption" pa-0 v-for="interval in sixHoursForecasts">
-                                {{interval.temperature.value | temperature}}&#8451;
-                            </v-flex>
+                        <v-layout row ma-0>
+                            <weather-forecast-hour
+                                v-for="interval in sixHoursForecasts"
+                                :key="interval.start.toString()"
+                                :date="interval.start"
+                                :iconFileName="interval.symbol.iconFileName"
+                                :temperature="interval.temperature.value">
+                            </weather-forecast-hour>
                         </v-layout>
                     </v-container>
                 </v-card-actions>
@@ -66,11 +64,16 @@
 </template>
 
 <script lang="ts">
+    import WeatherForecastHour from '@/components/WeatherForecastHour.vue';
     import '@/icons/yws';
     import { Weatherdata, WeatherInterval } from '@/types/weather';
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
-    @Component
+    @Component({
+        components: {
+            WeatherForecastHour
+        }
+    })
     export default class WeatherShort extends Vue {
         @Prop() private weather!: Weatherdata;
         @Prop() private geolocation!: Geolocation;

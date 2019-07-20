@@ -7,12 +7,7 @@
                     Weather
                 </v-card-title>
             </v-flex>
-            <v-flex pa-0 v-if="isRefreshingData" shrink>
-                <v-card-text>
-                    Loading weather...
-                    <v-progress-linear :indeterminate="true"></v-progress-linear>
-                </v-card-text>
-            </v-flex>
+            <progress-bar :show="isRefreshingData" title="Refreshing weather..."></progress-bar>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
                     <h2>{{geolocation.details.name}}</h2>
@@ -64,6 +59,7 @@
 </template>
 
 <script lang="ts">
+    import ProgressBar from '@/components/ProgressBar.vue';
     import WeatherForecastHour from '@/components/WeatherForecastHour.vue';
     import '@/icons/yws';
     import { Weatherdata, WeatherInterval } from '@/types/weather';
@@ -71,7 +67,8 @@
 
     @Component({
         components: {
-            WeatherForecastHour
+            WeatherForecastHour,
+            ProgressBar
         }
     })
     export default class WeatherShort extends Vue {

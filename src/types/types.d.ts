@@ -9,10 +9,10 @@ export interface RootState {
 
 // Store geolocation state
 export interface GeolocationState {
-    location: Geolocation;
+    location?: Geolocation;
 }
 
 // Store weather state for geolocation
 export interface WeatherState {
-    weather: Weatherdata;
+    weather?: Weatherdata;
 }

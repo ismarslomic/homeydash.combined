@@ -53,7 +53,7 @@ export default class BottomNav extends Vue {
         {
             title: 'Weather',
             route: { name: 'weather'},
-            icon: 'mdi-weather-partlycloudy',
+            icon: 'mdi-weather-partly-cloudy',
             visibilityClassNav: '',
             visibilityClassOverflow: ''
         },

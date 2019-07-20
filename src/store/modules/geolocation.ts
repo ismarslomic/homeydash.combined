@@ -1,54 +1,41 @@
-import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
+import GeolocationService from '@/services/GeolocationService';
+import { Geolocation, GeolocationCoordinates } from '@/types/geolocation';
 import { GeolocationState, RootState } from '@/types/types';
-import {Geolocation} from '@/types/geolocation';
+import { AxiosError } from 'axios';
+import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: GeolocationState = {
-    location: {
-        coordinates: {
-            latitude: 59.926577400000006,
-            longitude: 10.7693054,
-            accuracy: 23
-        },
-        details: {
-            category: {
-                id: 'CH10',
-                name: 'Part of a city'
-            },
-            id: '1-73823',
-            name: 'Grünerløkka',
-            elevation: 19,
-            timeZone: 'Europe/Oslo',
-            country: {
-                id: 'NO',
-                name: 'Norway'
-            },
-            region: {
-                id: 'NO/03',
-                name: 'Oslo'
-            },
-            subregion: {
-                id: 'NO/03/0301',
-                name: 'Oslo'
-            }
-        }
-    }
+    location: undefined
 };
 
-export const getters: GetterTree<GeolocationState, RootState> = {
-    weather: (theState: GeolocationState) => {
-        return theState.location;
-    }
-};
+export const getters: GetterTree<GeolocationState, RootState> = {};
 
 const mutations: MutationTree<GeolocationState> = {
-    setGeoLocation(theState: GeolocationState, location: Geolocation) {
+    setGeolocation(theState: GeolocationState, location: Geolocation) {
         theState.location = location;
     }
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    changeWeather({commit}, location: Geolocation) {
-        commit('setGeoLocation', location);
+    fetchGeolocationDetails({commit}) {
+        if (state.location) {
+            return;
+        }
+        const geolocationCoordinates: GeolocationCoordinates = {
+            latitude: 59.926577400000006,
+            longitude: 10.7693054,
+            accuracy: 1000
+        };
+        return GeolocationService.getGeolocationDetails(geolocationCoordinates, 'en')
+            .then((response: Geolocation) => {
+                commit('setGeolocation', response);
+            })
+            .catch((error: AxiosError) => {
+                // tslint:disable-next-line:no-console
+                console.error('Fetching geolocation failed');
+                // tslint:disable-next-line:no-console
+                console.error(error.message);
+            });
     }
 };
 

@@ -1,3 +1,4 @@
+import store from '@/store/store';
 import { Geolocation, GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
@@ -15,6 +16,20 @@ class GeolocationService {
                 'Content-Type': 'application/json'
             },
             timeout: this.TIMEOUT_IN_MILLIS
+        });
+        this.apiClient.interceptors.request.use((config: any) => {
+            store.dispatch('loading/startLoadingGeolocation');
+            return config;
+        }, (error) => {
+            store.dispatch('loading/doneLoadingGeolocation');
+            return Promise.reject(error);
+        });
+        this.apiClient.interceptors.response.use((response: any) => {
+            store.dispatch('loading/doneLoadingGeolocation');
+            return response;
+        }, (error) => {
+            store.dispatch('loading/doneLoadingGeolocation');
+            return Promise.reject(error);
         });
     }
 

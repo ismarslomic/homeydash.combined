@@ -16,3 +16,9 @@ export interface GeolocationState {
 export interface WeatherState {
     weather?: Weatherdata;
 }
+
+// Store api loading state
+export interface LoadingState {
+    geolocationWaitingCount: number;
+    weatherWaitingCount: number;
+}

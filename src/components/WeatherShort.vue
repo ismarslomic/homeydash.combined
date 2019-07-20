@@ -7,13 +7,13 @@
                     Weather
                 </v-card-title>
             </v-flex>
-            <v-flex pa-0 v-if="loadingWeather" shrink>
+            <v-flex pa-0 v-if="isRefreshingData" shrink>
                 <v-card-text>
                     Loading weather...
                     <v-progress-linear :indeterminate="true"></v-progress-linear>
                 </v-card-text>
             </v-flex>
-            <v-flex pa-0 v-if="!loadingWeather" grow>
+            <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
                     <h2>{{geolocation.details.name}}</h2>
                     <h4>{{nowForecast.start | shortTimeIntervals(nowForecast.end)}}</h4>
@@ -44,7 +44,7 @@
                     </v-layout>
                 </v-card-text>
             </v-flex>
-            <v-flex pa-0 v-if="!loadingWeather" shrink>
+            <v-flex pa-0 v-if="isDataLoaded" shrink>
                 <v-card-actions class="pa-3">
                     <v-container pa-0 text-xs-center>
                         <v-layout row ma-0>
@@ -77,13 +77,8 @@
     export default class WeatherShort extends Vue {
         @Prop() private weather!: Weatherdata;
         @Prop() private geolocation!: Geolocation;
-        private loadingWeather: boolean = true;
-
-        private mounted() {
-            setTimeout(() => {
-                this.loadingWeather = false;
-            }, 5000); // 2 sek
-        }
+        @Prop() private isRefreshingData!: boolean;
+        @Prop() private isDataLoaded!: boolean;
 
         /**
          * We jump over the first forecast interval, since that is now and we already show it

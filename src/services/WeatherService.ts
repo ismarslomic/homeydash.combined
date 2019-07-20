@@ -1,3 +1,4 @@
+import store from '@/store/store';
 import { Weatherdata, WeatherInterval, WeatherSymbol } from '@/types/weather';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
@@ -15,6 +16,20 @@ class WeatherService {
                 'Content-Type': 'application/json'
             },
             timeout: this.TIMEOUT_IN_MILLIS
+        });
+        this.apiClient.interceptors.request.use((config: any) => {
+            store.dispatch('loading/startLoadingWeather');
+            return config;
+        }, (error) => {
+            store.dispatch('loading/doneLoadingWeather');
+            return Promise.reject(error);
+        });
+        this.apiClient.interceptors.response.use((response: any) => {
+            store.dispatch('loading/doneLoadingWeather');
+            return response;
+        }, (error) => {
+            store.dispatch('loading/doneLoadingWeather');
+            return Promise.reject(error);
         });
     }
 

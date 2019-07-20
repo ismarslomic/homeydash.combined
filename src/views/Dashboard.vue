@@ -8,7 +8,12 @@
         <v-container grid-list-md fluid id="view-content-container">
             <v-layout row wrap>
                 <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
-                    <weather-short :weather="weatherState.weather" :geolocation="geolocationState.location"></weather-short>
+                    <weather-short
+                        :weather="weatherState.weather"
+                        :geolocation="geolocationState.location"
+                        :isRefreshingData="isRefreshingWeather"
+                        :isDataLoaded="isWeatherLoaded">
+                    </weather-short>
                 </v-flex>
                 <v-flex d-flex xs12 sm6 md4 order-xs2>
                     <v-card color="pink" tile>
@@ -20,7 +25,7 @@
                                 </v-card-title>
                             </v-flex>
                             <v-flex grow>
-                                <v-card-text>Content<br /><br /><br /><br /><br /><br /></v-card-text>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
                             </v-flex>
                             <v-flex shrink>
                                 <v-card-actions class="pa-3">Actions</v-card-actions>
@@ -109,9 +114,9 @@
 <script lang="ts">
     import WeatherShort from '@/components/WeatherShort.vue';
     import store from '@/store/store';
-    import { GeolocationState, WeatherState } from '@/types/types';
+    import { GeolocationState, LoadingState, WeatherState } from '@/types/types';
     import { Component, Vue } from 'vue-property-decorator';
-    import { State } from 'vuex-class';
+    import { Getter, State } from 'vuex-class';
 
     @Component({
         components: {
@@ -121,10 +126,24 @@
     export default class Dashboard extends Vue {
         @State('weather') weatherState?: WeatherState;
         @State('geolocation') geolocationState?: GeolocationState;
+        @State('loading') loadingState?: LoadingState;
+        @Getter('isLoadingGeolocation', {namespace: 'loading'}) isLoadingGeolocation!: boolean;
+        @Getter('isLoadingWeather', {namespace: 'loading'}) isLoadingWeather!: boolean;
+        @Getter('isWeatherDataLoaded', {namespace: 'weather'}) isWeatherDataLoaded!: boolean;
+        @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
+        @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
 
         private created() {
             store.dispatch('weather/fetchWeather');
             store.dispatch('geolocation/fetchGeolocationDetails');
+        }
+
+        get isRefreshingWeather() {
+            return this.isLoadingGeolocation || this.isLoadingWeather;
+        }
+
+        get isWeatherLoaded() {
+            return this.isWeatherDataLoaded && this.isCoordinateDataLoaded && this.isDetailsDataLoaded;
         }
     }
 </script>

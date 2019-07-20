@@ -8,7 +8,14 @@ const state: GeolocationState = {
     location: undefined
 };
 
-export const getters: GetterTree<GeolocationState, RootState> = {};
+export const getters: GetterTree<GeolocationState, RootState> = {
+    isCoordinateDataLoaded: (theState: GeolocationState): boolean => {
+        return !!(theState.location && theState.location.coordinates);
+    },
+    isDetailsDataLoaded: (theState: GeolocationState): boolean => {
+        return !!(theState.location && theState.location.details);
+    }
+};
 
 const mutations: MutationTree<GeolocationState> = {
     setGeolocation(theState: GeolocationState, location: Geolocation) {

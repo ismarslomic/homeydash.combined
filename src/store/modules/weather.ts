@@ -8,7 +8,11 @@ const state: WeatherState = {
     weather: undefined
 };
 
-export const getters: GetterTree<WeatherState, RootState> = {};
+export const getters: GetterTree<WeatherState, RootState> = {
+    isWeatherDataLoaded: (theState: WeatherState): boolean => {
+        return !!(theState.weather && theState.weather.shortIntervals) && theState.weather.shortIntervals.length > 0;
+    }
+};
 
 const mutations: MutationTree<WeatherState> = {
     setWeather(theState: WeatherState, weatherdata: Weatherdata) {

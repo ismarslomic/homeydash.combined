@@ -12,7 +12,8 @@
     },
     "components": {
         "weather": {
-            "title": "Weather"
+            "title": "Weather",
+            "crediting": "Weather forecast from Yr, delivered by the Norwegian Meteorological Institute and NRK"
         },
         "climate": {
             "title": "Climate"

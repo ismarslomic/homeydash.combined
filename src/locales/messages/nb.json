@@ -12,7 +12,8 @@
     },
     "components": {
         "weather": {
-            "title": "Vær"
+            "title": "Vær",
+            "crediting": "Værvarsel fra Yr levert av Meteorologisk institutt og NRK"
         },
         "climate": {
             "title": "Klima"

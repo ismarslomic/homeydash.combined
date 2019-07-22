@@ -20,7 +20,7 @@
                             </div>
                         </v-flex>
                         <v-flex>
-                            <svgicon :name="nowForecast.symbol.iconFileName" scale="6" v-on="on" :title="$t(`weather.${nowForecast.symbol.text}`)"></svgicon>
+                            <svgicon :name="nowForecast.symbol.iconFileName" scale="6" :title="$t(`weather.${nowForecast.symbol.text}`)"></svgicon>
                         </v-flex>
                     </v-layout>
                     <v-layout row ma-0>
@@ -52,6 +52,9 @@
                                 :symbolText="interval.symbol.text">
                             </weather-forecast-hour>
                         </v-layout>
+                        <v-flex class="font-italic">
+                            {{$t('components.weather.crediting')}}
+                        </v-flex>
                     </v-container>
                 </v-card-actions>
             </v-flex>

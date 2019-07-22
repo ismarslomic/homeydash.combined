@@ -9,10 +9,10 @@ jobs:
     - stage: Tests
       name: Lint
       script: npm run lint
-    - script: npm run test:unit
-      name: Unit tests
-      after_success:
-        - codecov
+    #- script: npm run test:unit
+    #  name: Unit tests
+    #  after_success:
+    #    - codecov
     - stage: Deploy
       name: Deploy to Github Pages
       script: CONTEXT_PATH=/homeydash.combined/ npm run build

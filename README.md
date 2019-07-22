@@ -52,5 +52,10 @@ npm install -g serve
 serve -s dist
 ```
 
+### Report the missing locale message keys and unused keys
+```
+npm run i18n:report
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

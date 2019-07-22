@@ -1,15 +1,16 @@
-import Vue from 'vue';
-import '@/plugins/vuetify';
 import App from '@/App.vue';
-import router from '@/router';
-import store from '@/store/store';
-import '@/registerServiceWorker';
-import VueSVGIcon from 'vue-svgicon';
+import PrecipationFilter from '@/filters/precipitation';
 import ShortTimeFilter from '@/filters/shortTime';
 import ShortTimeIntervals from '@/filters/shortTimeIntervals';
 import TemperatureFilter from '@/filters/temperature';
-import PrecipationFilter from '@/filters/precipitation';
 import WindSpeedFilter from '@/filters/windspeed';
+import i18n from '@/plugins/i18n';
+import '@/plugins/vuetify';
+import '@/registerServiceWorker';
+import router from '@/router';
+import store from '@/store/store';
+import Vue from 'vue';
+import VueSVGIcon from 'vue-svgicon';
 
 Vue.config.productionTip = false;
 
@@ -27,5 +28,9 @@ Vue.use(VueSVGIcon, {
 new Vue({
     router,
     store,
+    i18n,
+    beforeCreate() {
+        this.$store.dispatch('locale/initialiseLocale');
+    },
     render: (h) => h(App)
 }).$mount('#app');

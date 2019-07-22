@@ -3,6 +3,7 @@
         <v-toolbar fixed app flat color="#303030">
             <v-toolbar-title class="display-2 text-uppercase">Dashboard</v-toolbar-title>
             <v-spacer></v-spacer>
+            <locale-picker></locale-picker>
             Wednesday, February 10
         </v-toolbar>
         <v-container grid-list-md fluid id="view-content-container">
@@ -112,15 +113,16 @@
 </template>
 
 <script lang="ts">
+    import LocalePicker from '@/components/LocalePicker.vue';
     import WeatherShort from '@/components/WeatherShort.vue';
-    import store from '@/store/store';
     import { GeolocationState, LoadingState, WeatherState } from '@/types/types';
     import { Component, Vue } from 'vue-property-decorator';
     import { Getter, State } from 'vuex-class';
 
     @Component({
         components: {
-            WeatherShort
+            WeatherShort,
+            LocalePicker
         }
     })
     export default class Dashboard extends Vue {
@@ -134,8 +136,8 @@
         @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
 
         private created() {
-            store.dispatch('weather/fetchWeather');
-            store.dispatch('geolocation/fetchGeolocationDetails');
+            this.$store.dispatch('weather/fetchWeather');
+            this.$store.dispatch('geolocation/fetchGeolocationDetails');
         }
 
         get isRefreshingWeather() {

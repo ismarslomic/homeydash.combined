@@ -1,5 +1,5 @@
-import {Weatherdata} from '@/types/weather';
-import {Geolocation} from '@/types/geolocation';
+import { Geolocation } from '@/types/geolocation';
+import { Weatherdata } from '@/types/weather';
 
 // Store root state
 export interface RootState {
@@ -15,6 +15,11 @@ export interface GeolocationState {
 // Store weather state for geolocation
 export interface WeatherState {
     weather?: Weatherdata;
+}
+
+// Store locale state
+export interface LocaleState {
+    locale: string;
 }
 
 // Store api loading state

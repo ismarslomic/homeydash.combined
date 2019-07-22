@@ -11,10 +11,21 @@ module.exports = {
                 return args;
             })
     },
+
     pwa: {
         name: 'homeydash.combined',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
     },
-    publicPath: process.env.CONTEXT_PATH ? process.env.CONTEXT_PATH : '/'
+
+    publicPath: process.env.CONTEXT_PATH ? process.env.CONTEXT_PATH : '/',
+
+    pluginOptions: {
+      i18n: {
+        locale: 'en',
+        fallbackLocale: 'en',
+        localeDir: 'locales',
+        enableInSFC: true
+      }
+    }
 };

@@ -1,0 +1,89 @@
+{
+    "views": {
+        "dashboard": "Dashboard",
+        "weather": "Weather",
+        "climate": "Climate",
+        "security": "Security",
+        "lightning": "Lightning",
+        "devices": "Devices",
+        "flows": "Flows",
+        "energy": "Energy",
+        "more": "More"
+    },
+    "components": {
+        "weather": {
+            "title": "Weather"
+        },
+        "climate": {
+            "title": "Climate"
+        },
+        "security": {
+            "title": "Security"
+        },
+        "lightning": {
+            "title": "Lightning"
+        },
+        "devices": {
+            "title": "Devices"
+        },
+        "flows": {
+            "title": "Flows"
+        },
+        "energy": {
+            "title": "Energy Monitoring"
+        },
+        "activity": {
+            "title": "Recent Activity"
+        }
+    },
+    "locales": {
+        "en": "English",
+        "nb": "Norwegian"
+    },
+    "actions": {
+        "chooseLocale": "Choose language"
+    },
+    "weather": {
+        "ClearSky": "Clear sky",
+        "Fair": "Fair",
+        "PartlyCloudy": "Partly cloudy",
+        "Cloudy": "Cloudy",
+        "RainShowers": "Rain showers",
+        "RainShowersAndThunder": "Rain showers and thunder",
+        "SleetShowers": "Sleet showers",
+        "SnowShowers": "Snow showers",
+        "Rain": "Rain",
+        "HeavyRain": "Heavy rain",
+        "HeavyRainAndThunder": "Heavy rain and thunder",
+        "Sleet": "Sleet",
+        "Snow": "Snow",
+        "SnowAndThunder": "Snow and thunder",
+        "Fog": "Fog",
+        "SleetShowersAndThunder": "Sleet showers and thunder",
+        "SnowShowersAndThunder": "Snow showers and thunder",
+        "RainAndThunder": "Rain and thunder",
+        "SleetAndThunder": "Sleet and thunder",
+        "LightRainShowersAndThunder": "Light rain showers and thunder",
+        "HeavyRainShowersAndThunder": "Heavy rain showers and thunder",
+        "LightsSleetShowersAndThunder": "Lights sleet showers and thunder",
+        "HeavySleetShowersAndThunder": "Heavy sleet showers and thunder",
+        "LightsSnowShowersAndThunder": "Lights snow showers and thunder",
+        "HeavySnowShowersAndThunder": "Heavy snow showers and thunder",
+        "LightRainAndThunder": "Light rain and thunder",
+        "LightSleetAndThunder": "Light sleet and thunder",
+        "HeavySleetAndThunder": "Heavy sleet and thunder",
+        "LightSnowAndThunder": "Light snow and thunder",
+        "HeavySnowAndThunder": "Heavy snow and thunder",
+        "LightRainShowers": "Light rain showers",
+        "HeavyRainShowers": "Heavy rain showers",
+        "LightSleetShowers": "Light sleet showers",
+        "HeavySleetShowers": "Heavy sleet showers",
+        "LightSnowShowers": "Light snow showers",
+        "HeavySnowShowers": "Heavy snow showers",
+        "LightRain": "Light rain",
+        "LightSleet": "Light sleet",
+        "HeavySleet": "Heavy sleet",
+        "LightSnow": "Light snow",
+        "HeavySnow": "Heavy snow"
+    }
+}

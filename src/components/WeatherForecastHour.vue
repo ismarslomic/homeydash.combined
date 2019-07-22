@@ -2,10 +2,10 @@
     <v-container pa-0 text-xs-center>
         <v-layout column ma-0 wrap>
             <v-flex xs4 class="caption" pa-0>
-                {{date | shortTime}}
+                {{$d(new Date(date), 'shortTime')}}
             </v-flex>
             <v-flex xs4 pa-0>
-                <svgicon :name="iconFileName" width="24" height="24"></svgicon>
+                <svgicon :name="iconFileName" width="24" height="24" :title="$t(`weather.${symbolText}`)"></svgicon>
             </v-flex>
             <v-flex xs4 class="caption" pa-0>
                 {{temperature | temperature}}&#8451;
@@ -22,6 +22,7 @@
     export default class WeatherForecastHour extends Vue {
         @Prop() private date!: Date;
         @Prop() private iconFileName!: string;
+        @Prop() private symbolText!: string;
         @Prop() private temperature!: number;
     }
 

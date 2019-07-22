@@ -37,6 +37,7 @@ export interface WeatherSymbol {
     _var?: VarEnum;
     sunup?: boolean;
     iconFileName?: string;
+    text?: string;
 }
 
 export enum PrecipPhaseEnum {

@@ -1,10 +1,10 @@
 <template>
     <v-container fluid id="view-container" pa-0>
         <v-toolbar fixed app flat color="#303030">
-            <v-toolbar-title class="display-2 text-uppercase">Dashboard</v-toolbar-title>
+            <v-toolbar-title class="display-2 text-uppercase">{{$t('views.dashboard')}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <locale-picker></locale-picker>
-            Wednesday, February 10
+            {{$d(now, 'shortDateTime')}}
         </v-toolbar>
         <v-container grid-list-md fluid id="view-content-container">
             <v-layout row wrap>
@@ -22,7 +22,7 @@
                             <v-flex shrink>
                                 <v-card-title>
                                     <v-icon class="mr-2">mdi-lightbulb-outline</v-icon>
-                                    Lightning
+                                    {{$t('components.lightning.title')}}
                                 </v-card-title>
                             </v-flex>
                             <v-flex grow>
@@ -40,7 +40,7 @@
                             <v-flex>
                                 <v-card-title>
                                     <v-icon class="mr-2">mdi-thermometer</v-icon>
-                                    Climate
+                                    {{$t('components.climate.title')}}
                                 </v-card-title>
                             </v-flex>
                             <v-flex>
@@ -58,7 +58,7 @@
                             <v-flex>
                                 <v-card-title>
                                     <v-icon class="mr-2">mdi-lock-open-outline</v-icon>
-                                    Security
+                                    {{$t('components.security.title')}}
                                 </v-card-title>
                             </v-flex>
                             <v-flex>
@@ -76,7 +76,7 @@
                             <v-flex>
                                 <v-card-title>
                                     <v-icon class="mr-2">mdi-power-plug</v-icon>
-                                    Energy Monitor
+                                    {{$t('components.energy.title')}}
                                 </v-card-title>
                             </v-flex>
                             <v-flex>
@@ -94,7 +94,7 @@
                             <v-flex>
                                 <v-card-title>
                                     <v-icon class="mr-2">sms</v-icon>
-                                    Recent Activity
+                                    {{$t('components.activity.title')}}
                                 </v-card-title>
                             </v-flex>
                             <v-flex>
@@ -135,17 +135,25 @@
         @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
         @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
 
+        now: Date = new Date();
+
+        private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
+
         private created() {
             this.$store.dispatch('weather/fetchWeather');
             this.$store.dispatch('geolocation/fetchGeolocationDetails');
         }
 
-        get isRefreshingWeather() {
+        get isRefreshingWeather(): boolean {
             return this.isLoadingGeolocation || this.isLoadingWeather;
         }
 
-        get isWeatherLoaded() {
+        get isWeatherLoaded(): boolean {
             return this.isWeatherDataLoaded && this.isCoordinateDataLoaded && this.isDetailsDataLoaded;
+        }
+
+        private updateNow(): void {
+            this.now = new Date();
         }
     }
 </script>

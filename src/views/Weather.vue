@@ -1,14 +1,103 @@
 <template>
-    <div>
-        <h1>Weather</h1>
-        <p>
-            "Mauris hendrerit scelerisque dolor vitae vulputate. Quisque suscipit suscipit nisi, eget sagittis arcu. Nam molestie magna nec nulla elementum laoreet. Vivamus auctor erat nulla, in finibus lacus facilisis id. Pellentesque consectetur leo rutrum justo feugiat, vitae rhoncus nulla fringilla. Phasellus convallis nulla ligula, non cursus sapien mattis non. Proin id cursus lacus, in suscipit eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean posuere, elit ut dignissim volutpat, erat lorem sodales arcu, vel tempor justo mi in sapien. In rutrum pellentesque elit, posuere vehicula mi hendrerit sed.
-
-            Suspendisse vulputate et odio ut sagittis. Curabitur nec neque faucibus mauris bibendum sodales. Fusce efficitur, nulla ut rutrum euismod, risus sapien vulputate purus, sed convallis orci nulla ac metus. Nam risus risus, porttitor vel orci vitae, dictum consequat ligula. Nunc sit amet convallis tortor, sed faucibus eros. Nam dictum nisi est, id blandit ligula condimentum ut. In sodales consectetur felis vel pretium. Aliquam at elit lacinia nunc interdum efficitur. Aenean ut luctus enim, ac ultricies neque. Donec maximus convallis eros sit amet consectetur. Suspendisse tempus ex mi, sit amet convallis lacus bibendum a.
-
-            "
-        </p>
-    </div>
+    <v-container fluid id="view-container" pa-0>
+        <v-toolbar fixed app flat color="#303030">
+            <v-toolbar-title class="display-2 text-uppercase">{{$t('views.weather')}}</v-toolbar-title>
+        </v-toolbar>
+        <v-container grid-list-md fluid id="view-content-container">
+            <v-layout row wrap>
+                <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
+                    <v-card tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs2>
+                    <v-card color="pink" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs3>
+                    <v-card color="purple darken-2" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 shrink order-xs4>
+                    <v-card color="cyan" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs5>
+                    <v-card color="teal" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+                <v-flex d-flex xs12 sm6 md4 order-xs6>
+                    <v-card color="light-blue" tile>
+                        <v-layout column ma-0 fill-height>
+                            <v-flex shrink>
+                                <v-card-title>Title</v-card-title>
+                            </v-flex>
+                            <v-flex grow>
+                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
+                            </v-flex>
+                            <v-flex shrink>
+                                <v-card-actions class="pa-3">Actions</v-card-actions>
+                            </v-flex>
+                        </v-layout>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-container>
 </template>
 
 <script lang="ts">

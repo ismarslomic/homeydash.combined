@@ -1,0 +1,89 @@
+{
+    "views": {
+        "dashboard": "Dashboard",
+        "weather": "Vær",
+        "climate": "Klima",
+        "security": "Sikkerhet",
+        "lightning": "Belysning",
+        "devices": "Enheter",
+        "flows": "Flyt",
+        "energy": "Energi",
+        "more": "Mer"
+    },
+    "components": {
+        "weather": {
+            "title": "Vær"
+        },
+        "climate": {
+            "title": "Klima"
+        },
+        "security": {
+            "title": "Sikkerhet"
+        },
+        "lightning": {
+            "title": "Belysning"
+        },
+        "devices": {
+            "title": "Enheter"
+        },
+        "flows": {
+            "title": "Flyt"
+        },
+        "energy": {
+            "title": "Energiovervåkning"
+        },
+        "activity": {
+            "title": "Nylige aktiviteter"
+        }
+    },
+    "locales": {
+        "en": "Engelsk",
+        "nb": "Norsk"
+    },
+    "actions": {
+        "chooseLocale": "Velg språk"
+    },
+    "weather": {
+        "ClearSky": "Klarvær",
+        "Fair": "Lettskyet",
+        "PartlyCloudy": "Delvis skyet",
+        "Cloudy": "Skyet",
+        "RainShowers": "Regnbyger",
+        "RainShowersAndThunder": "Regnbyger med torden",
+        "SleetShowers": "Sluddbyger",
+        "SnowShowers": "Snøbyger",
+        "Rain": "Regn",
+        "HeavyRain": "Kraftig regn",
+        "HeavyRainAndThunder": "Kraftig regn og torden",
+        "Sleet": "Sludd",
+        "Snow": "Snø",
+        "SnowAndThunder": "Snø og torden",
+        "Fog": "Tåke",
+        "SleetShowersAndThunder": "Sluddbyger og torden",
+        "SnowShowersAndThunder": "Snøbyger og torden",
+        "RainAndThunder": "Regn og torden",
+        "SleetAndThunder": "Sludd og torden",
+        "LightRainShowersAndThunder": "Lette regnbyger og torden",
+        "HeavyRainShowersAndThunder": "Kraftige regnbyger og torden",
+        "LightsSleetShowersAndThunder": "Lette sluddbyger og torden",
+        "HeavySleetShowersAndThunder": "Kraftige sluddbyger og torden",
+        "LightsSnowShowersAndThunder": "Lette snøbyger og torden",
+        "HeavySnowShowersAndThunder": "Kraftige snøbyger og torden",
+        "LightRainAndThunder": "Lett regn og torden",
+        "LightSleetAndThunder": "Lett sludd og torden",
+        "HeavySleetAndThunder": "Kraftig sludd og torden",
+        "LightSnowAndThunder": "Lett snø og torden",
+        "HeavySnowAndThunder": "Kraftig snø og torden",
+        "LightRainShowers": "Lette regnbyger",
+        "HeavyRainShowers": "Kraftige regnbyger",
+        "LightSleetShowers": "Lette sluddbyger",
+        "HeavySleetShowers": "Kraftige sluddbyger",
+        "LightSnowShowers": "Lette snøbyger",
+        "HeavySnowShowers": "Kraftige snøbyger",
+        "LightRain": "Lett regn",
+        "LightSleet": "Lett sludd",
+        "HeavySleet": "Kraftig sludd",
+        "LightSnow": "Lett snø",
+        "HeavySnow": "Kraftig snø"
+    }
+}

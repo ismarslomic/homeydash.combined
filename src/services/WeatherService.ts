@@ -84,7 +84,8 @@ function mapWeatherSymbol(weatherSymbol: any): WeatherSymbol {
         precip: weatherSymbol.precip,
         _var: weatherSymbol.var,
         sunup: weatherSymbol.sunup,
-        iconFileName: mapIconFileName(weatherSymbol.n, weatherSymbol.sunup)
+        iconFileName: mapIconFileName(weatherSymbol.n, weatherSymbol.sunup),
+        text: mapIconText(weatherSymbol.n)
     } as WeatherSymbol;
 }
 
@@ -99,6 +100,53 @@ function mapIconFileName(n: number, sunup: boolean): string {
             return sunup ? addLeadingZero(n) + 'd' : addLeadingZero(n) + 'n';
         }
     }
+}
+
+function mapIconText(n: number): string {
+    const iconText: {[s: number]: string; } = {
+        1: 'ClearSky',
+        2: 'Fair',
+        3: 'PartlyCloudy',
+        4: 'Cloudy',
+        5: 'RainShowers',
+        6: 'RainShowersAndThunder',
+        7: 'SleetShowers',
+        8: 'SnowShowers',
+        9: 'Rain',
+        10: 'HeavyRain',
+        11: 'HeavyRainAndThunder',
+        12: 'Sleet',
+        13: 'Snow',
+        14: 'SnowAndThunder',
+        15: 'Fog',
+        20: 'SleetShowersAndThunder',
+        21: 'SnowShowersAndThunder',
+        22: 'RainAndThunder',
+        23: 'SleetAndThunder',
+        24: 'LightRainShowersAndThunder',
+        25: 'HeavyRainShowersAndThunder',
+        26: 'LightsSleetShowersAndThunder',
+        27: 'HeavySleetShowersAndThunder',
+        28: 'LightsSnowShowersAndThunder',
+        29: 'HeavySnowShowersAndThunder',
+        30: 'LightRainAndThunder',
+        31: 'LightSleetAndThunder',
+        32: 'HeavySleetAndThunder',
+        33: 'LightSnowAndThunder',
+        34: 'HeavySnowAndThunder',
+        40: 'LightRainShowers',
+        41: 'HeavyRainShowers',
+        42: 'LightSleetShowers',
+        43: 'HeavySleetShowers',
+        44: 'LightSnowShowers',
+        45: 'HeavySnowShowers',
+        46: 'LightRain',
+        47: 'LightSleet',
+        48: 'HeavySleet',
+        49: 'LightSnow',
+        50: 'HeavySnow'
+    };
+    return iconText[n];
 }
 
 function addLeadingZero(n: number): string {

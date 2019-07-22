@@ -1,0 +1,18 @@
+{
+    "shortTime": {
+        "hour": "numeric",
+        "minute": "numeric"
+    },
+    "longTime": {
+        "weekday": "short",
+        "hour": "numeric",
+        "minute": "numeric"
+    },
+    "shortDateTime": {
+        "month": "long",
+        "day": "numeric",
+        "weekday": "long",
+        "hour": "numeric",
+        "minute": "numeric"
+    }
+}

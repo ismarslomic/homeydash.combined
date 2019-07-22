@@ -4,14 +4,14 @@
             <v-flex pa-0 shrink>
                 <v-card-title>
                     <v-icon class="mr-2">mdi-weather-partly-cloudy</v-icon>
-                    Weather
+                    {{$t('components.weather.title')}}
                 </v-card-title>
             </v-flex>
             <progress-bar :show="isRefreshingData" title="Refreshing weather..."></progress-bar>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
                     <h2>{{geolocation.details.name}}</h2>
-                    <h4>{{nowForecast.start | shortTimeIntervals(nowForecast.end)}}</h4>
+                    <h4>{{$d(new Date(this.nowForecast.start), 'longTime')}} - {{$d(new Date(this.nowForecast.end), 'shortTime')}}, {{$t(`weather.${nowForecast.symbol.text}`)}}</h4>
                     <v-layout row ma-0 align-center justify-space-between fill-height>
                         <v-flex pa-0>
                             <div>
@@ -20,7 +20,7 @@
                             </div>
                         </v-flex>
                         <v-flex>
-                            <svgicon :name="nowForecast.symbol.iconFileName" scale="6"></svgicon>
+                            <svgicon :name="nowForecast.symbol.iconFileName" scale="6" v-on="on" :title="$t(`weather.${nowForecast.symbol.text}`)"></svgicon>
                         </v-flex>
                     </v-layout>
                     <v-layout row ma-0>
@@ -48,7 +48,8 @@
                                 :key="interval.start.toString()"
                                 :date="interval.start"
                                 :iconFileName="interval.symbol.iconFileName"
-                                :temperature="interval.temperature.value">
+                                :temperature="interval.temperature.value"
+                                :symbolText="interval.symbol.text">
                             </weather-forecast-hour>
                         </v-layout>
                     </v-container>

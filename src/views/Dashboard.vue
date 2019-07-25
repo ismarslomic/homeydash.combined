@@ -3,15 +3,15 @@
         <v-toolbar fixed app flat color="#303030">
             <v-toolbar-title class="display-2 text-uppercase">{{$t('views.dashboard')}}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <locale-picker></locale-picker>
+            <settings-dialog></settings-dialog>
             {{$d(now, 'shortDateTime')}}
         </v-toolbar>
         <v-container grid-list-md fluid id="view-content-container">
             <v-layout row wrap>
                 <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
                     <weather-short
-                        :weather="weatherState.weather"
-                        :geolocation="geolocationState.location"
+                        :weather="weather"
+                        :selectedLoaction="currentLocation"
                         :isRefreshingData="isRefreshingWeather"
                         :isDataLoaded="isWeatherLoaded">
                     </weather-short>
@@ -113,22 +113,22 @@
 </template>
 
 <script lang="ts">
-    import LocalePicker from '@/components/LocalePicker.vue';
     import WeatherShort from '@/components/WeatherShort.vue';
-    import { GeolocationState, LoadingState, WeatherState } from '@/types/types';
+    import { GeolocationDetails } from '@/types/geolocation';
+    import { Weatherdata } from '@/types/weather';
+    import SettingsDialog from '@/views/SettingsDialog.vue';
     import { Component, Vue } from 'vue-property-decorator';
-    import { Getter, State } from 'vuex-class';
+    import { Getter } from 'vuex-class';
 
     @Component({
         components: {
             WeatherShort,
-            LocalePicker
+            SettingsDialog
         }
     })
     export default class Dashboard extends Vue {
-        @State('weather') weatherState?: WeatherState;
-        @State('geolocation') geolocationState?: GeolocationState;
-        @State('loading') loadingState?: LoadingState;
+        @Getter('weather', {namespace: 'weather'}) weather?: Weatherdata;
+        @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
         @Getter('isLoadingGeolocation', {namespace: 'loading'}) isLoadingGeolocation!: boolean;
         @Getter('isLoadingWeather', {namespace: 'loading'}) isLoadingWeather!: boolean;
         @Getter('isWeatherDataLoaded', {namespace: 'weather'}) isWeatherDataLoaded!: boolean;
@@ -140,8 +140,8 @@
         private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
 
         private created() {
-            this.$store.dispatch('weather/fetchWeather');
             this.$store.dispatch('geolocation/fetchGeolocationDetails');
+            // this.$store.dispatch('weather/fetchWeather');
         }
 
         get isRefreshingWeather(): boolean {

@@ -1,15 +1,18 @@
-import { Geolocation } from '@/types/geolocation';
+import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import { Weatherdata } from '@/types/weather';
 
 // Store root state
 export interface RootState {
     weatherState: WeatherState;
-    geolocationState: Geolocation;
+    geolocationState: GeolocationState;
+    loadingState: LoadingState;
 }
 
 // Store geolocation state
 export interface GeolocationState {
-    location?: Geolocation;
+    coordinates?: GeolocationCoordinates;
+    currentLocation?: GeolocationDetails;
+    availableLocations?: GeolocationDetails[];
 }
 
 // Store weather state for geolocation

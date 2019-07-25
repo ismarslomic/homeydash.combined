@@ -10,7 +10,7 @@
             <progress-bar :show="isRefreshingData" title="Refreshing weather..."></progress-bar>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
-                    <h2>{{geolocation.details.name}}</h2>
+                    <h2>{{selectedLoaction.name}}</h2>
                     <h4>{{$d(new Date(this.nowForecast.start), 'longTime')}} - {{$d(new Date(this.nowForecast.end), 'shortTime')}}, {{$t(`weather.${nowForecast.symbol.text}`)}}</h4>
                     <v-layout row ma-0 align-center justify-space-between fill-height>
                         <v-flex pa-0>
@@ -77,7 +77,7 @@
     })
     export default class WeatherShort extends Vue {
         @Prop() private weather!: Weatherdata;
-        @Prop() private geolocation!: Geolocation;
+        @Prop() private selectedLoaction!: Geolocation;
         @Prop() private isRefreshingData!: boolean;
         @Prop() private isDataLoaded!: boolean;
 

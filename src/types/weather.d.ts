@@ -9,6 +9,11 @@ export interface Weatherdata {
      */
     update: Date;
 
+    /** Yr: id of the location this weather data relates to
+     * example: "1-73823"
+     */
+    id: string;
+
     /** Intervals for short term forecasting, showing 1 hour intervals */
     shortIntervals: WeatherInterval[];
 }

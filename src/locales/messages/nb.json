@@ -35,6 +35,15 @@
         },
         "activity": {
             "title": "Nylige aktiviteter"
+        },
+        "settings": {
+            "title": "Innstillinger",
+            "locales": {
+                "title": "Språk"
+            },
+            "locations": {
+                "title": "Værlokasjon"
+            }
         }
     },
     "locales": {

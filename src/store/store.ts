@@ -1,14 +1,14 @@
-import Vue from 'vue';
-import Vuex, { StoreOptions } from 'vuex';
-import { RootState } from '@/types/types';
-import { weather } from '@/store/modules/weather';
 import { geolocation } from '@/store/modules/geolocation';
 import { loading } from '@/store/modules/loading';
 import { locale } from '@/store/modules/locale';
+import { weather } from '@/store/modules/weather';
+import { RootState } from '@/types/types';
+import Vue from 'vue';
+import Vuex, { StoreOptions } from 'vuex';
 
 Vue.use(Vuex);
 
-const store: StoreOptions<RootState> = {
+const storeOptions: StoreOptions<RootState> = {
     modules: {
         weather,
         geolocation,
@@ -17,4 +17,10 @@ const store: StoreOptions<RootState> = {
     }
 };
 
-export default new Vuex.Store<RootState>(store);
+const store = new Vuex.Store<RootState>(storeOptions);
+
+store.watch(() => store.getters['geolocation/currentLocation'], (currentLocation) => {
+    store.dispatch('weather/fetchWeather', currentLocation);
+});
+
+export default store;

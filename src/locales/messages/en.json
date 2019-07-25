@@ -35,6 +35,15 @@
         },
         "activity": {
             "title": "Recent Activity"
+        },
+        "settings": {
+            "title": "Settings",
+            "locales": {
+                "title": "Languages"
+            },
+            "locations": {
+                "title": "Weather locations"
+            }
         }
     },
     "locales": {

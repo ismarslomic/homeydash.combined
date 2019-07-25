@@ -1,5 +1,5 @@
 import store from '@/store/store';
-import { Geolocation, GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
+import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 class GeolocationService {
@@ -44,40 +44,35 @@ class GeolocationService {
                 return response.data;
             })
             .then((detailsJson) => {
-                const details: GeolocationDetails = mapGeolocationDetails(detailsJson);
-                const geolocation: Geolocation = {
-                    coordinates,
-                    details
-                };
-                return geolocation;
+                if (!detailsJson && !detailsJson._embedded &&
+                    !detailsJson._embedded.location &&
+                    detailsJson._embedded.location.size === 0) {
+                    return detailsJson;
+                } else {
+                    return detailsJson._embedded.location.map(mapGeolocationDetails);
+                }
             })
             .catch((error: AxiosError) => {
                 // tslint:disable-next-line:no-console
                 console.error('Fetching geolocation failed');
                 // tslint:disable-next-line:no-console
                 console.error(error.message);
+                return Promise.reject(error);
             });
     }
 }
 
 function mapGeolocationDetails(detailsJson: any): GeolocationDetails {
-    if (!detailsJson && !detailsJson._embedded &&
-        !detailsJson._embedded.location &&
-        detailsJson._embedded.location.size === 0) {
-        return undefined as unknown as GeolocationDetails;
-    } else {
-        const firstLocation: any = detailsJson._embedded.location[0];
-        return {
-            category: firstLocation.category,
-            id: firstLocation.id,
-            name: firstLocation.name,
-            elevation: firstLocation.elevation,
-            timeZone: firstLocation.timeZone,
-            country: firstLocation.country,
-            region: firstLocation.region,
-            subregion: firstLocation.subregion
-        } as GeolocationDetails;
-    }
+    return {
+        category: detailsJson.category,
+        id: detailsJson.id,
+        name: detailsJson.name,
+        elevation: detailsJson.elevation,
+        timeZone: detailsJson.timeZone,
+        country: detailsJson.country,
+        region: detailsJson.region,
+        subregion: detailsJson.subregion
+    } as GeolocationDetails;
 }
 
 export default new GeolocationService();

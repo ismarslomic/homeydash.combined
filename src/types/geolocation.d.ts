@@ -1,9 +1,4 @@
 /** Geolocation of the homey */
-export interface Geolocation {
-    coordinates: GeolocationCoordinates;
-    details?: GeolocationDetails;
-}
-
 export interface GeolocationCoordinates {
     latitude: number;
     longitude: number;

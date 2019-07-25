@@ -40,13 +40,16 @@ class WeatherService {
                 return response.data;
             })
             .then((weatherDataJson) => {
-                return mapWeatherdata(weatherDataJson);
+                const weatherData: Weatherdata = mapWeatherdata(weatherDataJson);
+                weatherData.id = locationId;
+                return weatherData;
             })
             .catch((error: AxiosError) => {
                 // tslint:disable-next-line:no-console
                 console.error('Fetching weather forecast failed');
                 // tslint:disable-next-line:no-console
                 console.error(error.message);
+                return Promise.reject(error);
             });
     }
 }

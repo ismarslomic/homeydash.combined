@@ -14,3 +14,8 @@ export const settingsList: SettingsComponent = {
     title: 'components.settings.title',
     id: 'settingsList'
 };
+
+export const coordinatesRefresh: SettingsComponent = {
+    title: 'components.settings.coordinates.title',
+    id: 'coordinatesInput'
+};

@@ -43,6 +43,11 @@
             },
             "locations": {
                 "title": "Weather locations"
+            },
+            "coordinates": {
+                "title": "Homey geolocation coordinates",
+                "long": "Longitude",
+                "lat": "Latitude"
             }
         }
     },

@@ -43,6 +43,11 @@
             },
             "locations": {
                 "title": "Værlokasjon"
+            },
+            "coordinates": {
+                "title": "Homey geolokasjon koordinater",
+                "long": "Lengdegrad",
+                "lat": "Breddegrad"
             }
         }
     },

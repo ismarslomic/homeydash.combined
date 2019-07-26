@@ -2,7 +2,7 @@ import store from '@/store/store';
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-class GeolocationService {
+class GeolocationDetailsService {
     private readonly BASE_URL: string = 'https://cors-proxy-me.herokuapp.com/https://www.yr.no/api/v0';
     private readonly TIMEOUT_IN_MILLIS: number = 10000;
     private apiClient: AxiosInstance;
@@ -75,4 +75,4 @@ function mapGeolocationDetails(detailsJson: any): GeolocationDetails {
     } as GeolocationDetails;
 }
 
-export default new GeolocationService();
+export default new GeolocationDetailsService();

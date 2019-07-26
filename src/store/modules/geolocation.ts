@@ -1,4 +1,4 @@
-import GeolocationService from '@/services/GeolocationService';
+import GeolocationDetailsService from '@/services/GeolocationDetailsService';
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import { GeolocationState, RootState } from '@/types/types';
 import { AxiosError } from 'axios';
@@ -30,6 +30,9 @@ export const getters: GetterTree<GeolocationState, RootState> = {
     },
     availableLocations: (theState: GeolocationState): GeolocationDetails[] | undefined => {
         return theState.availableLocations;
+    },
+    currentCoordinates: (theState: GeolocationState): GeolocationCoordinates | undefined => {
+        return theState.coordinates;
     }
 };
 
@@ -63,7 +66,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             commit('setAvailableLocations', JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
         } else if (state.coordinates) {
             const currentLocale: string = rootGetters['locale/currentLocale'] as string;
-            GeolocationService.getGeolocationDetails(state.coordinates, currentLocale)
+            GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                 .then((response: GeolocationDetails[]) => {
                     if (response && response.length > 0) {
                         commit('setCurrentLocation', response[0]);
@@ -88,7 +91,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
         if (state.coordinates) {
             const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
             const currentLocale: string = rootGetters['locale/currentLocale'] as string;
-            GeolocationService.getGeolocationDetails(state.coordinates, currentLocale)
+            GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                 .then((response: GeolocationDetails[]) => {
                     if (response && response.length > 0) {
                         const currentLocation = response.filter((details) => {
@@ -107,6 +110,15 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                     console.error(error.message);
                 });
         }
+    },
+    updateGeolocationCoordinates({commit}) {
+        const coordinates: GeolocationCoordinates = {
+            latitude: 60.926577400000006,
+            longitude: 11.7693054,
+            accuracy: 1000
+        };
+        commit('setCoordinates', coordinates);
+        commit('setCoordinatesLS', coordinates);
     }
 };
 

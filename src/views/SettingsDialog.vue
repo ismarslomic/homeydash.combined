@@ -21,7 +21,9 @@
                     :currentLocale="currentLocale"
                     :currentLocation="currentLocation"
                     @settingsItemClicked="settingsItemClicked"
-                    :isDetailsDataLoaded="isDetailsDataLoaded">
+                    :isDetailsDataLoaded="isDetailsDataLoaded"
+                    :currentCoordinates="currentCoordinates"
+                    :isCoordinateDataLoaded="isCoordinateDataLoaded">
                 </settings-list>
 
                 <locales-picker
@@ -46,8 +48,8 @@
     import LocalesPicker from '@/components/LocalesPicker.vue';
     import LocationsPicker from '@/components/LocationsPicker.vue';
     import SettingsList from '@/components/SettingsList.vue';
-    import { localesPicker, locationPicker, settingsList } from '@/constants/settings';
-    import { GeolocationDetails } from '@/types/geolocation';
+    import { coordinatesRefresh, localesPicker, locationPicker, settingsList } from '@/constants/settings';
+    import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
     import { SettingsComponent } from '@/types/settings';
     import { Component, Vue, Watch } from 'vue-property-decorator';
     import { Getter } from 'vuex-class';
@@ -61,8 +63,10 @@
     })
     export default class SettingsDialog extends Vue {
         @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
+        @Getter('currentCoordinates', {namespace: 'geolocation'}) currentCoordinates?: GeolocationCoordinates;
         @Getter('availableLocations', {namespace: 'geolocation'}) availableLocations!: GeolocationDetails[];
         @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
+        @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
         @Getter('currentLocale', {namespace: 'locale'}) currentLocale!: string;
 
         isDialogOpen: boolean = false;
@@ -82,7 +86,11 @@
         }
 
         settingsItemClicked(component: SettingsComponent): void {
-            this.showSettingsComponent(component);
+            if (component.id === coordinatesRefresh.id) {
+                this.$store.dispatch('geolocation/updateGeolocationCoordinates');
+            } else {
+                this.showSettingsComponent(component);
+            }
         }
 
         showSettingsComponent(component: SettingsComponent): void {

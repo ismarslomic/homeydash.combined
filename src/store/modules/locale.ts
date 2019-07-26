@@ -3,10 +3,11 @@ import { LocaleState, RootState } from '@/types/types';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: LocaleState = {
-    locale: 'en'
+    locale: ''
 };
 
 const LOCAL_STORAGE_KEY: string = 'homeydash:locale';
+const DEFAULT_LOCALE: string = 'en';
 
 export const getters: GetterTree<LocaleState, RootState> = {
     currentLocale: (theState: LocaleState): string => {
@@ -22,11 +23,11 @@ const mutations: MutationTree<LocaleState> = {
     },
     initialiseLocale(theState: LocaleState) {
         if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
-            theState.locale = localStorage.getItem(LOCAL_STORAGE_KEY) || 'en';
+            theState.locale = localStorage.getItem(LOCAL_STORAGE_KEY) || DEFAULT_LOCALE;
             i18n.locale = theState.locale;
         } else {
-            localStorage.setItem(LOCAL_STORAGE_KEY, theState.locale);
-            i18n.locale = theState.locale;
+            localStorage.setItem(LOCAL_STORAGE_KEY, DEFAULT_LOCALE);
+            i18n.locale = DEFAULT_LOCALE;
         }
     }
 };

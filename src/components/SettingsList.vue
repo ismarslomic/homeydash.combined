@@ -31,7 +31,9 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>{{$t(locationPicker.title)}}</v-list-tile-title>
-                    <v-list-tile-sub-title v-if="isDetailsDataLoaded">{{currentLocation.name}}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title v-if="isDetailsDataLoaded">{{currentLocation.name}} -
+                        {{currentLocation.category.name}} - {{currentLocation.country.name}}/{{currentLocation.region.name}}/{{currentLocation.subregion.name}}
+                    </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>

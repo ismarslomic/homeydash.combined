@@ -139,11 +139,6 @@
 
         private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
 
-        private created() {
-            this.$store.dispatch('geolocation/fetchGeolocationDetails');
-            // this.$store.dispatch('weather/fetchWeather');
-        }
-
         get isRefreshingWeather(): boolean {
             return this.isLoadingGeolocation || this.isLoadingWeather;
         }

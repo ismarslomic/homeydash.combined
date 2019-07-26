@@ -23,4 +23,11 @@ store.watch(() => store.getters['geolocation/currentLocation'], (currentLocation
     store.dispatch('weather/fetchWeather', currentLocation);
 });
 
+store.watch(() => store.getters['locale/currentLocale'], (newlocale, oldLocale) => {
+    // We want to ignore the initial locale setting where oldLocale is empty
+    if (oldLocale) {
+        store.dispatch('geolocation/updateGeolocationDetailsNewLocale');
+    }
+});
+
 export default store;

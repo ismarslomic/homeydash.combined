@@ -14,6 +14,10 @@ const state: GeolocationState = {
     availableLocations: undefined
 };
 
+const LS_KEY_CURRENTLOCATION: string = 'homeydash:geolocation:currentLocation';
+const LS_KEY_AVAILABLELOCATIONS: string = 'homeydash:geolocation:availableLocations';
+const LS_KEY_COORDINATES: string = 'homeydash:geolocation:coordinates';
+
 export const getters: GetterTree<GeolocationState, RootState> = {
     isCoordinateDataLoaded: (theState: GeolocationState): boolean => {
         return !!(theState.coordinates);
@@ -33,35 +37,76 @@ const mutations: MutationTree<GeolocationState> = {
     setCurrentLocation(theState: GeolocationState, currentLocation: GeolocationDetails) {
         theState.currentLocation = currentLocation;
     },
+    setCurrentLocationLS(theState: GeolocationState, currentLocation: GeolocationDetails) {
+        localStorage.setItem(LS_KEY_CURRENTLOCATION, JSON.stringify(currentLocation));
+    },
     setCoordinates(theState: GeolocationState, coordinates: GeolocationCoordinates) {
         theState.coordinates = coordinates;
     },
+    setCoordinatesLS(theState: GeolocationState, coordinates: GeolocationCoordinates) {
+        localStorage.setItem(LS_KEY_COORDINATES, JSON.stringify(coordinates));
+    },
     setAvailableLocations(theState: GeolocationState, availableLocations: GeolocationDetails[]) {
         theState.availableLocations = availableLocations;
+    },
+    setAvailableLocationsLS(theState: GeolocationState, availableLocations: GeolocationDetails[]) {
+        localStorage.setItem(LS_KEY_AVAILABLELOCATIONS, JSON.stringify(availableLocations));
     }
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    fetchGeolocationDetails({commit}) {
-        if (state.currentLocation || !state.coordinates) {
-            return;
+    initialiseGeolocationDetails({commit, rootGetters}) {
+        // We assume that if current location is found in the local storage,
+        // then available locations should also exist
+        if (localStorage.getItem(LS_KEY_CURRENTLOCATION)) {
+            commit('setCurrentLocation', JSON.parse(localStorage.getItem(LS_KEY_CURRENTLOCATION) || '{}'));
+            commit('setAvailableLocations', JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
+        } else if (state.coordinates) {
+            const currentLocale: string = rootGetters['locale/currentLocale'] as string;
+            GeolocationService.getGeolocationDetails(state.coordinates, currentLocale)
+                .then((response: GeolocationDetails[]) => {
+                    if (response && response.length > 0) {
+                        commit('setCurrentLocation', response[0]);
+                        commit('setAvailableLocations', response);
+                        commit('setCurrentLocationLS', response[0]);
+                        commit('setAvailableLocationsLS', response);
+                    }
+                })
+                .catch((error: AxiosError) => {
+                    // tslint:disable-next-line:no-console
+                    console.error('Fetching geolocation failed');
+                    // tslint:disable-next-line:no-console
+                    console.error(error.message);
+                });
         }
-        return GeolocationService.getGeolocationDetails(state.coordinates, 'en')
-            .then((response: GeolocationDetails[]) => {
-                if (response && response.length > 0) {
-                    commit('setCurrentLocation', response[0]);
-                    commit('setAvailableLocations', response);
-                }
-            })
-            .catch((error: AxiosError) => {
-                // tslint:disable-next-line:no-console
-                console.error('Fetching geolocation failed');
-                // tslint:disable-next-line:no-console
-                console.error(error.message);
-            });
     },
     updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
         commit('setCurrentLocation', locationDetails);
+        commit('setCurrentLocationLS', locationDetails);
+    },
+    updateGeolocationDetailsNewLocale({commit, rootGetters}) {
+        if (state.coordinates) {
+            const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
+            const currentLocale: string = rootGetters['locale/currentLocale'] as string;
+            GeolocationService.getGeolocationDetails(state.coordinates, currentLocale)
+                .then((response: GeolocationDetails[]) => {
+                    if (response && response.length > 0) {
+                        const currentLocation = response.filter((details) => {
+                            return details.id === currentLocationId;
+                        });
+                        commit('setCurrentLocation', currentLocation[0]);
+                        commit('setAvailableLocations', response);
+                        commit('setCurrentLocationLS', currentLocation[0]);
+                        commit('setAvailableLocationsLS', response);
+                    }
+                })
+                .catch((error: AxiosError) => {
+                    // tslint:disable-next-line:no-console
+                    console.error('Fetching geolocation failed');
+                    // tslint:disable-next-line:no-console
+                    console.error(error.message);
+                });
+        }
     }
 };
 

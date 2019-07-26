@@ -12,6 +12,10 @@
 1. API calls shall be done from the `store` only, flow will be as following: 
     - `View` -> `Store action` -> `Service` -> `Axios call` -> Response stored in the `Store` (and `local storage` if needed)
 2. Every API call shall update the `loading state` by using Axios interceptor, see `Services` in service folder
+
+## State dependencies
+1. In case where states has dependencies to each other, for instance changing `locale` state impacts `geolocation details` state, 
+state `watch` shall be used and should be registered in the `store.ts`
     
 ## i18n
 1. Static text that needs to be translated shall be stored in `locales` folder

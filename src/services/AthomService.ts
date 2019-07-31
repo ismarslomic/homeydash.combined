@@ -18,7 +18,7 @@ class AthomService {
         this.homeyAPI = null;
     }
 
-    async authenticate(token: AthomApiToken): Promise<void> {
+    authenticate(token: AthomApiToken): Promise<void> {
         this.athomCloudAPI.setToken(token);
         store.dispatch('loading/startLoadingUserAuthentication');
         return this.athomCloudAPI.getAuthenticatedUser()
@@ -41,7 +41,7 @@ class AthomService {
             });
     }
 
-    async getAuthenticatedUser(): Promise<User> {
+    getAuthenticatedUser(): Promise<User> {
         if (!this.homeyAPI) {
             return Promise.reject('User not authenticated, homeyAPI not initiated');
         } else {
@@ -60,7 +60,7 @@ class AthomService {
         }
     }
 
-    async getGeolocationCoordinatesForHomey(): Promise<GeolocationCoordinates> {
+    getGeolocationCoordinatesForHomey(): Promise<GeolocationCoordinates> {
         if (!this.homeyAPI) {
             return Promise.reject('User not authenticated');
         } else {

@@ -55,9 +55,9 @@ const mutations: MutationTree<GeolocationState> = {
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    async initialiseGeolocationCoordinates({commit}) {
+    initialiseGeolocationCoordinates({commit}) {
         if (localStorage.getItem(LS_KEY_COORDINATES)) {
-            commit('setCoordinates', JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
+            return commit('setCoordinates', JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
         } else {
             return AthomService.getGeolocationCoordinatesForHomey()
                 .then((response: GeolocationCoordinates) => {
@@ -79,7 +79,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 });
         }
     },
-    async initialiseGeolocationDetails({commit, rootGetters}) {
+    initialiseGeolocationDetails({commit, rootGetters}) {
         // We assume that if current location is found in the local storage,
         // then available locations should also exist
         if (localStorage.getItem(LS_KEY_CURRENTLOCATION)) {
@@ -107,11 +107,11 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             console.error('state.coordinates is empty');
         }
     },
-    async updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
+    updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
         commit('setCurrentLocation', locationDetails);
         commit('setCurrentLocationLS', locationDetails);
     },
-    async updateGeolocationDetailsNewLocale({commit, rootGetters}) {
+    updateGeolocationDetailsNewLocale({commit, rootGetters}) {
         if (state.coordinates) {
             const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
             const currentLocale: string = rootGetters['locale/currentLocale'] as string;
@@ -135,7 +135,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 });
         }
     },
-    async updateGeolocationCoordinates({commit}) {
+    updateGeolocationCoordinates({commit}) {
         const coordinates: GeolocationCoordinates = {
             latitude: 60.926577400000006,
             longitude: 11.7693054,

@@ -24,10 +24,10 @@ const mutations: MutationTree<StoreState> = {
 };
 
 export const actions: ActionTree<StoreState, RootState> = {
-    async [SET_IS_SETUP_COMPLETED.actionName]({commit}, theIsSetupCompleted: boolean) {
+    [SET_IS_SETUP_COMPLETED.actionName]({commit}, theIsSetupCompleted: boolean) {
         return commit(SET_SETUP_COMPLETED.mutationName, theIsSetupCompleted);
     },
-    async [FETCH_IS_SETUP_COMPLETED.actionName]({commit}) {
+    [FETCH_IS_SETUP_COMPLETED.actionName]({commit}) {
         if (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED)) {
             const isCompletedBoolean: boolean = (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED) === 'true');
             return commit(SET_SETUP_COMPLETED.mutationName, isCompletedBoolean);

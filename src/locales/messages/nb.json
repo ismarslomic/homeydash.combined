@@ -8,7 +8,26 @@
         "devices": "Enheter",
         "flows": "Flyt",
         "energy": "Energi",
-        "more": "Mer"
+        "more": "Mer",
+        "setup": {
+            "title": "Homey Dashboard oppsett",
+            "locale": {
+                "title": "Velg språk"
+            },
+            "welcome": {
+                "title": "Velkommen",
+                "introduction": "Denne web-siden presenterer nøkkelinformasjon for ditt smarthjem ved å lese data fra Athom Homey. Før vi kan hente dine data trenger vi å gjøre initiell oppsett. Vennligst følg instruksjonene nedenfor"
+            },
+            "apitoken": {
+                "title": "Athom API token",
+                "introduction": "For å kunne hente dine data fra Homey krever Athom at du autentiserer deg. Siden Athom ikke tilbyr OAuth-autentisering for tredjeparts utviklere er eneste løsningen i dag å autentisere seg på",
+                "introduction-step": "og hente API token fra console i nettleseren. Følg instruksjonene nedenfor:",
+                "steps": "<li>Gå til <a href=\"https://homey.ink\" target=\"_blank\">homey.ink</a></li><li>Åpne Developer tools i din nettleser</li><li>Klikk Log in knappen og login</li><li>Se etter <code>URL</code> vist i din nettlesers console og kopier verdien etter <code>&token=</code></li>"
+            },
+            "geolocation": {
+                "title": "Velg værlokasjon"
+            }
+        }
     },
     "components": {
         "weather": {
@@ -56,7 +75,9 @@
         "nb": "Norsk"
     },
     "actions": {
-        "chooseLocale": "Velg språk"
+        "back": "Tilbake",
+        "continue": "Fortsett",
+        "finish": "Fullfør"
     },
     "weather": {
         "ClearSky": "Klarvær",
@@ -100,5 +121,18 @@
         "HeavySleet": "Kraftig sludd",
         "LightSnow": "Lett snø",
         "HeavySnow": "Kraftig snø"
+    },
+    "validations": {
+        "minChars": "Min {number} tegn",
+        "maxChars": "Max {number} tegn",
+        "required": "Påkrevd",
+        "decodingTokenFailed": "Tokenet kunne ikke dekodes",
+        "tokenExpired": "Tokenet har utløpt"
+    },
+    "hints": {
+        "token": "Lim inn token med {number} tegn"
+    },
+    "labels": {
+        "expiresAt": "Utløpsdato"
     }
 }

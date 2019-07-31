@@ -1,4 +1,5 @@
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
+import { User } from '@/types/user';
 import { Weatherdata } from '@/types/weather';
 
 // Store root state
@@ -6,6 +7,7 @@ export interface RootState {
     weatherState: WeatherState;
     geolocationState: GeolocationState;
     loadingState: LoadingState;
+    user: UserState;
 }
 
 // Store geolocation state
@@ -29,4 +31,12 @@ export interface LocaleState {
 export interface LoadingState {
     geolocationWaitingCount: number;
     weatherWaitingCount: number;
+    userAuthenticationWaitingCount: number;
+    userWaitingCount: number;
+    geolocationCoordinatesWaitingCount: number;
+}
+
+// Store homey user profile state
+export interface UserState {
+    user?: User;
 }

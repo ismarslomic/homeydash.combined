@@ -25,9 +25,5 @@ new Vue({
     router,
     store,
     i18n,
-    beforeCreate() {
-        this.$store.dispatch('locale/initialiseLocale');
-        this.$store.dispatch('geolocation/initialiseGeolocationDetails');
-    },
     render: (h) => h(App)
 }).$mount('#app');

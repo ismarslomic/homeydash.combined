@@ -1,3 +1,4 @@
+import AthomService from '@/services/AthomService';
 import GeolocationDetailsService from '@/services/GeolocationDetailsService';
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import { GeolocationState, RootState } from '@/types/types';
@@ -5,11 +6,7 @@ import { AxiosError } from 'axios';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: GeolocationState = {
-    coordinates: {
-        latitude: 59.926577400000006,
-        longitude: 10.7693054,
-        accuracy: 1000
-    },
+    coordinates: undefined,
     currentLocation: undefined,
     availableLocations: undefined
 };
@@ -58,7 +55,31 @@ const mutations: MutationTree<GeolocationState> = {
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    initialiseGeolocationDetails({commit, rootGetters}) {
+    async initialiseGeolocationCoordinates({commit}) {
+        if (localStorage.getItem(LS_KEY_COORDINATES)) {
+            commit('setCoordinates', JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
+        } else {
+            return AthomService.getGeolocationCoordinatesForHomey()
+                .then((response: GeolocationCoordinates) => {
+                    if (response) {
+                        commit('setCoordinates', response);
+                        commit('setCoordinatesLS', response);
+                        // Will be returned as Promise so we can use then() and call
+                        // initialiseGeolocationDetails() later
+                        return Promise.resolve();
+                    } else {
+                        return Promise.resolve();
+                    }
+                })
+                .catch((error: AxiosError) => {
+                    // tslint:disable-next-line:no-console
+                    console.error('Initializing geolocation coordinates from Athom Homey failed');
+                    // tslint:disable-next-line:no-console
+                    console.error(error.message);
+                });
+        }
+    },
+    async initialiseGeolocationDetails({commit, rootGetters}) {
         // We assume that if current location is found in the local storage,
         // then available locations should also exist
         if (localStorage.getItem(LS_KEY_CURRENTLOCATION)) {
@@ -66,7 +87,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             commit('setAvailableLocations', JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
         } else if (state.coordinates) {
             const currentLocale: string = rootGetters['locale/currentLocale'] as string;
-            GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
+            return GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                 .then((response: GeolocationDetails[]) => {
                     if (response && response.length > 0) {
                         commit('setCurrentLocation', response[0]);
@@ -77,17 +98,20 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 })
                 .catch((error: AxiosError) => {
                     // tslint:disable-next-line:no-console
-                    console.error('Fetching geolocation failed');
+                    console.error('Initializing geolocation details failed');
                     // tslint:disable-next-line:no-console
                     console.error(error.message);
                 });
+        } else {
+            // tslint:disable-next-line:no-console
+            console.error('state.coordinates is empty');
         }
     },
-    updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
+    async updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
         commit('setCurrentLocation', locationDetails);
         commit('setCurrentLocationLS', locationDetails);
     },
-    updateGeolocationDetailsNewLocale({commit, rootGetters}) {
+    async updateGeolocationDetailsNewLocale({commit, rootGetters}) {
         if (state.coordinates) {
             const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
             const currentLocale: string = rootGetters['locale/currentLocale'] as string;
@@ -105,13 +129,13 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 })
                 .catch((error: AxiosError) => {
                     // tslint:disable-next-line:no-console
-                    console.error('Fetching geolocation failed');
+                    console.error('Updating geolocation details failed');
                     // tslint:disable-next-line:no-console
                     console.error(error.message);
                 });
         }
     },
-    updateGeolocationCoordinates({commit}) {
+    async updateGeolocationCoordinates({commit}) {
         const coordinates: GeolocationCoordinates = {
             latitude: 60.926577400000006,
             longitude: 11.7693054,

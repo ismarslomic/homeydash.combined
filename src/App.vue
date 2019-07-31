@@ -7,19 +7,21 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <BottomNav></BottomNav>
+        <BottomNav v-if="isUserAuthenticated"></BottomNav>
     </v-app>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import BottomNav from '@/components/BottomNav.vue';
+    import BottomNav from '@/components/BottomNav.vue';
+    import { Component, Vue } from 'vue-property-decorator';
+    import { Getter } from 'vuex-class';
 
-@Component({
-    components: {
-        BottomNav
+    @Component({
+        components: {
+            BottomNav
+        }
+    })
+    export default class extends Vue {
+        @Getter('isUserAuthenticated', {namespace: 'user'}) isUserAuthenticated?: boolean;
     }
-})
-export default class extends Vue {
-}
 </script>

@@ -1,6 +1,7 @@
 import { geolocation } from '@/store/modules/geolocation';
 import { loading } from '@/store/modules/loading';
 import { locale } from '@/store/modules/locale';
+import { user } from '@/store/modules/user';
 import { weather } from '@/store/modules/weather';
 import { RootState } from '@/types/types';
 import Vue from 'vue';
@@ -13,7 +14,8 @@ const storeOptions: StoreOptions<RootState> = {
         weather,
         geolocation,
         loading,
-        locale
+        locale,
+        user
     }
 };
 

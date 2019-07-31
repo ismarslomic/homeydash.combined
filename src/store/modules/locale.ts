@@ -27,6 +27,7 @@ const mutations: MutationTree<LocaleState> = {
             i18n.locale = theState.locale;
         } else {
             localStorage.setItem(LOCAL_STORAGE_KEY, DEFAULT_LOCALE);
+            theState.locale = DEFAULT_LOCALE;
             i18n.locale = DEFAULT_LOCALE;
         }
     }

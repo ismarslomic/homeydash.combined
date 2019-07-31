@@ -8,7 +8,26 @@
         "devices": "Devices",
         "flows": "Flows",
         "energy": "Energy",
-        "more": "More"
+        "more": "More",
+        "setup": {
+            "title": "Homey Dashboard setup",
+            "locale": {
+                "title": "Choose language"
+            },
+            "welcome": {
+                "title": "Welcome",
+                "introduction": "This is a web page helping you getting the key information for your smart home using the Athom Homey as the main source. Before we start serving you the data we need to do initial setup. Please proceed further following the steps below."
+            },
+            "apitoken": {
+                "title": "Athom API token",
+                "introduction": "In order to retrieve your data from Homey, Athom requires that you are authenticated. Since Athom has not enabled OAuth authentication for 3rd party developers yet, only solution currently is to authenticate on",
+                "introduction-step": "and retrieve the API token from the web browser console. Follow these steps:",
+                "steps": "<li>Go to <a href=\"https://homey.ink\" target=\"_blank\">homey.ink</a></li><li>Open Developer tools in your web browser</li><li>Click the Log in button and login</li><li>See the <code>URL</code> displayed in the Web browser console and copy the value after <code>&token=</code></li>"
+            },
+            "geolocation": {
+                "title": "Choose weather location"
+            }
+        }
     },
     "components": {
         "weather": {
@@ -56,7 +75,9 @@
         "nb": "Norwegian"
     },
     "actions": {
-        "chooseLocale": "Choose language"
+        "back": "Back",
+        "continue": "Continue",
+        "finish": "Finish"
     },
     "weather": {
         "ClearSky": "Clear sky",
@@ -100,5 +121,18 @@
         "HeavySleet": "Heavy sleet",
         "LightSnow": "Light snow",
         "HeavySnow": "Heavy snow"
+    },
+    "validations": {
+        "minChars": "Min {number} characters",
+        "maxChars": "Max {number} characters",
+        "required": "Required",
+        "decodingTokenFailed": "Could not decode token",
+        "tokenExpired": "Token expired"
+    },
+    "hints": {
+        "token": "Paste {number} characters long token"
+    },
+    "labels": {
+        "expiresAt": "Expires at"
     }
 }

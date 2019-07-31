@@ -54,7 +54,7 @@ class GeolocationDetailsService {
             })
             .catch((error: AxiosError) => {
                 // tslint:disable-next-line:no-console
-                console.error('Fetching geolocation failed');
+                console.error('Fetching geolocation details failed');
                 // tslint:disable-next-line:no-console
                 console.error(error.message);
                 return Promise.reject(error);

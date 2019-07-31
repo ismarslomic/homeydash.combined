@@ -40,5 +40,10 @@ export default [
         path: '/energy',
         name: 'energy',
         component: () => import('@/views/Energy.vue')
+    },
+    {
+        path: '/setup',
+        name: 'setup',
+        component: () => import('@/views/Setup.vue')
     }
 ];

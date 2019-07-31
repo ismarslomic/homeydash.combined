@@ -1,9 +1,9 @@
 import WeatherService from '@/services/WeatherService';
-import { GeolocationDetails } from '@/types/geolocation';
-import { RootState, WeatherState } from '@/types/types';
-import { Weatherdata } from '@/types/weather';
-import { AxiosError } from 'axios';
-import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
+import {GeolocationDetails} from '@/types/geolocation';
+import {RootState, WeatherState} from '@/types/types';
+import {Weatherdata} from '@/types/weather';
+import {AxiosError} from 'axios';
+import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 
 const state: WeatherState = {
     weather: undefined
@@ -26,23 +26,28 @@ const mutations: MutationTree<WeatherState> = {
 
 export const actions: ActionTree<WeatherState, RootState> = {
     fetchWeather({commit}, currentLocation: GeolocationDetails) {
-        if (state.weather && state.weather.id === currentLocation.id) {
-            return;
-        } else {
-            if (currentLocation) {
-                return WeatherService.getWeatherForecast(currentLocation.id)
-                    .then((response: Weatherdata) => {
-                        commit('setWeather', response);
-                    })
-                    .catch((error: AxiosError) => {
-                        // tslint:disable-next-line:no-console
-                        console.error('Fetching weather forecast failed');
-                        // tslint:disable-next-line:no-console
-                        console.error(error.message);
-                    });
+        return new Promise((resolve, reject) => {
+            if (state.weather && state.weather.id === currentLocation.id) {
+                resolve();
+            } else {
+                if (currentLocation) {
+                    WeatherService.getWeatherForecast(currentLocation.id)
+                        .then((response: Weatherdata) => {
+                            commit('setWeather', response);
+                            resolve();
+                        })
+                        .catch((error: AxiosError) => {
+                            // tslint:disable-next-line:no-console
+                            console.error('Fetching weather forecast failed');
+                            // tslint:disable-next-line:no-console
+                            console.error(error.message);
+                            reject(error);
+                        });
+                } else {
+                    resolve();
+                }
             }
-
-        }
+        });
     }
 };
 

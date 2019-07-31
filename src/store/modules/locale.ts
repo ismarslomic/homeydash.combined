@@ -1,6 +1,6 @@
 import i18n from '@/plugins/i18n';
-import { LocaleState, RootState } from '@/types/types';
-import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
+import {LocaleState, RootState} from '@/types/types';
+import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 
 const state: LocaleState = {
     locale: ''
@@ -35,10 +35,16 @@ const mutations: MutationTree<LocaleState> = {
 
 export const actions: ActionTree<LocaleState, RootState> = {
     setLocale({commit}, theLocale: string) {
-        commit('setLocale', theLocale);
+        return new Promise((resolve) => {
+            commit('setLocale', theLocale);
+            resolve();
+        });
     },
     initialiseLocale({commit}) {
-        commit('initialiseLocale');
+        return new Promise((resolve) => {
+            commit('initialiseLocale');
+            resolve();
+        });
     }
 };
 

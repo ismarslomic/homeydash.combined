@@ -1,8 +1,8 @@
 import AthomService from '@/services/AthomService';
-import { RootState, UserState } from '@/types/types';
-import { User } from '@/types/user';
-import { AxiosError } from 'axios';
-import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
+import {RootState, UserState} from '@/types/types';
+import {User} from '@/types/user';
+import {AxiosError} from 'axios';
+import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 
 const state: UserState = {
     user: undefined
@@ -30,23 +30,28 @@ const mutations: MutationTree<UserState> = {
 
 export const actions: ActionTree<UserState, RootState> = {
     fetchAuthenticatedUser({commit}) {
-        if (localStorage.getItem(LS_KEY_USER)) {
-            commit('setUser', JSON.parse(localStorage.getItem(LS_KEY_USER) || '{}'));
-        } else {
-            AthomService.getAuthenticatedUser()
-                .then((response: User) => {
-                    if (response) {
-                        commit('setUser', response);
-                        commit('setUserLS', response);
-                    }
-                })
-                .catch((error: AxiosError) => {
-                    // tslint:disable-next-line:no-console
-                    console.error('Fetching user from Athom Homey failed');
-                    // tslint:disable-next-line:no-console
-                    console.error(error.message);
-                });
-        }
+        return new Promise((resolve, reject) => {
+            if (localStorage.getItem(LS_KEY_USER)) {
+                commit('setUser', JSON.parse(localStorage.getItem(LS_KEY_USER) || '{}'));
+                resolve();
+            } else {
+                AthomService.getAuthenticatedUser()
+                    .then((response: User) => {
+                        if (response) {
+                            commit('setUser', response);
+                            commit('setUserLS', response);
+                        }
+                        resolve();
+                    })
+                    .catch((error: AxiosError) => {
+                        // tslint:disable-next-line:no-console
+                        console.error('Fetching user from Athom Homey failed');
+                        // tslint:disable-next-line:no-console
+                        console.error(error.message);
+                        reject(error);
+                    });
+            }
+        });
     }
 };
 

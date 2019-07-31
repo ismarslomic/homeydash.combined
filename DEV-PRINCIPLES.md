@@ -9,18 +9,25 @@
 2. `Views` shall retrieve states through use of `getters` only
 
 ## API calls
-1. API calls shall be done from the `store` only, flow will be as following: 
-    - `View` -> `Store action` -> `Service` -> `Axios call` -> Response stored in the `Store` (and `local storage` if needed)
-2. Every API call shall update the `loading state` by using Axios interceptor, see `Services` in service folder
+1. API calls shall be done from the `Actions` only, flow will be as following: 
+    - `View` -> `Store Action` -> `Service` -> `Axios call` -> Response stored in the `Store` (and `local storage` if needed)
+2. Every API call shall update the `loading state` by using Axios interceptor, see `Services` in `service` folder
 
 ## State dependencies
 1. In case where states has dependencies to each other, for instance changing `locale` state impacts `geolocation details` state, 
 state `watch` shall be used and should be registered in the `store.ts`
+
+## Initiating state on refresh
+1. States that must be initiated when application is refresh/accessing for the first time shall be done from `store.ts`
     
 ## i18n
 1. Static text that needs to be translated shall be stored in `locales` folder
 2. Translations using `vue-i18n` can be done from `Views` and `Components`
 
 ## Local storage
-1. `States` and `data` that does not update frequently (such as Homey geo coordinates or weather location details or that needs to be 
-persistent for longer periode shall be stored in the `local storage`, in addition to the `Store`
+1. `States` and `data` that does not update frequently (such as Homey geolocation coordinates or weather location details that needs to be 
+persistent for longer period shall be stored in the `local storage`, in addition to the `Store`
+
+## Vuex actions, mutations and getters
+1. Define and use `constants` when referring to Vuex Action, Mutation and Getter, these shall be stored in the `store` folder
+2. Always return Promise in `Actions` so the caller know when the action is completed. Return value of Promise shall be empty if you are using getters to retrieve updated state

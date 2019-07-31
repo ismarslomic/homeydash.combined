@@ -1,5 +1,5 @@
-import { LoadingState, RootState } from '@/types/types';
-import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
+import {LoadingState, RootState} from '@/types/types';
+import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 
 const state: LoadingState = {
     geolocationWaitingCount: 0,
@@ -62,34 +62,64 @@ const mutations: MutationTree<LoadingState> = {
 
 export const actions: ActionTree<LoadingState, RootState> = {
     startLoadingGeolocation({commit}) {
-        commit('increaseGeolocationWaitingCount');
+        return new Promise((resolve) => {
+            commit('increaseGeolocationWaitingCount');
+            resolve();
+        });
     },
     doneLoadingGeolocation({commit}) {
-        commit('decreaseGeolocationWaitingCount');
+        return new Promise((resolve) => {
+            commit('decreaseGeolocationWaitingCount');
+            resolve();
+        });
     },
     startLoadingWeather({commit}) {
-        commit('increaseWeatherWaitingCount');
+        return new Promise((resolve) => {
+            commit('increaseWeatherWaitingCount');
+            resolve();
+        });
     },
     doneLoadingWeather({commit}) {
-        commit('decreaseWeatherWaitingCount');
+        return new Promise((resolve) => {
+            commit('decreaseWeatherWaitingCount');
+            resolve();
+        });
     },
     startLoadingUserAuthentication({commit}) {
-        commit('increaseUserAuthenticationWaitingCount');
+        return new Promise((resolve) => {
+            commit('increaseUserAuthenticationWaitingCount');
+            resolve();
+        });
     },
     doneLoadingUserAuthentication({commit}) {
-        commit('decreaseUserAuthenticationWaitingCount');
+        return new Promise((resolve) => {
+            commit('decreaseUserAuthenticationWaitingCount');
+            resolve();
+        });
     },
     startLoadingUser({commit}) {
-        commit('increaseUserWaitingCount');
+        return new Promise((resolve) => {
+            commit('increaseUserWaitingCount');
+            resolve();
+        });
     },
     doneLoadingUser({commit}) {
-        commit('decreaseUserWaitingCount');
+        return new Promise((resolve) => {
+            commit('decreaseUserWaitingCount');
+            resolve();
+        });
     },
     startLoadingHomeyGeolocationCoordinates({commit}) {
-        commit('increaseGeolocationCoordinatesWaitingCount');
+        return new Promise((resolve) => {
+            commit('increaseGeolocationCoordinatesWaitingCount');
+            resolve();
+        });
     },
     doneLoadingHomeyGeolocationCoordinates({commit}) {
-        commit('decreaseGeolocationCoordinatesWaitingCount');
+        return new Promise((resolve) => {
+            commit('decreaseGeolocationCoordinatesWaitingCount');
+            resolve();
+        });
     }
 };
 

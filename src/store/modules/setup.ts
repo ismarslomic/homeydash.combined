@@ -2,7 +2,7 @@ import {RootState, StoreState} from '@/types/types';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {FETCH_IS_SETUP_COMPLETED, SET_IS_SETUP_COMPLETED} from '@/store/actions.type';
 import {IS_SETUP_COMPLETED} from '@/store/getters.type';
-import {SET_SETUP_COMPLETED} from '@/store/modules/mutations.type';
+import {SET_SETUP_COMPLETED} from '@/store/mutations.type';
 
 const state: StoreState = {
     isSetupCompleted: false
@@ -25,15 +25,21 @@ const mutations: MutationTree<StoreState> = {
 
 export const actions: ActionTree<StoreState, RootState> = {
     [SET_IS_SETUP_COMPLETED.actionName]({commit}, theIsSetupCompleted: boolean) {
-        return commit(SET_SETUP_COMPLETED.mutationName, theIsSetupCompleted);
+        return new Promise((resolve) => {
+            commit(SET_SETUP_COMPLETED.mutationName, theIsSetupCompleted);
+            resolve();
+        });
     },
     [FETCH_IS_SETUP_COMPLETED.actionName]({commit}) {
-        if (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED)) {
-            const isCompletedBoolean: boolean = (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED) === 'true');
-            return commit(SET_SETUP_COMPLETED.mutationName, isCompletedBoolean);
-        } else {
-            return Promise.resolve;
-        }
+        return new Promise((resolve) => {
+            if (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED)) {
+                const isCompletedBoolean: boolean = (localStorage.getItem(LS_KEY_IS_SETUP_COMPLETED) === 'true');
+                commit(SET_SETUP_COMPLETED.mutationName, isCompletedBoolean);
+                resolve();
+            } else {
+                resolve();
+            }
+        });
     }
 };
 

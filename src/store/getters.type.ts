@@ -42,3 +42,7 @@ export const IS_LOADING_AUTHENTICATION: GettersType =
 // User
 export const GET_USER: GettersType =
     new GettersType('user', 'user');
+
+// Setup
+export const IS_SETUP_COMPLETED: GettersType =
+    new GettersType('isSetupCompleted', 'setup');

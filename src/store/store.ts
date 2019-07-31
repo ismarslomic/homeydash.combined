@@ -1,11 +1,13 @@
-import { geolocation } from '@/store/modules/geolocation';
-import { loading } from '@/store/modules/loading';
-import { locale } from '@/store/modules/locale';
-import { user } from '@/store/modules/user';
-import { weather } from '@/store/modules/weather';
-import { RootState } from '@/types/types';
+import {geolocation} from '@/store/modules/geolocation';
+import {loading} from '@/store/modules/loading';
+import {locale} from '@/store/modules/locale';
+import {user} from '@/store/modules/user';
+import {weather} from '@/store/modules/weather';
+import {setup} from '@/store/modules/setup';
+import {RootState} from '@/types/types';
 import Vue from 'vue';
-import Vuex, { StoreOptions } from 'vuex';
+import Vuex, {StoreOptions} from 'vuex';
+import {FETCH_IS_SETUP_COMPLETED, INITIALIZE_LOCALE} from '@/store/actions.type';
 
 Vue.use(Vuex);
 
@@ -15,7 +17,8 @@ const storeOptions: StoreOptions<RootState> = {
         geolocation,
         loading,
         locale,
-        user
+        user,
+        setup
     }
 };
 
@@ -31,5 +34,10 @@ store.watch(() => store.getters['locale/currentLocale'], (newlocale, oldLocale) 
         store.dispatch('geolocation/updateGeolocationDetailsNewLocale');
     }
 });
+
+store.dispatch(INITIALIZE_LOCALE.namespacedName);
+// NOTE! Dispatching FETCH_IS_SETUP_COMPLETED action _must_ be triggered from store.ts as using beforeCreate() in Vue
+// is executed after route gards
+store.dispatch(FETCH_IS_SETUP_COMPLETED.namespacedName);
 
 export default store;

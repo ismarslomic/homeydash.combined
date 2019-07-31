@@ -33,5 +33,12 @@ export const SET_LOCALE: ActionsType =
 export const FETCH_AUTHENTICATED_USER: ActionsType =
     new ActionsType('fetchAuthenticatedUser', 'user');
 
+// Setup
+export const FETCH_IS_SETUP_COMPLETED: ActionsType =
+    new ActionsType('fetchIsSetupCompleted', 'setup');
+
+export const SET_IS_SETUP_COMPLETED: ActionsType =
+    new ActionsType('setIsSetupCompleted', 'setup');
+
 
 

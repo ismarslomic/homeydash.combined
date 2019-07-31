@@ -1,6 +1,6 @@
-import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
-import { User } from '@/types/user';
-import { Weatherdata } from '@/types/weather';
+import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
+import {User} from '@/types/user';
+import {Weatherdata} from '@/types/weather';
 
 // Store root state
 export interface RootState {
@@ -39,4 +39,9 @@ export interface LoadingState {
 // Store homey user profile state
 export interface UserState {
     user?: User;
+}
+
+// Store setup state
+export interface StoreState {
+    isSetupCompleted: boolean;
 }

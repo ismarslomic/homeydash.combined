@@ -9,6 +9,12 @@ import {
     INITIALIZE_GEOLOCATION_DETAILS, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES,
     UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE
 } from '@/store/actions.type';
+import {
+    GET_AVAILABLE_LOCATIONS, GET_CURRENT_COORDINATES, GET_CURRENT_LOCALE,
+    GET_CURRENT_LOCATION,
+    IS_COORDINATE_DATA_LOADED,
+    IS_DETAILS_DATA_LOADED
+} from '@/store/getters.type';
 
 const state: GeolocationState = {
     coordinates: undefined,
@@ -21,19 +27,19 @@ const LS_KEY_AVAILABLELOCATIONS: string = 'homeydash:geolocation:availableLocati
 const LS_KEY_COORDINATES: string = 'homeydash:geolocation:coordinates';
 
 export const getters: GetterTree<GeolocationState, RootState> = {
-    isCoordinateDataLoaded: (theState: GeolocationState): boolean => {
+    [IS_COORDINATE_DATA_LOADED.getterName]: (theState: GeolocationState): boolean => {
         return !!(theState.coordinates);
     },
-    isDetailsDataLoaded: (theState: GeolocationState): boolean => {
+    [IS_DETAILS_DATA_LOADED.getterName]: (theState: GeolocationState): boolean => {
         return !!(theState.currentLocation);
     },
-    currentLocation: (theState: GeolocationState): GeolocationDetails | undefined => {
+    [GET_CURRENT_LOCATION.getterName]: (theState: GeolocationState): GeolocationDetails | undefined => {
         return theState.currentLocation;
     },
-    availableLocations: (theState: GeolocationState): GeolocationDetails[] | undefined => {
+    [GET_AVAILABLE_LOCATIONS.getterName]: (theState: GeolocationState): GeolocationDetails[] | undefined => {
         return theState.availableLocations;
     },
-    currentCoordinates: (theState: GeolocationState): GeolocationCoordinates | undefined => {
+    [GET_CURRENT_COORDINATES.getterName]: (theState: GeolocationState): GeolocationCoordinates | undefined => {
         return theState.coordinates;
     }
 };
@@ -95,7 +101,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 commit('setAvailableLocations', JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
                 resolve();
             } else if (state.coordinates) {
-                const currentLocale: string = rootGetters['locale/currentLocale'] as string;
+                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName] as string;
                 GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {
@@ -131,7 +137,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
         return new Promise((resolve, reject) => {
             if (state.coordinates) {
                 const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
-                const currentLocale: string = rootGetters['locale/currentLocale'] as string;
+                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName] as string;
                 GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {

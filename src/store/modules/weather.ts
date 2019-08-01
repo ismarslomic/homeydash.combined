@@ -5,16 +5,17 @@ import {Weatherdata} from '@/types/weather';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {FETCH_WEATHER} from '@/store/actions.type';
+import {GET_WEATHER, IS_WEATHER_DATA_LOADED} from '@/store/getters.type';
 
 const state: WeatherState = {
     weather: undefined
 };
 
 export const getters: GetterTree<WeatherState, RootState> = {
-    isWeatherDataLoaded: (theState: WeatherState): boolean => {
+    [IS_WEATHER_DATA_LOADED.getterName]: (theState: WeatherState): boolean => {
         return !!(theState.weather && theState.weather.shortIntervals) && theState.weather.shortIntervals.length > 0;
     },
-    weather: (theState: WeatherState): Weatherdata | undefined => {
+    [GET_WEATHER.getterName]: (theState: WeatherState): Weatherdata | undefined => {
         return theState.weather;
     }
 };

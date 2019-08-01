@@ -146,8 +146,6 @@ export default class Setup extends Vue {
         {namespace: IS_LOADING_COORDINATES.namespace}) isLoadingCoordinates!: boolean;
     @Getter(IS_LOADING_GEOLOCATION.getterName,
         {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
-    @Getter(GET_USER.getterName,
-        {namespace: GET_USER.namespace}) user?: User;
     @Getter(GET_CURRENT_COORDINATES.getterName,
         {namespace: GET_CURRENT_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
     @Getter(GET_CURRENT_LOCALE.getterName,

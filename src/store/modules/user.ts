@@ -4,6 +4,7 @@ import {User} from '@/types/user';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {FETCH_AUTHENTICATED_USER} from '@/store/actions.type';
+import {GET_USER, IS_USER_AUTHENTICATED} from '@/store/getters.type';
 
 const state: UserState = {
     user: undefined
@@ -12,10 +13,10 @@ const state: UserState = {
 const LS_KEY_USER: string = 'homeydash:user';
 
 export const getters: GetterTree<UserState, RootState> = {
-    isUserAuthenticated: (theState: UserState): boolean => {
+    [IS_USER_AUTHENTICATED.getterName]: (theState: UserState): boolean => {
         return !!(theState.user);
     },
-    user: (theState: UserState): User | undefined => {
+    [GET_USER.getterName]: (theState: UserState): User | undefined => {
         return theState.user;
     }
 };

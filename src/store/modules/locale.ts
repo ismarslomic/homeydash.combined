@@ -2,6 +2,7 @@ import i18n from '@/plugins/i18n';
 import {LocaleState, RootState} from '@/types/types';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {INITIALIZE_LOCALE, SET_LOCALE} from '@/store/actions.type';
+import {GET_CURRENT_LOCALE} from '@/store/getters.type';
 
 const state: LocaleState = {
     locale: ''
@@ -11,7 +12,7 @@ const LS_KEY_LOCALE: string = 'homeydash:locale';
 const DEFAULT_LOCALE: string = 'en';
 
 export const getters: GetterTree<LocaleState, RootState> = {
-    currentLocale: (theState: LocaleState): string => {
+    [GET_CURRENT_LOCALE.getterName]: (theState: LocaleState): string => {
         return theState.locale;
     }
 };

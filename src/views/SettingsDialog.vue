@@ -54,6 +54,13 @@ import { SettingsComponent } from '@/types/settings';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
 import {SET_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES} from '@/store/actions.type';
+import {
+    GET_AVAILABLE_LOCATIONS,
+    GET_CURRENT_COORDINATES, GET_CURRENT_LOCALE,
+    GET_CURRENT_LOCATION,
+    IS_COORDINATE_DATA_LOADED,
+    IS_DETAILS_DATA_LOADED
+} from '@/store/getters.type';
 
 @Component({
     components: {
@@ -63,12 +70,18 @@ import {SET_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORD
     }
 })
 export default class SettingsDialog extends Vue {
-    @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
-    @Getter('currentCoordinates', {namespace: 'geolocation'}) currentCoordinates?: GeolocationCoordinates;
-    @Getter('availableLocations', {namespace: 'geolocation'}) availableLocations!: GeolocationDetails[];
-    @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
-    @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
-    @Getter('currentLocale', {namespace: 'locale'}) currentLocale!: string;
+    @Getter(GET_CURRENT_LOCATION.getterName,
+        {namespace: GET_CURRENT_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+    @Getter(GET_CURRENT_COORDINATES.getterName,
+        {namespace: GET_CURRENT_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
+    @Getter(GET_AVAILABLE_LOCATIONS.getterName,
+        {namespace: GET_AVAILABLE_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
+    @Getter(IS_DETAILS_DATA_LOADED.getterName,
+        {namespace: IS_DETAILS_DATA_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+    @Getter(IS_COORDINATE_DATA_LOADED.getterName,
+        {namespace: IS_COORDINATE_DATA_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+    @Getter(GET_CURRENT_LOCALE.getterName,
+        {namespace: GET_CURRENT_LOCALE.namespace}) currentLocale!: string;
     @Action(UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName,
         {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
     @Action(UPDATE_GEOLOCATION_COORDINATES.actionName,

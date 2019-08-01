@@ -113,44 +113,58 @@
 </template>
 
 <script lang="ts">
-    import WeatherShort from '@/components/WeatherShort.vue';
-    import { GeolocationDetails } from '@/types/geolocation';
-    import { Weatherdata } from '@/types/weather';
-    import SettingsDialog from '@/views/SettingsDialog.vue';
-    import { Component, Vue } from 'vue-property-decorator';
-    import { Getter } from 'vuex-class';
+import WeatherShort from '@/components/WeatherShort.vue';
+import { GeolocationDetails } from '@/types/geolocation';
+import { Weatherdata } from '@/types/weather';
+import SettingsDialog from '@/views/SettingsDialog.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
+import {
+    GET_CURRENT_LOCATION, GET_WEATHER,
+    IS_COORDINATE_DATA_LOADED,
+    IS_DETAILS_DATA_LOADED,
+    IS_LOADING_GEOLOCATION,
+    IS_LOADING_WEATHER, IS_WEATHER_DATA_LOADED
+} from '@/store/getters.type';
 
-    @Component({
-        components: {
-            WeatherShort,
-            SettingsDialog
-        }
-    })
-    export default class Dashboard extends Vue {
-        @Getter('weather', {namespace: 'weather'}) weather?: Weatherdata;
-        @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
-        @Getter('isLoadingGeolocation', {namespace: 'loading'}) isLoadingGeolocation!: boolean;
-        @Getter('isLoadingWeather', {namespace: 'loading'}) isLoadingWeather!: boolean;
-        @Getter('isWeatherDataLoaded', {namespace: 'weather'}) isWeatherDataLoaded!: boolean;
-        @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
-        @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
-
-        now: Date = new Date();
-
-        private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
-
-        get isRefreshingWeather(): boolean {
-            return this.isLoadingGeolocation || this.isLoadingWeather;
-        }
-
-        get isWeatherLoaded(): boolean {
-            return this.isWeatherDataLoaded && this.isCoordinateDataLoaded && this.isDetailsDataLoaded;
-        }
-
-        private updateNow(): void {
-            this.now = new Date();
-        }
+@Component({
+    components: {
+        WeatherShort,
+        SettingsDialog
     }
+})
+export default class Dashboard extends Vue {
+    @Getter(GET_CURRENT_LOCATION.getterName,
+        {namespace: GET_CURRENT_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+    @Getter(IS_LOADING_GEOLOCATION.getterName,
+        {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
+    @Getter(IS_LOADING_WEATHER.getterName,
+        {namespace: IS_LOADING_WEATHER.namespace}) isLoadingWeather!: boolean;
+    @Getter(IS_WEATHER_DATA_LOADED.getterName,
+        {namespace: IS_WEATHER_DATA_LOADED.namespace}) isWeatherDataLoaded!: boolean;
+    @Getter(GET_WEATHER.getterName,
+        {namespace: GET_WEATHER.namespace}) weather?: Weatherdata;
+    @Getter(IS_COORDINATE_DATA_LOADED.getterName,
+        {namespace: IS_COORDINATE_DATA_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+    @Getter(IS_DETAILS_DATA_LOADED.getterName,
+        {namespace: IS_DETAILS_DATA_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+
+    now: Date = new Date();
+
+    private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
+
+    get isRefreshingWeather(): boolean {
+        return this.isLoadingGeolocation || this.isLoadingWeather;
+    }
+
+    get isWeatherLoaded(): boolean {
+        return this.isWeatherDataLoaded && this.isCoordinateDataLoaded && this.isDetailsDataLoaded;
+    }
+
+    private updateNow(): void {
+        this.now = new Date();
+    }
+}
 </script>
 
 <style>

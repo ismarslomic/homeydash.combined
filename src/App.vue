@@ -15,6 +15,7 @@
     import BottomNav from '@/components/BottomNav.vue';
     import { Component, Vue } from 'vue-property-decorator';
     import { Getter } from 'vuex-class';
+    import {IS_USER_AUTHENTICATED} from '@/store/getters.type';
 
     @Component({
         components: {
@@ -22,6 +23,7 @@
         }
     })
     export default class extends Vue {
-        @Getter('isUserAuthenticated', {namespace: 'user'}) isUserAuthenticated?: boolean;
+        @Getter(IS_USER_AUTHENTICATED.getterName,
+            {namespace: IS_USER_AUTHENTICATED.namespace}) isUserAuthenticated?: boolean;
     }
 </script>

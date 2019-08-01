@@ -11,6 +11,12 @@ import {
     START_LOADING_USER_AUTHENTICATION,
     START_LOADING_WEATHER
 } from '@/store/actions.type';
+import {
+    IS_LOADING_AUTHENTICATION, IS_LOADING_COORDINATES,
+    IS_LOADING_GEOLOCATION,
+    IS_LOADING_USER,
+    IS_LOADING_WEATHER
+} from '@/store/getters.type';
 
 const state: LoadingState = {
     geolocationWaitingCount: 0,
@@ -21,19 +27,19 @@ const state: LoadingState = {
 };
 
 export const getters: GetterTree<LoadingState, RootState> = {
-    isLoadingGeolocation: (theState: LoadingState): boolean => {
+    [IS_LOADING_GEOLOCATION.getterName]: (theState: LoadingState): boolean => {
         return theState.geolocationWaitingCount > 0;
     },
-    isLoadingWeather: (theState: LoadingState): boolean => {
+    [IS_LOADING_WEATHER.getterName]: (theState: LoadingState): boolean => {
         return theState.weatherWaitingCount > 0;
     },
-    isLoadingAuthentication: (theState: LoadingState): boolean => {
+    [IS_LOADING_AUTHENTICATION.getterName]: (theState: LoadingState): boolean => {
         return theState.userAuthenticationWaitingCount > 0;
     },
-    isLoadingUser: (theState: LoadingState): boolean => {
+    [IS_LOADING_USER.getterName]: (theState: LoadingState): boolean => {
         return theState.userWaitingCount > 0;
     },
-    isLoadingCoordinates: (theState: LoadingState): boolean => {
+    [IS_LOADING_COORDINATES.getterName]: (theState: LoadingState): boolean => {
         return theState.geolocationCoordinatesWaitingCount > 0;
     }
 };

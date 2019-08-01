@@ -5,6 +5,7 @@ import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {FETCH_AUTHENTICATED_USER} from '@/store/actions.type';
 import {GET_USER, IS_USER_AUTHENTICATED} from '@/store/getters.type';
+import {SET_USER, SET_USER_LS} from '@/store/mutations.type';
 
 const state: UserState = {
     user: undefined
@@ -22,10 +23,10 @@ export const getters: GetterTree<UserState, RootState> = {
 };
 
 const mutations: MutationTree<UserState> = {
-    setUser(theState: UserState, theUser: User) {
+    [SET_USER.mutationName](theState: UserState, theUser: User) {
         theState.user = theUser;
     },
-    setUserLS(theState: UserState, theUser: User) {
+    [SET_USER_LS.mutationName](theState: UserState, theUser: User) {
         localStorage.setItem(LS_KEY_USER, JSON.stringify(theUser));
     }
 };
@@ -34,14 +35,14 @@ export const actions: ActionTree<UserState, RootState> = {
     [FETCH_AUTHENTICATED_USER.actionName]({commit}) {
         return new Promise((resolve, reject) => {
             if (localStorage.getItem(LS_KEY_USER)) {
-                commit('setUser', JSON.parse(localStorage.getItem(LS_KEY_USER) || '{}'));
+                commit(SET_USER.mutationName, JSON.parse(localStorage.getItem(LS_KEY_USER) || '{}'));
                 resolve();
             } else {
                 AthomService.getAuthenticatedUser()
                     .then((response: User) => {
                         if (response) {
-                            commit('setUser', response);
-                            commit('setUserLS', response);
+                            commit(SET_USER.mutationName, response);
+                            commit(SET_USER_LS.mutationName, response);
                         }
                         resolve();
                     })

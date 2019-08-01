@@ -98,8 +98,8 @@ import {
     FETCH_AUTHENTICATED_USER,
     INITIALIZE_GEOLOCATION_COORDINATES,
     INITIALIZE_GEOLOCATION_DETAILS,
-    SET_IS_SETUP_COMPLETED,
-    SET_LOCALE,
+    UPDATE_IS_SETUP_COMPLETED,
+    UPDATE_LOCALE,
     UPDATE_CURRENT_GEOLOCATION_DETAILS
 } from '@/store/actions.type';
 import {
@@ -162,10 +162,10 @@ export default class Setup extends Vue {
         {namespace: INITIALIZE_GEOLOCATION_DETAILS.namespace}) initialiseGeolocationDetails: any;
     @Action(UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName,
         {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
-    @Action(SET_LOCALE.actionName,
-        {namespace: SET_LOCALE.namespace}) setLocale: any;
-    @Action(SET_IS_SETUP_COMPLETED.actionName,
-        {namespace: SET_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
+    @Action(UPDATE_LOCALE.actionName,
+        {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
+    @Action(UPDATE_IS_SETUP_COMPLETED.actionName,
+        {namespace: UPDATE_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
 
     currentStep: number = 0;
     tokenInput: string = '';

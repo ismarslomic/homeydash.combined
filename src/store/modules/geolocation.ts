@@ -6,15 +6,27 @@ import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {
     INITIALIZE_GEOLOCATION_COORDINATES,
-    INITIALIZE_GEOLOCATION_DETAILS, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES,
+    INITIALIZE_GEOLOCATION_DETAILS,
+    UPDATE_CURRENT_GEOLOCATION_DETAILS,
+    UPDATE_GEOLOCATION_COORDINATES,
     UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE
 } from '@/store/actions.type';
 import {
-    GET_AVAILABLE_LOCATIONS, GET_CURRENT_COORDINATES, GET_CURRENT_LOCALE,
+    GET_AVAILABLE_LOCATIONS,
+    GET_CURRENT_COORDINATES,
+    GET_CURRENT_LOCALE,
     GET_CURRENT_LOCATION,
     IS_COORDINATE_DATA_LOADED,
     IS_DETAILS_DATA_LOADED
 } from '@/store/getters.type';
+import {
+    SET_AVAILABLE_LOCATIONS,
+    SET_AVAILABLE_LOCATIONS_LS,
+    SET_COORDINATES,
+    SET_COORDINATES_LS,
+    SET_CURRENT_LOCATION,
+    SET_CURRENT_LOCATION_LS
+} from '@/store/mutations.type';
 
 const state: GeolocationState = {
     coordinates: undefined,
@@ -45,22 +57,22 @@ export const getters: GetterTree<GeolocationState, RootState> = {
 };
 
 const mutations: MutationTree<GeolocationState> = {
-    setCurrentLocation(theState: GeolocationState, currentLocation: GeolocationDetails) {
+    [SET_CURRENT_LOCATION.mutationName](theState: GeolocationState, currentLocation: GeolocationDetails) {
         theState.currentLocation = currentLocation;
     },
-    setCurrentLocationLS(theState: GeolocationState, currentLocation: GeolocationDetails) {
+    [SET_CURRENT_LOCATION_LS.mutationName](theState: GeolocationState, currentLocation: GeolocationDetails) {
         localStorage.setItem(LS_KEY_CURRENTLOCATION, JSON.stringify(currentLocation));
     },
-    setCoordinates(theState: GeolocationState, coordinates: GeolocationCoordinates) {
+    [SET_COORDINATES.mutationName](theState: GeolocationState, coordinates: GeolocationCoordinates) {
         theState.coordinates = coordinates;
     },
-    setCoordinatesLS(theState: GeolocationState, coordinates: GeolocationCoordinates) {
+    [SET_COORDINATES_LS.mutationName](theState: GeolocationState, coordinates: GeolocationCoordinates) {
         localStorage.setItem(LS_KEY_COORDINATES, JSON.stringify(coordinates));
     },
-    setAvailableLocations(theState: GeolocationState, availableLocations: GeolocationDetails[]) {
+    [SET_AVAILABLE_LOCATIONS.mutationName](theState: GeolocationState, availableLocations: GeolocationDetails[]) {
         theState.availableLocations = availableLocations;
     },
-    setAvailableLocationsLS(theState: GeolocationState, availableLocations: GeolocationDetails[]) {
+    [SET_AVAILABLE_LOCATIONS_LS.mutationName](theState: GeolocationState, availableLocations: GeolocationDetails[]) {
         localStorage.setItem(LS_KEY_AVAILABLELOCATIONS, JSON.stringify(availableLocations));
     }
 };
@@ -69,14 +81,14 @@ export const actions: ActionTree<GeolocationState, RootState> = {
     [INITIALIZE_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve, reject) => {
             if (localStorage.getItem(LS_KEY_COORDINATES)) {
-                commit('setCoordinates', JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
+                commit(SET_COORDINATES.mutationName, JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
                 resolve();
             } else {
                 AthomService.getGeolocationCoordinatesForHomey()
                     .then((response: GeolocationCoordinates) => {
                         if (response) {
-                            commit('setCoordinates', response);
-                            commit('setCoordinatesLS', response);
+                            commit(SET_COORDINATES.mutationName, response);
+                            commit(SET_COORDINATES_LS.mutationName, response);
                             resolve();
                         } else {
                             resolve();
@@ -97,18 +109,20 @@ export const actions: ActionTree<GeolocationState, RootState> = {
         // then available locations should also exist
         return new Promise((resolve, reject) => {
             if (localStorage.getItem(LS_KEY_CURRENTLOCATION)) {
-                commit('setCurrentLocation', JSON.parse(localStorage.getItem(LS_KEY_CURRENTLOCATION) || '{}'));
-                commit('setAvailableLocations', JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
+                commit(SET_CURRENT_LOCATION.mutationName,
+                    JSON.parse(localStorage.getItem(LS_KEY_CURRENTLOCATION) || '{}'));
+                commit(SET_AVAILABLE_LOCATIONS.mutationName,
+                    JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
                 resolve();
             } else if (state.coordinates) {
                 const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName] as string;
                 GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {
-                            commit('setCurrentLocation', response[0]);
-                            commit('setAvailableLocations', response);
-                            commit('setCurrentLocationLS', response[0]);
-                            commit('setAvailableLocationsLS', response);
+                            commit(SET_CURRENT_LOCATION.mutationName, response[0]);
+                            commit(SET_AVAILABLE_LOCATIONS.mutationName, response);
+                            commit(SET_CURRENT_LOCATION_LS.mutationName, response[0]);
+                            commit(SET_AVAILABLE_LOCATIONS_LS.mutationName, response);
                         }
                         resolve();
                     })
@@ -128,8 +142,8 @@ export const actions: ActionTree<GeolocationState, RootState> = {
     },
     [UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName]({commit}, locationDetails: GeolocationDetails) {
         return new Promise((resolve) => {
-            commit('setCurrentLocation', locationDetails);
-            commit('setCurrentLocationLS', locationDetails);
+            commit(SET_CURRENT_LOCATION.mutationName, locationDetails);
+            commit(SET_CURRENT_LOCATION_LS.mutationName, locationDetails);
             resolve();
         });
     },
@@ -144,10 +158,10 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                             const currentLocation = response.filter((details) => {
                                 return details.id === currentLocationId;
                             });
-                            commit('setCurrentLocation', currentLocation[0]);
-                            commit('setAvailableLocations', response);
-                            commit('setCurrentLocationLS', currentLocation[0]);
-                            commit('setAvailableLocationsLS', response);
+                            commit(SET_CURRENT_LOCATION.mutationName, currentLocation[0]);
+                            commit(SET_AVAILABLE_LOCATIONS.mutationName, response);
+                            commit(SET_CURRENT_LOCATION_LS.mutationName, currentLocation[0]);
+                            commit(SET_AVAILABLE_LOCATIONS_LS.mutationName, response);
                         }
                         resolve();
                     })
@@ -171,8 +185,8 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                 longitude: 11.7693054,
                 accuracy: 1000
             };
-            commit('setCoordinates', coordinates);
-            commit('setCoordinatesLS', coordinates);
+            commit(SET_COORDINATES.mutationName, coordinates);
+            commit(SET_COORDINATES_LS.mutationName, coordinates);
             resolve();
         });
     }

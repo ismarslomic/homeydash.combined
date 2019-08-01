@@ -32,8 +32,8 @@ export const UPDATE_GEOLOCATION_COORDINATES: ActionsType =
 export const INITIALIZE_LOCALE: ActionsType =
     new ActionsType('initialiseLocale', 'locale');
 
-export const SET_LOCALE: ActionsType =
-    new ActionsType('setLocale', 'locale');
+export const UPDATE_LOCALE: ActionsType =
+    new ActionsType('updateLocale', 'locale');
 
 // Weather
 export const FETCH_WEATHER: ActionsType =
@@ -47,8 +47,8 @@ export const FETCH_AUTHENTICATED_USER: ActionsType =
 export const FETCH_IS_SETUP_COMPLETED: ActionsType =
     new ActionsType('fetchIsSetupCompleted', 'setup');
 
-export const SET_IS_SETUP_COMPLETED: ActionsType =
-    new ActionsType('setIsSetupCompleted', 'setup');
+export const UPDATE_IS_SETUP_COMPLETED: ActionsType =
+    new ActionsType('updateIsSetupCompleted', 'setup');
 
 // Loading
 export const START_LOADING_GEOLOCATION: ActionsType =

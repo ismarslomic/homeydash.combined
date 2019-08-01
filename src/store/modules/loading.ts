@@ -1,7 +1,8 @@
 import {LoadingState, RootState} from '@/types/types';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {
-    DONE_LOADING_GEOLOCATION, DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    DONE_LOADING_GEOLOCATION,
+    DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
     DONE_LOADING_WEATHER,
@@ -12,11 +13,24 @@ import {
     START_LOADING_WEATHER
 } from '@/store/actions.type';
 import {
-    IS_LOADING_AUTHENTICATION, IS_LOADING_COORDINATES,
+    IS_LOADING_AUTHENTICATION,
+    IS_LOADING_COORDINATES,
     IS_LOADING_GEOLOCATION,
     IS_LOADING_USER,
     IS_LOADING_WEATHER
 } from '@/store/getters.type';
+import {
+    DEACREASE_USER_WAITING_COUNT,
+    DECREASE_GEOLOCATION_COORDINATES_WAITING_COUNT,
+    DECREASE_GEOLOCATION_WAITING_COUNT,
+    DECREASE_USER_AUTHENTICATION_WAITING_COUNT,
+    DECREASE_WEATHER_WAITING_COUNT,
+    INCREASE_GEOLOCATION_COORDINATES_WAITING_COUNT,
+    INCREASE_GEOLOCATION_WAITING_COUNT,
+    INCREASE_USER_AUTHENTICATION_WAITING_COUNT,
+    INCREASE_USER_WAITING_COUNT,
+    INCREASE_WEATHER_WAITING_COUNT
+} from '@/store/mutations.type';
 
 const state: LoadingState = {
     geolocationWaitingCount: 0,
@@ -45,34 +59,34 @@ export const getters: GetterTree<LoadingState, RootState> = {
 };
 
 const mutations: MutationTree<LoadingState> = {
-    increaseGeolocationWaitingCount(theState: LoadingState) {
+    [INCREASE_GEOLOCATION_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.geolocationWaitingCount += 1;
     },
-    decreaseGeolocationWaitingCount(theState: LoadingState) {
+    [DECREASE_GEOLOCATION_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.geolocationWaitingCount -= 1;
     },
-    increaseWeatherWaitingCount(theState: LoadingState) {
+    [INCREASE_WEATHER_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.weatherWaitingCount += 1;
     },
-    decreaseWeatherWaitingCount(theState: LoadingState) {
+    [DECREASE_WEATHER_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.weatherWaitingCount -= 1;
     },
-    increaseUserAuthenticationWaitingCount(theState: LoadingState) {
+    [INCREASE_USER_AUTHENTICATION_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userAuthenticationWaitingCount += 1;
     },
-    decreaseUserAuthenticationWaitingCount(theState: LoadingState) {
+    [DECREASE_USER_AUTHENTICATION_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userAuthenticationWaitingCount -= 1;
     },
-    increaseUserWaitingCount(theState: LoadingState) {
+    [INCREASE_USER_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userWaitingCount += 1;
     },
-    decreaseUserWaitingCount(theState: LoadingState) {
+    [DEACREASE_USER_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userWaitingCount -= 1;
     },
-    increaseGeolocationCoordinatesWaitingCount(theState: LoadingState) {
+    [INCREASE_GEOLOCATION_COORDINATES_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.geolocationCoordinatesWaitingCount += 1;
     },
-    decreaseGeolocationCoordinatesWaitingCount(theState: LoadingState) {
+    [DECREASE_GEOLOCATION_COORDINATES_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.geolocationCoordinatesWaitingCount -= 1;
     }
 };
@@ -80,61 +94,61 @@ const mutations: MutationTree<LoadingState> = {
 export const actions: ActionTree<LoadingState, RootState> = {
     [START_LOADING_GEOLOCATION.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('increaseGeolocationWaitingCount');
+            commit(INCREASE_GEOLOCATION_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [DONE_LOADING_GEOLOCATION.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('decreaseGeolocationWaitingCount');
+            commit(DECREASE_GEOLOCATION_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [START_LOADING_WEATHER.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('increaseWeatherWaitingCount');
+            commit(INCREASE_WEATHER_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [DONE_LOADING_WEATHER.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('decreaseWeatherWaitingCount');
+            commit(DECREASE_WEATHER_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [START_LOADING_USER_AUTHENTICATION.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('increaseUserAuthenticationWaitingCount');
+            commit(INCREASE_USER_AUTHENTICATION_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [DONE_LOADING_USER_AUTHENTICATION.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('decreaseUserAuthenticationWaitingCount');
+            commit(DECREASE_USER_AUTHENTICATION_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [START_LOADING_USER.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('increaseUserWaitingCount');
+            commit(INCREASE_USER_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [DONE_LOADING_USER.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('decreaseUserWaitingCount');
+            commit(DEACREASE_USER_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [START_LOADING_HOMEY_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('increaseGeolocationCoordinatesWaitingCount');
+            commit(INCREASE_GEOLOCATION_COORDINATES_WAITING_COUNT.mutationName);
             resolve();
         });
     },
     [DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit('decreaseGeolocationCoordinatesWaitingCount');
+            commit(DECREASE_GEOLOCATION_COORDINATES_WAITING_COUNT.mutationName);
             resolve();
         });
     }

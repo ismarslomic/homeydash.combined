@@ -53,7 +53,7 @@ import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation'
 import { SettingsComponent } from '@/types/settings';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
-import {SET_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES} from '@/store/actions.type';
+import {UPDATE_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES} from '@/store/actions.type';
 import {
     GET_AVAILABLE_LOCATIONS,
     GET_CURRENT_COORDINATES, GET_CURRENT_LOCALE,
@@ -86,8 +86,8 @@ export default class SettingsDialog extends Vue {
         {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
     @Action(UPDATE_GEOLOCATION_COORDINATES.actionName,
         {namespace: UPDATE_GEOLOCATION_COORDINATES.namespace}) updateGeolocationCoordinates: any;
-    @Action(SET_LOCALE.actionName,
-        {namespace: SET_LOCALE.namespace}) setLocale: any;
+    @Action(UPDATE_LOCALE.actionName,
+        {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
     isDialogOpen: boolean = false;
     currentSettingsComponent: SettingsComponent = settingsList;
     localesPicker: SettingsComponent = localesPicker;

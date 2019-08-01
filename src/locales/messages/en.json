@@ -126,13 +126,9 @@
         "minChars": "Min {number} characters",
         "maxChars": "Max {number} characters",
         "required": "Required",
-        "decodingTokenFailed": "Could not decode token",
-        "tokenExpired": "Token expired"
+        "decodingTokenFailed": "Could not decode token"
     },
     "hints": {
         "token": "Paste {number} characters long token"
-    },
-    "labels": {
-        "expiresAt": "Expires at"
     }
 }

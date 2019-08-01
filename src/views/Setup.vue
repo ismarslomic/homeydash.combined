@@ -47,7 +47,7 @@
                                     counter="298"
                                     maxlength="298"
                                     clearable
-                                    :rules="[rules.required, rules.min, rules.max, rules.canDecode, rules.tokenExpired]"
+                                    :rules="[rules.required, rules.min, rules.max, rules.canDecode]"
                                     :hint="$t('hints.token', {number: 298})"
                                     auto-grow
                                     :readonly="isTokenDecodedValid()"
@@ -57,16 +57,6 @@
                                     v-model="tokenInput"
                             >
                             </v-textarea>
-                            <v-text-field
-                                    prepend-inner-icon="alarm"
-                                    v-if="tokenDecoded"
-                                    :value="$d(new Date(tokenDecoded.expires_at), 'shortDateTime')"
-                                    :label="$t('labels.expiresAt')"
-                                    class="caption"
-                                    box
-                                    disabled
-                            >
-                            </v-text-field>
                             <v-btn @click="previousStep(3)" flat class="pa-0 ma-0">{{$t('actions.back')}}</v-btn>
                             <v-btn @click="nextStep(3)" color="primary" class="pa-0 ma-0" :disabled="!isGeolocationLoaded">{{$t('actions.continue')}}</v-btn>
                         </v-stepper-content>
@@ -176,8 +166,7 @@ export default class Setup extends Vue {
         min: (v: string) => v && v.length >= 298 || this.$parent.$t('validations.minChars', {number: 298}),
         max: (v: string) => v && v.length <= 298 || this.$parent.$t('validations.maxChars', {number: 298}),
         required: (v: string) => !!v || this.$parent.$t('validations.required'),
-        canDecode: (v: string) => !!this.decodeToken(v) || this.$parent.$t('validations.decodingTokenFailed'),
-        tokenExpired: () => !this.isTokenExpired() || this.$parent.$t('validations.tokenExpired')
+        canDecode: (v: string) => !!this.decodeToken(v) || this.$parent.$t('validations.decodingTokenFailed')
     };
 
     @Watch('tokenInput')
@@ -196,16 +185,6 @@ export default class Setup extends Vue {
             return base64Decoded;
         } catch (err) {
             return null;
-        }
-    }
-
-    isTokenExpired(): boolean {
-        if (this.tokenDecoded != null) {
-            const expiresAtDate: Date = new Date(this.tokenDecoded.expires_at);
-            const now: Date = new Date();
-            return expiresAtDate <= now;
-        } else {
-            return false;
         }
     }
 
@@ -260,7 +239,7 @@ export default class Setup extends Vue {
     }
 
     isTokenDecodedValid(): boolean {
-        return (!!this.tokenDecoded) && !this.isTokenExpired();
+        return (!!this.tokenDecoded);
     }
 
     changeLocale(locale: string): void {

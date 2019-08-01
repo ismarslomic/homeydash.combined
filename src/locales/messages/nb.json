@@ -126,13 +126,9 @@
         "minChars": "Min {number} tegn",
         "maxChars": "Max {number} tegn",
         "required": "Påkrevd",
-        "decodingTokenFailed": "Tokenet kunne ikke dekodes",
-        "tokenExpired": "Tokenet har utløpt"
+        "decodingTokenFailed": "Tokenet kunne ikke dekodes"
     },
     "hints": {
         "token": "Lim inn token med {number} tegn"
-    },
-    "labels": {
-        "expiresAt": "Utløpsdato"
     }
 }

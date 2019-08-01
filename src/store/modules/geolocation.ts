@@ -4,6 +4,11 @@ import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
 import {GeolocationState, RootState} from '@/types/types';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
+import {
+    INITIALIZE_GEOLOCATION_COORDINATES,
+    INITIALIZE_GEOLOCATION_DETAILS, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES,
+    UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE
+} from '@/store/actions.type';
 
 const state: GeolocationState = {
     coordinates: undefined,
@@ -55,7 +60,7 @@ const mutations: MutationTree<GeolocationState> = {
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    initialiseGeolocationCoordinates({commit}) {
+    [INITIALIZE_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve, reject) => {
             if (localStorage.getItem(LS_KEY_COORDINATES)) {
                 commit('setCoordinates', JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
@@ -66,8 +71,6 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                         if (response) {
                             commit('setCoordinates', response);
                             commit('setCoordinatesLS', response);
-                            // Will be returned as Promise so we can use then() and call
-                            // initialiseGeolocationDetails() later
                             resolve();
                         } else {
                             resolve();
@@ -83,7 +86,7 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             }
         });
     },
-    initialiseGeolocationDetails({commit, rootGetters}) {
+    [INITIALIZE_GEOLOCATION_DETAILS.actionName]({commit, rootGetters}) {
         // We assume that if current location is found in the local storage,
         // then available locations should also exist
         return new Promise((resolve, reject) => {
@@ -117,14 +120,14 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             }
         });
     },
-    updateCurrentGeolocationDetails({commit}, locationDetails: GeolocationDetails) {
+    [UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName]({commit}, locationDetails: GeolocationDetails) {
         return new Promise((resolve) => {
             commit('setCurrentLocation', locationDetails);
             commit('setCurrentLocationLS', locationDetails);
             resolve();
         });
     },
-    updateGeolocationDetailsNewLocale({commit, rootGetters}) {
+    [UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE.actionName]({commit, rootGetters}) {
         return new Promise((resolve, reject) => {
             if (state.coordinates) {
                 const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
@@ -154,7 +157,8 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             }
         });
     },
-    updateGeolocationCoordinates({commit}) {
+    // TODO: temporary placeholder, needs to be replaced with fetching geolocation coordinates from Homey API
+    [UPDATE_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve, reject) => {
             const coordinates: GeolocationCoordinates = {
                 latitude: 60.926577400000006,

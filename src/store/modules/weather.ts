@@ -4,6 +4,7 @@ import {RootState, WeatherState} from '@/types/types';
 import {Weatherdata} from '@/types/weather';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
+import {FETCH_WEATHER} from '@/store/actions.type';
 
 const state: WeatherState = {
     weather: undefined
@@ -25,7 +26,7 @@ const mutations: MutationTree<WeatherState> = {
 };
 
 export const actions: ActionTree<WeatherState, RootState> = {
-    fetchWeather({commit}, currentLocation: GeolocationDetails) {
+    [FETCH_WEATHER.actionName]({commit}, currentLocation: GeolocationDetails) {
         return new Promise((resolve, reject) => {
             if (state.weather && state.weather.id === currentLocation.id) {
                 resolve();

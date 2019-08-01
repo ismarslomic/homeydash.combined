@@ -1,5 +1,16 @@
 import {LoadingState, RootState} from '@/types/types';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
+import {
+    DONE_LOADING_GEOLOCATION, DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    DONE_LOADING_USER,
+    DONE_LOADING_USER_AUTHENTICATION,
+    DONE_LOADING_WEATHER,
+    START_LOADING_GEOLOCATION,
+    START_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    START_LOADING_USER,
+    START_LOADING_USER_AUTHENTICATION,
+    START_LOADING_WEATHER
+} from '@/store/actions.type';
 
 const state: LoadingState = {
     geolocationWaitingCount: 0,
@@ -61,61 +72,61 @@ const mutations: MutationTree<LoadingState> = {
 };
 
 export const actions: ActionTree<LoadingState, RootState> = {
-    startLoadingGeolocation({commit}) {
+    [START_LOADING_GEOLOCATION.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('increaseGeolocationWaitingCount');
             resolve();
         });
     },
-    doneLoadingGeolocation({commit}) {
+    [DONE_LOADING_GEOLOCATION.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('decreaseGeolocationWaitingCount');
             resolve();
         });
     },
-    startLoadingWeather({commit}) {
+    [START_LOADING_WEATHER.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('increaseWeatherWaitingCount');
             resolve();
         });
     },
-    doneLoadingWeather({commit}) {
+    [DONE_LOADING_WEATHER.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('decreaseWeatherWaitingCount');
             resolve();
         });
     },
-    startLoadingUserAuthentication({commit}) {
+    [START_LOADING_USER_AUTHENTICATION.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('increaseUserAuthenticationWaitingCount');
             resolve();
         });
     },
-    doneLoadingUserAuthentication({commit}) {
+    [DONE_LOADING_USER_AUTHENTICATION.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('decreaseUserAuthenticationWaitingCount');
             resolve();
         });
     },
-    startLoadingUser({commit}) {
+    [START_LOADING_USER.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('increaseUserWaitingCount');
             resolve();
         });
     },
-    doneLoadingUser({commit}) {
+    [DONE_LOADING_USER.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('decreaseUserWaitingCount');
             resolve();
         });
     },
-    startLoadingHomeyGeolocationCoordinates({commit}) {
+    [START_LOADING_HOMEY_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('increaseGeolocationCoordinatesWaitingCount');
             resolve();
         });
     },
-    doneLoadingHomeyGeolocationCoordinates({commit}) {
+    [DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.actionName]({commit}) {
         return new Promise((resolve) => {
             commit('decreaseGeolocationCoordinatesWaitingCount');
             resolve();

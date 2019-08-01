@@ -1,6 +1,7 @@
 import store from '@/store/store';
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import {DONE_LOADING_GEOLOCATION, START_LOADING_GEOLOCATION} from '@/store/actions.type';
 
 class GeolocationDetailsService {
     private readonly BASE_URL: string = 'https://cors-proxy-me.herokuapp.com/https://www.yr.no/api/v0';
@@ -18,17 +19,17 @@ class GeolocationDetailsService {
             timeout: this.TIMEOUT_IN_MILLIS
         });
         this.apiClient.interceptors.request.use((config: any) => {
-            store.dispatch('loading/startLoadingGeolocation');
+            store.dispatch(START_LOADING_GEOLOCATION.namespacedName);
             return config;
         }, (error) => {
-            store.dispatch('loading/doneLoadingGeolocation');
+            store.dispatch(DONE_LOADING_GEOLOCATION.namespacedName);
             return Promise.reject(error);
         });
         this.apiClient.interceptors.response.use((response: any) => {
-            store.dispatch('loading/doneLoadingGeolocation');
+            store.dispatch(DONE_LOADING_GEOLOCATION.namespacedName);
             return response;
         }, (error) => {
-            store.dispatch('loading/doneLoadingGeolocation');
+            store.dispatch(DONE_LOADING_GEOLOCATION.namespacedName);
             return Promise.reject(error);
         });
     }

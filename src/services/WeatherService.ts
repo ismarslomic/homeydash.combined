@@ -1,6 +1,7 @@
 import store from '@/store/store';
 import { Weatherdata, WeatherInterval, WeatherSymbol } from '@/types/weather';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import {DONE_LOADING_WEATHER, START_LOADING_WEATHER} from '@/store/actions.type';
 
 class WeatherService {
     private readonly BASE_URL: string = 'https://cors-proxy-me.herokuapp.com/https://www.yr.no/api/v0';
@@ -18,17 +19,17 @@ class WeatherService {
             timeout: this.TIMEOUT_IN_MILLIS
         });
         this.apiClient.interceptors.request.use((config: any) => {
-            store.dispatch('loading/startLoadingWeather');
+            store.dispatch(START_LOADING_WEATHER.namespacedName);
             return config;
         }, (error) => {
-            store.dispatch('loading/doneLoadingWeather');
+            store.dispatch(DONE_LOADING_WEATHER.namespacedName);
             return Promise.reject(error);
         });
         this.apiClient.interceptors.response.use((response: any) => {
-            store.dispatch('loading/doneLoadingWeather');
+            store.dispatch(DONE_LOADING_WEATHER.namespacedName);
             return response;
         }, (error) => {
-            store.dispatch('loading/doneLoadingWeather');
+            store.dispatch(DONE_LOADING_WEATHER.namespacedName);
             return Promise.reject(error);
         });
     }

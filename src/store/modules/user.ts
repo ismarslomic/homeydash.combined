@@ -3,6 +3,7 @@ import {RootState, UserState} from '@/types/types';
 import {User} from '@/types/user';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
+import {FETCH_AUTHENTICATED_USER} from '@/store/actions.type';
 
 const state: UserState = {
     user: undefined
@@ -29,7 +30,7 @@ const mutations: MutationTree<UserState> = {
 };
 
 export const actions: ActionTree<UserState, RootState> = {
-    fetchAuthenticatedUser({commit}) {
+    [FETCH_AUTHENTICATED_USER.actionName]({commit}) {
         return new Promise((resolve, reject) => {
             if (localStorage.getItem(LS_KEY_USER)) {
                 commit('setUser', JSON.parse(localStorage.getItem(LS_KEY_USER) || '{}'));

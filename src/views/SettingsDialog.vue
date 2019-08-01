@@ -45,83 +45,89 @@
 </template>
 
 <script lang="ts">
-    import LocalesPicker from '@/components/LocalesPicker.vue';
-    import LocationsPicker from '@/components/LocationsPicker.vue';
-    import SettingsList from '@/components/SettingsList.vue';
-    import { coordinatesRefresh, localesPicker, locationPicker, settingsList } from '@/constants/settings';
-    import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
-    import { SettingsComponent } from '@/types/settings';
-    import { Component, Vue, Watch } from 'vue-property-decorator';
-    import { Getter } from 'vuex-class';
+import LocalesPicker from '@/components/LocalesPicker.vue';
+import LocationsPicker from '@/components/LocationsPicker.vue';
+import SettingsList from '@/components/SettingsList.vue';
+import { coordinatesRefresh, localesPicker, locationPicker, settingsList } from '@/constants/settings';
+import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
+import { SettingsComponent } from '@/types/settings';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import {Action, Getter} from 'vuex-class';
+import {SET_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES} from '@/store/actions.type';
 
-    @Component({
-        components: {
-            SettingsList,
-            LocationsPicker,
-            LocalesPicker
-        }
-    })
-    export default class SettingsDialog extends Vue {
-        @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
-        @Getter('currentCoordinates', {namespace: 'geolocation'}) currentCoordinates?: GeolocationCoordinates;
-        @Getter('availableLocations', {namespace: 'geolocation'}) availableLocations!: GeolocationDetails[];
-        @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
-        @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
-        @Getter('currentLocale', {namespace: 'locale'}) currentLocale!: string;
+@Component({
+    components: {
+        SettingsList,
+        LocationsPicker,
+        LocalesPicker
+    }
+})
+export default class SettingsDialog extends Vue {
+    @Getter('currentLocation', {namespace: 'geolocation'}) currentLocation?: GeolocationDetails;
+    @Getter('currentCoordinates', {namespace: 'geolocation'}) currentCoordinates?: GeolocationCoordinates;
+    @Getter('availableLocations', {namespace: 'geolocation'}) availableLocations!: GeolocationDetails[];
+    @Getter('isDetailsDataLoaded', {namespace: 'geolocation'}) isDetailsDataLoaded!: boolean;
+    @Getter('isCoordinateDataLoaded', {namespace: 'geolocation'}) isCoordinateDataLoaded!: boolean;
+    @Getter('currentLocale', {namespace: 'locale'}) currentLocale!: string;
+    @Action(UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName,
+        {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
+    @Action(UPDATE_GEOLOCATION_COORDINATES.actionName,
+        {namespace: UPDATE_GEOLOCATION_COORDINATES.namespace}) updateGeolocationCoordinates: any;
+    @Action(SET_LOCALE.actionName,
+        {namespace: SET_LOCALE.namespace}) setLocale: any;
+    isDialogOpen: boolean = false;
+    currentSettingsComponent: SettingsComponent = settingsList;
+    localesPicker: SettingsComponent = localesPicker;
+    locationPicker: SettingsComponent = locationPicker;
+    settingsList: SettingsComponent = settingsList;
 
-        isDialogOpen: boolean = false;
-        currentSettingsComponent: SettingsComponent = settingsList;
-        localesPicker: SettingsComponent = localesPicker;
-        locationPicker: SettingsComponent = locationPicker;
-        settingsList: SettingsComponent = settingsList;
+    updateCurrentLocation(location: GeolocationDetails): void {
+        this.updateCurrentGeolocationDetails(location);
+        this.closeSubMenu();
+    }
 
-        updateCurrentLocation(location: GeolocationDetails): void {
-            this.$store.dispatch('geolocation/updateCurrentGeolocationDetails', location);
-            this.closeSubMenu();
-        }
+    updateCurrentLocale(locale: string): void {
+        this.setLocale(locale);
+        this.closeSubMenu();
+    }
 
-        updateCurrentLocale(locale: string): void {
-            this.$store.dispatch('locale/setLocale', locale);
-            this.closeSubMenu();
-        }
-
-        settingsItemClicked(component: SettingsComponent): void {
-            if (component.id === coordinatesRefresh.id) {
-                this.$store.dispatch('geolocation/updateGeolocationCoordinates');
-            } else {
-                this.showSettingsComponent(component);
-            }
-        }
-
-        showSettingsComponent(component: SettingsComponent): void {
-            this.currentSettingsComponent = component;
-        }
-
-        openDialog(): void {
-            this.isDialogOpen = true;
-        }
-
-        closeSubMenu(): void {
-            this.showSettingsComponent(settingsList);
-        }
-
-        closeDialog(): void {
-            this.isDialogOpen = false;
-        }
-
-        get isSubMenuOpen(): boolean {
-            return this.currentSettingsComponent !== settingsList;
-        }
-
-        get availableLocales(): string[] {
-            return this.$i18n.availableLocales;
-        }
-
-        @Watch('isDialogOpen')
-        onIsDialogOpenChange(newState: boolean, oldState: boolean) {
-            if (!newState && oldState) {
-                this.closeSubMenu();
-            }
+    settingsItemClicked(component: SettingsComponent): void {
+        if (component.id === coordinatesRefresh.id) {
+            this.updateGeolocationCoordinates();
+        } else {
+            this.showSettingsComponent(component);
         }
     }
+
+    showSettingsComponent(component: SettingsComponent): void {
+        this.currentSettingsComponent = component;
+    }
+
+    openDialog(): void {
+        this.isDialogOpen = true;
+    }
+
+    closeSubMenu(): void {
+        this.showSettingsComponent(settingsList);
+    }
+
+    closeDialog(): void {
+        this.isDialogOpen = false;
+    }
+
+    get isSubMenuOpen(): boolean {
+        return this.currentSettingsComponent !== settingsList;
+    }
+
+    get availableLocales(): string[] {
+        return this.$i18n.availableLocales;
+    }
+
+    @Watch('isDialogOpen')
+    onIsDialogOpenChange(newState: boolean, oldState: boolean) {
+        if (!newState && oldState) {
+            this.closeSubMenu();
+        }
+    }
+}
 </script>

@@ -3,6 +3,13 @@ import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationCoordinates } from '@/types/geolocation';
 import { User } from '@/types/user';
 import { AthomCloudAPI, HomeyAPI } from 'athom-api';
+import {
+    DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    DONE_LOADING_USER,
+    DONE_LOADING_USER_AUTHENTICATION, START_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    START_LOADING_USER,
+    START_LOADING_USER_AUTHENTICATION
+} from '@/store/actions.type';
 
 class AthomService {
     private readonly CLIENT_ID: string = '5cbb504da1fc782009f52e46';
@@ -20,7 +27,7 @@ class AthomService {
 
     authenticate(token: AthomApiToken): Promise<void> {
         this.athomCloudAPI.setToken(token);
-        store.dispatch('loading/startLoadingUserAuthentication');
+        store.dispatch(START_LOADING_USER_AUTHENTICATION.namespacedName);
         return this.athomCloudAPI.getAuthenticatedUser()
         // @ts-ignore
             .then((authenticatedUser: any) => {
@@ -31,7 +38,7 @@ class AthomService {
             })
             .then((api: any) => {
                 this.homeyAPI = api;
-                store.dispatch('loading/doneLoadingUserAuthentication');
+                store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
                 return Promise.resolve();
             })
             .catch((error: any) => {
@@ -45,11 +52,11 @@ class AthomService {
         if (!this.homeyAPI) {
             return Promise.reject('User not authenticated, homeyAPI not initiated');
         } else {
-            store.dispatch('loading/startLoadingUser');
+            store.dispatch(START_LOADING_USER.namespacedName);
             return this.homeyAPI.users.getUserMe()
             // @ts-ignore
                 .then((homeyUser: any) => {
-                    store.dispatch('loading/doneLoadingUser');
+                    store.dispatch(DONE_LOADING_USER.namespacedName);
                     return Promise.resolve(mapUser(homeyUser));
                 })
                 .catch((error: any) => {
@@ -64,11 +71,11 @@ class AthomService {
         if (!this.homeyAPI) {
             return Promise.reject('User not authenticated');
         } else {
-            store.dispatch('loading/startLoadingHomeyGeolocationCoordinates');
+            store.dispatch(START_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
             return this.homeyAPI.geolocation.getOptionLocation()
             // @ts-ignore
                 .then((homeyCoordinates: any) => {
-                    store.dispatch('loading/doneLoadingHomeyGeolocationCoordinates');
+                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
                     return Promise.resolve(mapGeolocationCoordinates(homeyCoordinates));
                 })
                 .catch((error: any) => {

@@ -19,24 +19,13 @@ import {
     IS_COORDINATE_DATA_LOADED,
     IS_DETAILS_DATA_LOADED
 } from '@/store/getters.type';
-import {
-    SET_AVAILABLE_LOCATIONS,
-    SET_AVAILABLE_LOCATIONS_LS,
-    SET_COORDINATES,
-    SET_COORDINATES_LS,
-    SET_CURRENT_LOCATION,
-    SET_CURRENT_LOCATION_LS
-} from '@/store/mutations.type';
+import {SET_AVAILABLE_LOCATIONS, SET_COORDINATES, SET_CURRENT_LOCATION} from '@/store/mutations.type';
 
 const state: GeolocationState = {
     coordinates: undefined,
     currentLocation: undefined,
     availableLocations: undefined
 };
-
-const LS_KEY_CURRENTLOCATION: string = 'homeydash:geolocation:currentLocation';
-const LS_KEY_AVAILABLELOCATIONS: string = 'homeydash:geolocation:availableLocations';
-const LS_KEY_COORDINATES: string = 'homeydash:geolocation:coordinates';
 
 export const getters: GetterTree<GeolocationState, RootState> = {
     [IS_COORDINATE_DATA_LOADED.getterName]: (theState: GeolocationState): boolean => {
@@ -60,39 +49,29 @@ const mutations: MutationTree<GeolocationState> = {
     [SET_CURRENT_LOCATION.mutationName](theState: GeolocationState, currentLocation: GeolocationDetails) {
         theState.currentLocation = currentLocation;
     },
-    [SET_CURRENT_LOCATION_LS.mutationName](theState: GeolocationState, currentLocation: GeolocationDetails) {
-        localStorage.setItem(LS_KEY_CURRENTLOCATION, JSON.stringify(currentLocation));
-    },
     [SET_COORDINATES.mutationName](theState: GeolocationState, coordinates: GeolocationCoordinates) {
         theState.coordinates = coordinates;
     },
-    [SET_COORDINATES_LS.mutationName](theState: GeolocationState, coordinates: GeolocationCoordinates) {
-        localStorage.setItem(LS_KEY_COORDINATES, JSON.stringify(coordinates));
-    },
     [SET_AVAILABLE_LOCATIONS.mutationName](theState: GeolocationState, availableLocations: GeolocationDetails[]) {
         theState.availableLocations = availableLocations;
-    },
-    [SET_AVAILABLE_LOCATIONS_LS.mutationName](theState: GeolocationState, availableLocations: GeolocationDetails[]) {
-        localStorage.setItem(LS_KEY_AVAILABLELOCATIONS, JSON.stringify(availableLocations));
     }
 };
 
 export const actions: ActionTree<GeolocationState, RootState> = {
-    [INITIALIZE_GEOLOCATION_COORDINATES.actionName]({commit}) {
+    // tslint:disable-next-line:no-shadowed-variable
+    [INITIALIZE_GEOLOCATION_COORDINATES.actionName]({commit, getters}) {
         return new Promise((resolve, reject) => {
-            if (localStorage.getItem(LS_KEY_COORDINATES)) {
-                commit(SET_COORDINATES.mutationName, JSON.parse(localStorage.getItem(LS_KEY_COORDINATES) || '{}'));
+            const stateGeolocationCoordinates: GeolocationCoordinates | undefined =
+                getters[GET_CURRENT_COORDINATES.getterName];
+            if (stateGeolocationCoordinates) {
                 resolve();
             } else {
                 AthomService.getGeolocationCoordinatesForHomey()
                     .then((response: GeolocationCoordinates) => {
                         if (response) {
                             commit(SET_COORDINATES.mutationName, response);
-                            commit(SET_COORDINATES_LS.mutationName, response);
-                            resolve();
-                        } else {
-                            resolve();
                         }
+                        resolve();
                     })
                     .catch((error: AxiosError) => {
                         // tslint:disable-next-line:no-console
@@ -104,25 +83,25 @@ export const actions: ActionTree<GeolocationState, RootState> = {
             }
         });
     },
-    [INITIALIZE_GEOLOCATION_DETAILS.actionName]({commit, rootGetters}) {
+    // tslint:disable-next-line:no-shadowed-variable
+    [INITIALIZE_GEOLOCATION_DETAILS.actionName]({commit, getters, rootGetters}) {
         // We assume that if current location is found in the local storage,
         // then available locations should also exist
         return new Promise((resolve, reject) => {
-            if (localStorage.getItem(LS_KEY_CURRENTLOCATION)) {
-                commit(SET_CURRENT_LOCATION.mutationName,
-                    JSON.parse(localStorage.getItem(LS_KEY_CURRENTLOCATION) || '{}'));
-                commit(SET_AVAILABLE_LOCATIONS.mutationName,
-                    JSON.parse(localStorage.getItem(LS_KEY_AVAILABLELOCATIONS) || '{}'));
+            const stateCurrentLocation: GeolocationDetails | undefined = getters[GET_CURRENT_LOCATION.getterName];
+            const stateGeolocationCoordinates: GeolocationCoordinates | undefined =
+                getters[GET_CURRENT_COORDINATES.getterName];
+            if (stateCurrentLocation) {
                 resolve();
-            } else if (state.coordinates) {
-                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName] as string;
-                GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
+            } else if (!stateGeolocationCoordinates) {
+                reject('Current geolocation is missing');
+            } else {
+                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName];
+                GeolocationDetailsService.getGeolocationDetails(stateGeolocationCoordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {
                             commit(SET_CURRENT_LOCATION.mutationName, response[0]);
                             commit(SET_AVAILABLE_LOCATIONS.mutationName, response);
-                            commit(SET_CURRENT_LOCATION_LS.mutationName, response[0]);
-                            commit(SET_AVAILABLE_LOCATIONS_LS.mutationName, response);
                         }
                         resolve();
                     })
@@ -133,26 +112,25 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                         console.error(error.message);
                         reject(error);
                     });
-            } else {
-                // tslint:disable-next-line:no-console
-                console.error('state.coordinates is empty');
-                reject('state.coordinates is empty');
             }
         });
     },
     [UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName]({commit}, locationDetails: GeolocationDetails) {
         return new Promise((resolve) => {
             commit(SET_CURRENT_LOCATION.mutationName, locationDetails);
-            commit(SET_CURRENT_LOCATION_LS.mutationName, locationDetails);
             resolve();
         });
     },
-    [UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE.actionName]({commit, rootGetters}) {
+    // tslint:disable-next-line:no-shadowed-variable
+    [UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE.actionName]({commit, getters, rootGetters}) {
         return new Promise((resolve, reject) => {
-            if (state.coordinates) {
-                const currentLocationId = state.currentLocation ? state.currentLocation.id : '';
-                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName] as string;
-                GeolocationDetailsService.getGeolocationDetails(state.coordinates, currentLocale)
+            const stateGeolocationCoordinates: GeolocationCoordinates | undefined =
+                getters[GET_CURRENT_COORDINATES.getterName];
+            if (stateGeolocationCoordinates) {
+                const stateCurrentLocation: GeolocationDetails | undefined = getters[GET_CURRENT_LOCATION.getterName];
+                const currentLocationId = stateCurrentLocation ? stateCurrentLocation.id : '';
+                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName];
+                GeolocationDetailsService.getGeolocationDetails(stateGeolocationCoordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {
                             const currentLocation = response.filter((details) => {
@@ -160,8 +138,6 @@ export const actions: ActionTree<GeolocationState, RootState> = {
                             });
                             commit(SET_CURRENT_LOCATION.mutationName, currentLocation[0]);
                             commit(SET_AVAILABLE_LOCATIONS.mutationName, response);
-                            commit(SET_CURRENT_LOCATION_LS.mutationName, currentLocation[0]);
-                            commit(SET_AVAILABLE_LOCATIONS_LS.mutationName, response);
                         }
                         resolve();
                     })
@@ -179,14 +155,13 @@ export const actions: ActionTree<GeolocationState, RootState> = {
     },
     // TODO: temporary placeholder, needs to be replaced with fetching geolocation coordinates from Homey API
     [UPDATE_GEOLOCATION_COORDINATES.actionName]({commit}) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const coordinates: GeolocationCoordinates = {
                 latitude: 60.926577400000006,
                 longitude: 11.7693054,
                 accuracy: 1000
             };
             commit(SET_COORDINATES.mutationName, coordinates);
-            commit(SET_COORDINATES_LS.mutationName, coordinates);
             resolve();
         });
     }

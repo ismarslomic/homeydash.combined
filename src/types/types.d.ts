@@ -7,7 +7,9 @@ export interface RootState {
     weatherState: WeatherState;
     geolocationState: GeolocationState;
     loadingState: LoadingState;
+    locale: LocaleState;
     user: UserState;
+    setup: SetupState;
 }
 
 // Store geolocation state
@@ -42,6 +44,6 @@ export interface UserState {
 }
 
 // Store setup state
-export interface StoreState {
+export interface SetupState {
     isSetupCompleted: boolean;
 }

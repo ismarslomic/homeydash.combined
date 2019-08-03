@@ -34,7 +34,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             const stateWeather: Weatherdata | undefined =
                 getters[GET_WEATHER.getterName];
             const stateCurrentLocation: GeolocationDetails | undefined =
-                rootGetters[GET_CURRENT_LOCATION.getterName];
+                rootGetters[GET_CURRENT_LOCATION.namespacedName];
             if (!stateCurrentLocation || (stateWeather && stateWeather.id === stateCurrentLocation.id)) {
                 resolve();
             } else {

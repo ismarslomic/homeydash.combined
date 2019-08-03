@@ -26,8 +26,11 @@ state `watch` shall be used and should be registered in the `store.ts`
 
 ## Local storage
 1. `States` and `data` that does not update frequently (such as Homey geolocation coordinates or weather location details that needs to be 
-persistent for longer period shall be stored in the `local storage`, in addition to the `Store`
+persistent for longer period shall be stored in the `local storage`, in addition to the `Store`. 
+2. Use the `vuex-persist` library to avoid unecessary boilerplate code and do the configuration in `store.ts`
 
 ## Vuex actions, mutations and getters
 1. Define and use `constants` when referring to Vuex Action, Mutation and Getter, these shall be stored in the `store` folder
 2. Always return Promise in `Actions` so the caller know when the action is completed. Return value of Promise shall be empty if you are using getters to retrieve updated state
+3. `Actions` shall use `getters` (or `rootGetters`) to retrieve state
+4. `Mutations` and `Getters` shall only mutate and return `Store data`. If you for instance need to access or mutate data in local storage, do this in Actions

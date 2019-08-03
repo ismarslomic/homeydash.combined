@@ -5,7 +5,7 @@ import {Weatherdata} from '@/types/weather';
 import {AxiosError} from 'axios';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {FETCH_WEATHER} from '@/store/actions.type';
-import {GET_WEATHER, IS_WEATHER_DATA_LOADED} from '@/store/getters.type';
+import {GET_CURRENT_LOCATION, GET_WEATHER, IS_WEATHER_DATA_LOADED} from '@/store/getters.type';
 import {SET_WEATHER} from '@/store/mutations.type';
 
 const state: WeatherState = {
@@ -28,27 +28,28 @@ const mutations: MutationTree<WeatherState> = {
 };
 
 export const actions: ActionTree<WeatherState, RootState> = {
-    [FETCH_WEATHER.actionName]({commit}, currentLocation: GeolocationDetails) {
+    // tslint:disable-next-line:no-shadowed-variable
+    [FETCH_WEATHER.actionName]({commit, getters, rootGetters}) {
         return new Promise((resolve, reject) => {
-            if (state.weather && state.weather.id === currentLocation.id) {
+            const stateWeather: Weatherdata | undefined =
+                getters[GET_WEATHER.getterName];
+            const stateCurrentLocation: GeolocationDetails | undefined =
+                rootGetters[GET_CURRENT_LOCATION.getterName];
+            if (!stateCurrentLocation || (stateWeather && stateWeather.id === stateCurrentLocation.id)) {
                 resolve();
             } else {
-                if (currentLocation) {
-                    WeatherService.getWeatherForecast(currentLocation.id)
-                        .then((response: Weatherdata) => {
-                            commit(SET_WEATHER.mutationName, response);
-                            resolve();
-                        })
-                        .catch((error: AxiosError) => {
-                            // tslint:disable-next-line:no-console
-                            console.error('Fetching weather forecast failed');
-                            // tslint:disable-next-line:no-console
-                            console.error(error.message);
-                            reject(error);
-                        });
-                } else {
-                    resolve();
-                }
+                WeatherService.getWeatherForecast(stateCurrentLocation.id)
+                    .then((response: Weatherdata) => {
+                        commit(SET_WEATHER.mutationName, response);
+                        resolve();
+                    })
+                    .catch((error: AxiosError) => {
+                        // tslint:disable-next-line:no-console
+                        console.error('Fetching weather forecast failed');
+                        // tslint:disable-next-line:no-console
+                        console.error(error.message);
+                        reject(error);
+                    });
             }
         });
     }

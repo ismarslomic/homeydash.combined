@@ -33,8 +33,8 @@ const storeOptions: StoreOptions<RootState> = {
 
 const store = new Vuex.Store<RootState>(storeOptions);
 
-store.watch(() => store.getters[GET_CURRENT_LOCATION.namespacedName], (currentLocation) => {
-    store.dispatch(FETCH_WEATHER.namespacedName, currentLocation);
+store.watch(() => store.getters[GET_CURRENT_LOCATION.namespacedName], () => {
+    store.dispatch(FETCH_WEATHER.namespacedName);
 });
 
 store.watch(() => store.getters[GET_CURRENT_LOCALE.namespacedName], (newlocale, oldLocale) => {

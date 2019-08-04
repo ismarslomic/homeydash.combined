@@ -4,10 +4,10 @@ import {GeolocationCoordinates} from '@/types/geolocation';
 import {User} from '@/types/user';
 import {AthomCloudAPI, HomeyAPI} from 'athom-api';
 import {
-    DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    DONE_LOADING_HOMEY_GEO_COORDINATES,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
-    START_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    START_LOADING_HOMEY_GEO_COORDINATES,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
@@ -97,18 +97,18 @@ class AthomService {
 
     private _getHomeyGeoCoordinates(): Promise<GeolocationCoordinates> {
         return new Promise((resolve, reject) => {
-            store.dispatch(START_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+            store.dispatch(START_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
             // @ts-ignore
             this.homeyAPI.geolocation.getOptionLocation()
             // @ts-ignore
                 .then((homeyCoordinates: any) => {
-                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+                    store.dispatch(DONE_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
                     resolve(mapGeolocationCoordinates(homeyCoordinates));
                 })
                 .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error(error);
-                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+                    store.dispatch(DONE_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
                     reject(error);
                 });
         });

@@ -7,7 +7,7 @@ import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
 import {CHANGE_WEATHER_LOCATION, FETCH_WEATHER_FORECAST, FETCH_WEATHER_LOCATIONS} from '@/store/actions.type';
 import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
-    GET_CURRENT_LOCALE,
+    GET_LOCALE,
     GET_HOMEY_GEO_COORDINATES,
     GET_WEATHER_FORECAST,
     GET_WEATHER_LOCATION,
@@ -87,7 +87,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             if (!stateHomeyGeoCoordinates) {
                 resolve();
             } else {
-                const currentLocale: string = rootGetters[GET_CURRENT_LOCALE.namespacedName];
+                const currentLocale: string = rootGetters[GET_LOCALE.namespacedName];
                 GeolocationDetailsService.getGeolocationDetails(stateHomeyGeoCoordinates, currentLocale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {

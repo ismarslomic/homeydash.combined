@@ -30,8 +30,8 @@ export const CHANGE_WEATHER_LOCATION: ActionsType =
 export const INITIALIZE_LOCALE: ActionsType =
     new ActionsType('initialiseLocale', 'locale');
 
-export const UPDATE_LOCALE: ActionsType =
-    new ActionsType('updateLocale', 'locale');
+export const CHANGE_LOCALE: ActionsType =
+    new ActionsType('changeLocale', 'locale');
 
 // Auth
 export const FETCH_AUTHENTICATED_USER: ActionsType =
@@ -41,21 +41,27 @@ export const CHANGE_ATHOM_API_TOKEN: ActionsType =
     new ActionsType('changeAthomApiToken', 'auth');
 
 // Setup
-export const UPDATE_IS_SETUP_COMPLETED: ActionsType =
-    new ActionsType('updateIsSetupCompleted', 'setup');
+export const CHANGE_IS_SETUP_COMPLETED: ActionsType =
+    new ActionsType('changeIsSetupCompleted', 'setup');
 
 // Loading
-export const START_LOADING_GEOLOCATION: ActionsType =
-    new ActionsType('startLoadingGeolocation', 'loading');
+export const START_LOADING_WEATHER_LOCATION: ActionsType =
+    new ActionsType('startLoadingWeatherLocation', 'loading');
 
-export const DONE_LOADING_GEOLOCATION: ActionsType =
-    new ActionsType('doneLoadingGeolocation', 'loading');
+export const DONE_LOADING_WEATHER_LOCATION: ActionsType =
+    new ActionsType('doneLoadingWeatherLocation', 'loading');
 
-export const START_LOADING_WEATHER: ActionsType =
-    new ActionsType('startLoadingWeather', 'loading');
+export const START_LOADING_WEATHER_FORECAST: ActionsType =
+    new ActionsType('startLoadingWeatherForecast', 'loading');
 
-export const DONE_LOADING_WEATHER: ActionsType =
-    new ActionsType('doneLoadingWeather', 'loading');
+export const DONE_LOADING_WEATHER_FORECAST: ActionsType =
+    new ActionsType('doneLoadingWeatherForecast', 'loading');
+
+export const START_LOADING_HOMEY_GEO_COORDINATES: ActionsType =
+    new ActionsType('startLoadingHomeyGeoCoordinates', 'loading');
+
+export const DONE_LOADING_HOMEY_GEO_COORDINATES: ActionsType =
+    new ActionsType('doneLoadingHomeyGeoCoordinates', 'loading');
 
 export const START_LOADING_USER_AUTHENTICATION: ActionsType =
     new ActionsType('startLoadingUserAuthentication', 'loading');
@@ -68,9 +74,3 @@ export const START_LOADING_USER: ActionsType =
 
 export const DONE_LOADING_USER: ActionsType =
     new ActionsType('doneLoadingUser', 'loading');
-
-export const START_LOADING_HOMEY_GEOLOCATION_COORDINATES: ActionsType =
-    new ActionsType('startLoadingHomeyGeolocationCoordinates', 'loading');
-
-export const DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES: ActionsType =
-    new ActionsType('doneLoadingHomeyGeolocationCoordinates', 'loading');

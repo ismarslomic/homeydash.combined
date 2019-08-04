@@ -8,7 +8,7 @@ import {RootState} from '@/types/types';
 import Vue from 'vue';
 import Vuex, {StoreOptions} from 'vuex';
 import {FETCH_WEATHER_FORECAST, INITIALIZE_LOCALE, FETCH_WEATHER_LOCATIONS} from '@/store/actions.type';
-import {GET_CURRENT_LOCALE, GET_WEATHER_LOCATION} from '@/store/getters.type';
+import {GET_LOCALE, GET_WEATHER_LOCATION} from '@/store/getters.type';
 import VuexPersistence from 'vuex-persist';
 
 Vue.use(Vuex);
@@ -37,7 +37,7 @@ store.watch(() => store.getters[GET_WEATHER_LOCATION.namespacedName], () => {
     store.dispatch(FETCH_WEATHER_FORECAST.namespacedName);
 });
 
-store.watch(() => store.getters[GET_CURRENT_LOCALE.namespacedName], (newlocale, oldLocale) => {
+store.watch(() => store.getters[GET_LOCALE.namespacedName], (newlocale, oldLocale) => {
     // We want to ignore the initial locale setting where oldLocale is empty
     if (oldLocale) {
         store.dispatch(FETCH_WEATHER_LOCATIONS.namespacedName);

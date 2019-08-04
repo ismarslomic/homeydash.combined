@@ -24,17 +24,23 @@ export const SET_AVAILABLE_WEATHER_LOCATIONS: MutationsType =
     new MutationsType('setAvailableWeatherLocations');
 
 // Loading
-export const INCREASE_GEOLOCATION_WAITING_COUNT: MutationsType =
-    new MutationsType('increaseGeolocationWaitingCount');
+export const INCREASE_WEATHER_LOCATION_WAITING_COUNT: MutationsType =
+    new MutationsType('increaseWeatherLocationWaitingCount');
 
-export const DECREASE_GEOLOCATION_WAITING_COUNT: MutationsType =
-    new MutationsType('decreaseGeolocationWaitingCount');
+export const DECREASE_WEATHER_LOCATION_WAITING_COUNT: MutationsType =
+    new MutationsType('decreaseWeatherLocationWaitingCount');
 
-export const INCREASE_WEATHER_WAITING_COUNT: MutationsType =
-    new MutationsType('increaseWeatherWaitingCount');
+export const INCREASE_WEATHER_FORECAST_WAITING_COUNT: MutationsType =
+    new MutationsType('increaseWeatherForecastWaitingCount');
 
-export const DECREASE_WEATHER_WAITING_COUNT: MutationsType =
-    new MutationsType('decreaseWeatherWaitingCount');
+export const DECREASE_WEATHER_FORECAST_WAITING_COUNT: MutationsType =
+    new MutationsType('decreaseWeatherForecastWaitingCount');
+
+export const INCREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT: MutationsType =
+    new MutationsType('increaseHomeyGeoCoordinatesWaitingCount');
+
+export const DECREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT: MutationsType =
+    new MutationsType('decreaseHomeyGeoCoordinatesWaitingCount');
 
 export const INCREASE_USER_AUTHENTICATION_WAITING_COUNT: MutationsType =
     new MutationsType('increaseUserAuthenticationWaitingCount');
@@ -47,12 +53,6 @@ export const INCREASE_USER_WAITING_COUNT: MutationsType =
 
 export const DEACREASE_USER_WAITING_COUNT: MutationsType =
     new MutationsType('decreaseUserWaitingCount');
-
-export const INCREASE_GEOLOCATION_COORDINATES_WAITING_COUNT: MutationsType =
-    new MutationsType('increaseGeolocationCoordinatesWaitingCount');
-
-export const DECREASE_GEOLOCATION_COORDINATES_WAITING_COUNT: MutationsType =
-    new MutationsType('decreaseGeolocationCoordinatesWaitingCount');
 
 // Locale
 export const SET_LOCALE: MutationsType =

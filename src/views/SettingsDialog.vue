@@ -53,10 +53,10 @@ import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation'
 import { SettingsComponent } from '@/types/settings';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
-import {UPDATE_LOCALE, CHANGE_WEATHER_LOCATION, FETCH_HOMEY} from '@/store/actions.type';
+import {CHANGE_LOCALE, CHANGE_WEATHER_LOCATION, FETCH_HOMEY} from '@/store/actions.type';
 import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
-    GET_HOMEY_GEO_COORDINATES, GET_CURRENT_LOCALE,
+    GET_HOMEY_GEO_COORDINATES, GET_LOCALE,
     GET_WEATHER_LOCATION,
     IS_HOMEY_GEO_COORDINATES_LOADED,
     IS_WEATHER_LOCATION_LOADED
@@ -80,14 +80,14 @@ export default class SettingsDialog extends Vue {
         {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isDetailsDataLoaded!: boolean;
     @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
         {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
-    @Getter(GET_CURRENT_LOCALE.getterName,
-        {namespace: GET_CURRENT_LOCALE.namespace}) currentLocale!: string;
+    @Getter(GET_LOCALE.getterName,
+        {namespace: GET_LOCALE.namespace}) currentLocale!: string;
     @Action(CHANGE_WEATHER_LOCATION.actionName,
         {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
     @Action(FETCH_HOMEY.actionName,
         {namespace: FETCH_HOMEY.namespace}) fetchHomey: any;
-    @Action(UPDATE_LOCALE.actionName,
-        {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
+    @Action(CHANGE_LOCALE.actionName,
+        {namespace: CHANGE_LOCALE.namespace}) setLocale: any;
     isDialogOpen: boolean = false;
     currentSettingsComponent: SettingsComponent = settingsList;
     localesPicker: SettingsComponent = localesPicker;

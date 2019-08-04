@@ -89,16 +89,16 @@ import {
     FETCH_AUTHENTICATED_USER,
     FETCH_HOMEY,
     FETCH_WEATHER_LOCATIONS,
-    UPDATE_IS_SETUP_COMPLETED, UPDATE_LOCALE
+    CHANGE_IS_SETUP_COMPLETED, CHANGE_LOCALE
 } from '@/store/actions.type';
 import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
-    GET_CURRENT_LOCALE,
+    GET_LOCALE,
     GET_HOMEY_GEO_COORDINATES,
     GET_WEATHER_LOCATION,
     IS_LOADING_AUTHENTICATION,
-    IS_LOADING_COORDINATES,
-    IS_LOADING_GEOLOCATION,
+    IS_LOADING_HOMEY_GEO_COORDINATES,
+    IS_LOADING_WEATHER_LOCATION,
     IS_LOADING_USER
 } from '@/store/getters.type';
 import {AthomApiToken} from '@/types/athomapi';
@@ -129,14 +129,14 @@ export default class Setup extends Vue {
         {namespace: IS_LOADING_AUTHENTICATION.namespace}) isLoadingAuthentication!: boolean;
     @Getter(IS_LOADING_USER.getterName,
         {namespace: IS_LOADING_USER.namespace}) isLoadingUser!: boolean;
-    @Getter(IS_LOADING_COORDINATES.getterName,
-        {namespace: IS_LOADING_COORDINATES.namespace}) isLoadingCoordinates!: boolean;
-    @Getter(IS_LOADING_GEOLOCATION.getterName,
-        {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
+    @Getter(IS_LOADING_HOMEY_GEO_COORDINATES.getterName,
+        {namespace: IS_LOADING_HOMEY_GEO_COORDINATES.namespace}) isLoadingCoordinates!: boolean;
+    @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
+        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingGeolocation!: boolean;
     @Getter(GET_HOMEY_GEO_COORDINATES.getterName,
         {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
-    @Getter(GET_CURRENT_LOCALE.getterName,
-        {namespace: GET_CURRENT_LOCALE.namespace}) currentLocale!: string;
+    @Getter(GET_LOCALE.getterName,
+        {namespace: GET_LOCALE.namespace}) currentLocale!: string;
     @Getter(GET_AVAILABLE_WEATHER_LOCATIONS.getterName,
         {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
     @Getter(GET_WEATHER_LOCATION.getterName,
@@ -149,10 +149,10 @@ export default class Setup extends Vue {
         {namespace: FETCH_WEATHER_LOCATIONS.namespace}) initialiseGeolocationDetails: any;
     @Action(CHANGE_WEATHER_LOCATION.actionName,
         {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
-    @Action(UPDATE_LOCALE.actionName,
-        {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
-    @Action(UPDATE_IS_SETUP_COMPLETED.actionName,
-        {namespace: UPDATE_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
+    @Action(CHANGE_LOCALE.actionName,
+        {namespace: CHANGE_LOCALE.namespace}) setLocale: any;
+    @Action(CHANGE_IS_SETUP_COMPLETED.actionName,
+        {namespace: CHANGE_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
     @Action(CHANGE_ATHOM_API_TOKEN.actionName,
         {namespace: CHANGE_ATHOM_API_TOKEN.namespace}) changeAthomApiToken: any;
 

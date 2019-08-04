@@ -28,11 +28,11 @@ export interface LocaleState {
 
 // Store api loading state
 export interface LoadingState {
-    geolocationWaitingCount: number;
-    weatherWaitingCount: number;
+    weatherLocationWaitingCount: number;
+    homeyGeoCoordinatesWaitingCount: number;
+    weatherForecastWaitingCount: number;
     userAuthenticationWaitingCount: number;
     userWaitingCount: number;
-    geolocationCoordinatesWaitingCount: number;
 }
 
 // Store homey authentication state

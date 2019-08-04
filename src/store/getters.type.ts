@@ -39,24 +39,24 @@ export const GET_AVAILABLE_WEATHER_LOCATIONS: GettersType =
     new GettersType('getAvailableWeatherLocations', 'weather');
 
 // Locale
-export const GET_CURRENT_LOCALE: GettersType =
-    new GettersType('currentLocale', 'locale');
+export const GET_LOCALE: GettersType =
+    new GettersType('getLocale', 'locale');
 
 // Loading
-export const IS_LOADING_GEOLOCATION: GettersType =
-    new GettersType('isLoadingGeolocation', 'loading');
+export const IS_LOADING_WEATHER_LOCATION: GettersType =
+    new GettersType('isLoadingWeatherLocation', 'loading');
 
-export const IS_LOADING_COORDINATES: GettersType =
-    new GettersType('isLoadingCoordinates', 'loading');
+export const IS_LOADING_WEATHER_FORECAST: GettersType =
+    new GettersType('isLoadingWeatherForecast', 'loading');
+
+export const IS_LOADING_HOMEY_GEO_COORDINATES: GettersType =
+    new GettersType('isLoadingHomeyGeoCoordinates', 'loading');
 
 export const IS_LOADING_USER: GettersType =
     new GettersType('isLoadingUser', 'loading');
 
 export const IS_LOADING_AUTHENTICATION: GettersType =
     new GettersType('isLoadingAuthentication', 'loading');
-
-export const IS_LOADING_WEATHER: GettersType =
-    new GettersType('isLoadingWeather', 'loading');
 
 // Auth
 export const GET_AUTH_USER: GettersType =

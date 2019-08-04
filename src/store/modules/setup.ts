@@ -1,6 +1,6 @@
 import {RootState, SetupState} from '@/types/types';
 import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
-import {UPDATE_IS_SETUP_COMPLETED} from '@/store/actions.type';
+import {CHANGE_IS_SETUP_COMPLETED} from '@/store/actions.type';
 import {IS_SETUP_COMPLETED} from '@/store/getters.type';
 import {SET_IS_SETUP_COMPLETED} from '@/store/mutations.type';
 
@@ -21,7 +21,7 @@ const mutations: MutationTree<SetupState> = {
 };
 
 export const actions: ActionTree<SetupState, RootState> = {
-    [UPDATE_IS_SETUP_COMPLETED.actionName]({commit}, theIsSetupCompleted: boolean) {
+    [CHANGE_IS_SETUP_COMPLETED.actionName]({commit}, theIsSetupCompleted: boolean) {
         return new Promise((resolve) => {
             commit(SET_IS_SETUP_COMPLETED.mutationName, theIsSetupCompleted);
             resolve();

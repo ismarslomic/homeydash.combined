@@ -123,8 +123,8 @@ import {
     GET_WEATHER_LOCATION, GET_WEATHER_FORECAST,
     IS_HOMEY_GEO_COORDINATES_LOADED,
     IS_WEATHER_LOCATION_LOADED,
-    IS_LOADING_GEOLOCATION,
-    IS_LOADING_WEATHER, IS_WEATHER_FORECAST_LOADED
+    IS_LOADING_WEATHER_LOCATION,
+    IS_LOADING_WEATHER_FORECAST, IS_WEATHER_FORECAST_LOADED
 } from '@/store/getters.type';
 
 @Component({
@@ -136,10 +136,10 @@ import {
 export default class Dashboard extends Vue {
     @Getter(GET_WEATHER_LOCATION.getterName,
         {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
-    @Getter(IS_LOADING_GEOLOCATION.getterName,
-        {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
-    @Getter(IS_LOADING_WEATHER.getterName,
-        {namespace: IS_LOADING_WEATHER.namespace}) isLoadingWeather!: boolean;
+    @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
+        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingGeolocation!: boolean;
+    @Getter(IS_LOADING_WEATHER_FORECAST.getterName,
+        {namespace: IS_LOADING_WEATHER_FORECAST.namespace}) isLoadingWeather!: boolean;
     @Getter(IS_WEATHER_FORECAST_LOADED.getterName,
         {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherDataLoaded!: boolean;
     @Getter(GET_WEATHER_FORECAST.getterName,

@@ -9,12 +9,12 @@
         <v-container grid-list-md fluid id="view-content-container">
             <v-layout row wrap>
                 <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
-                    <weather-short
-                        :weather="weather"
-                        :selectedLoaction="currentLocation"
+                    <weather-forecast-summary
+                        :weatherForecast="weatherForecast"
+                        :weatherLocation="weatherLocation"
                         :isRefreshingData="isRefreshingWeather"
                         :isDataLoaded="isWeatherLoaded">
-                    </weather-short>
+                    </weather-forecast-summary>
                 </v-flex>
                 <v-flex d-flex xs12 sm6 md4 order-xs2>
                     <v-card color="pink" tile>
@@ -113,7 +113,7 @@
 </template>
 
 <script lang="ts">
-import WeatherShort from '@/components/WeatherShort.vue';
+import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
 import { GeolocationDetails } from '@/types/geolocation';
 import { Weatherdata } from '@/types/weather';
 import SettingsDialog from '@/views/SettingsDialog.vue';
@@ -129,36 +129,36 @@ import {
 
 @Component({
     components: {
-        WeatherShort,
+        WeatherForecastSummary,
         SettingsDialog
     }
 })
 export default class Dashboard extends Vue {
     @Getter(GET_WEATHER_LOCATION.getterName,
-        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+        {namespace: GET_WEATHER_LOCATION.namespace}) weatherLocation?: GeolocationDetails;
     @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
-        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingGeolocation!: boolean;
+        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingWeatherLocation!: boolean;
     @Getter(IS_LOADING_WEATHER_FORECAST.getterName,
-        {namespace: IS_LOADING_WEATHER_FORECAST.namespace}) isLoadingWeather!: boolean;
+        {namespace: IS_LOADING_WEATHER_FORECAST.namespace}) isLoadingWeatherForecast!: boolean;
     @Getter(IS_WEATHER_FORECAST_LOADED.getterName,
-        {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherDataLoaded!: boolean;
+        {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherForecastLoaded!: boolean;
     @Getter(GET_WEATHER_FORECAST.getterName,
-        {namespace: GET_WEATHER_FORECAST.namespace}) weather?: Weatherdata;
+        {namespace: GET_WEATHER_FORECAST.namespace}) weatherForecast?: Weatherdata;
     @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
-        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
     @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
-        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isWeatherLocationLoaded!: boolean;
 
     now: Date = new Date();
 
     private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
 
     get isRefreshingWeather(): boolean {
-        return this.isLoadingGeolocation || this.isLoadingWeather;
+        return this.isLoadingWeatherLocation || this.isLoadingWeatherForecast;
     }
 
     get isWeatherLoaded(): boolean {
-        return this.isWeatherDataLoaded && this.isCoordinateDataLoaded && this.isDetailsDataLoaded;
+        return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
     }
 
     private updateNow(): void {

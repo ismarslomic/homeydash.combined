@@ -10,7 +10,7 @@
             <progress-bar :show="isRefreshingData" title="Refreshing weather..."></progress-bar>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
-                    <h2>{{selectedLoaction.name}}</h2>
+                    <h2>{{weatherLocation.name}}</h2>
                     <h4>{{$d(new Date(this.nowForecast.start), 'longTime')}} - {{$d(new Date(this.nowForecast.end), 'shortTime')}}, {{$t(`weather.${nowForecast.symbol.text}`)}}</h4>
                     <v-layout row ma-0 align-center justify-space-between fill-height>
                         <v-flex pa-0>
@@ -75,9 +75,9 @@
             ProgressBar
         }
     })
-    export default class WeatherShort extends Vue {
-        @Prop() private weather!: Weatherdata;
-        @Prop() private selectedLoaction!: Geolocation;
+    export default class WeatherForecastSummary extends Vue {
+        @Prop() private weatherForecast!: Weatherdata;
+        @Prop() private weatherLocation!: Geolocation;
         @Prop() private isRefreshingData!: boolean;
         @Prop() private isDataLoaded!: boolean;
 
@@ -85,15 +85,15 @@
          * We jump over the first forecast interval, since that is now and we already show it
          */
         get sixHoursForecasts(): WeatherInterval[] {
-            return this.weather.shortIntervals.slice(1, 7);
+            return this.weatherForecast.shortIntervals.slice(1, 7);
         }
 
         /**
-         * We don´t need to check if weather and shortIntervals are set because this
+         * We don´t need to check if weatherForecast and shortIntervals are set because this
          * computed method is called from v-if directive in template
          */
         get nowForecast(): WeatherInterval {
-            return this.weather.shortIntervals[0];
+            return this.weatherForecast.shortIntervals[0];
         }
     }
 </script>

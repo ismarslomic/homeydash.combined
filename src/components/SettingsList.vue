@@ -22,7 +22,7 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>{{$t(localesPicker.title)}}</v-list-tile-title>
-                    <v-list-tile-sub-title>{{$t(`locales.${currentLocale}`)}}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title>{{$t(`locales.${locale}`)}}</v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
 
@@ -32,8 +32,8 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>{{$t(locationPicker.title)}}</v-list-tile-title>
-                    <v-list-tile-sub-title v-if="isDetailsDataLoaded">{{currentLocation.name}} -
-                        {{currentLocation.category.name}} - {{currentLocation.country.name}}/{{currentLocation.region.name}}/{{currentLocation.subregion.name}}
+                    <v-list-tile-sub-title v-if="isWeatherLocationLoaded">{{weatherLocation.name}} -
+                        {{weatherLocation.category.name}} - {{weatherLocation.country.name}}/{{weatherLocation.region.name}}/{{weatherLocation.subregion.name}}
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
@@ -44,9 +44,9 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>{{$t(coordinatesRefresh.title)}}</v-list-tile-title>
-                    <v-list-tile-sub-title v-if="isCoordinateDataLoaded">
-                        {{$t('components.settings.coordinates.long')}}: {{currentCoordinates.longitude}} |
-                        {{$t('components.settings.coordinates.lat')}}: {{currentCoordinates.latitude}}
+                    <v-list-tile-sub-title v-if="isHomeyGeoCoordinatesLoaded">
+                        {{$t('components.settings.coordinates.long')}}: {{homeyGeoCoordinates.longitude}} |
+                        {{$t('components.settings.coordinates.lat')}}: {{homeyGeoCoordinates.latitude}}
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
@@ -71,11 +71,11 @@
         locationPicker: SettingsComponent = locationPicker;
         coordinatesRefresh: SettingsComponent = coordinatesRefresh;
 
-        @Prop() private currentLocale!: string;
-        @Prop() private currentLocation!: GeolocationDetails;
-        @Prop() private currentCoordinates!: GeolocationCoordinates;
-        @Prop() private isDetailsDataLoaded!: boolean;
-        @Prop() private isCoordinateDataLoaded!: boolean;
+        @Prop() private locale!: string;
+        @Prop() private weatherLocation!: GeolocationDetails;
+        @Prop() private homeyGeoCoordinates!: GeolocationCoordinates;
+        @Prop() private isWeatherLocationLoaded!: boolean;
+        @Prop() private isHomeyGeoCoordinatesLoaded!: boolean;
         @Prop() private isRefreshingCoordinates!: boolean;
 
     }

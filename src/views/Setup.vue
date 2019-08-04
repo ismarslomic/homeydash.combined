@@ -14,8 +14,8 @@
                         <v-stepper-content step="1">
                             <locales-picker
                                     :availableLocales="availableLocales"
-                                    :currentLocale="currentLocale"
-                                    @updateCurrentLocale="changeLocale">
+                                    :locale="locale"
+                                    @updateLocale="changeLocale">
                             </locales-picker>
                             <v-btn @click="nextStep(1)" color="primary" class="pa-0 ma-0">{{$t('actions.continue')}}</v-btn>
                         </v-stepper-content>
@@ -65,11 +65,11 @@
                             {{$t('views.setup.geolocation.title')}}
                         </v-stepper-step>
                         <v-stepper-content step="4">
-                            <locations-picker
-                                    :availableLocations="availableLocations"
-                                    :currentLocation="currentLocation"
-                                    @updateCurrentLocation="changeCurrentLocation">
-                            </locations-picker>
+                            <weather-locations-picker
+                                    :availableWeatherLocations="availableWeatherLocations"
+                                    :weatherLocation="weatherLocation"
+                                    @updateWeatherLocation="updateWeatherLocation">
+                            </weather-locations-picker>
                             <v-btn @click="previousStep(4)" flat class="pa-0 ma-0">{{$t('actions.back')}}</v-btn>
                             <v-btn @click="completeSetup()" color="primary" class="pa-0 ma-0">{{$t('actions.finish')}}</v-btn>
                         </v-stepper-content>
@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import LocalesPicker from '@/components/LocalesPicker.vue';
-import LocationsPicker from '@/components/LocationsPicker.vue';
+import WeatherLocationsPicker from '@/components/WeatherLocationsPicker.vue';
 import {
     CHANGE_ATHOM_API_TOKEN,
     CHANGE_WEATHER_LOCATION,
@@ -94,7 +94,6 @@ import {
 import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
     GET_LOCALE,
-    GET_HOMEY_GEO_COORDINATES,
     GET_WEATHER_LOCATION,
     IS_LOADING_AUTHENTICATION,
     IS_LOADING_HOMEY_GEO_COORDINATES,
@@ -102,57 +101,43 @@ import {
     IS_LOADING_USER
 } from '@/store/getters.type';
 import {AthomApiToken} from '@/types/athomapi';
-import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
+import {GeolocationDetails} from '@/types/geolocation';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
 
 @Component({
     components: {
         LocalesPicker,
-        LocationsPicker
+        WeatherLocationsPicker
     }
 })
 export default class Setup extends Vue {
-
-    get isLoadingData(): boolean {
-        return this.isLoadingAuthentication ||
-            this.isLoadingUser ||
-            this.isLoadingCoordinates ||
-            this.isLoadingGeolocation;
-    }
-
-    get availableLocales(): string[] {
-        return this.$i18n.availableLocales;
-    }
-
     @Getter(IS_LOADING_AUTHENTICATION.getterName,
         {namespace: IS_LOADING_AUTHENTICATION.namespace}) isLoadingAuthentication!: boolean;
     @Getter(IS_LOADING_USER.getterName,
         {namespace: IS_LOADING_USER.namespace}) isLoadingUser!: boolean;
     @Getter(IS_LOADING_HOMEY_GEO_COORDINATES.getterName,
-        {namespace: IS_LOADING_HOMEY_GEO_COORDINATES.namespace}) isLoadingCoordinates!: boolean;
+        {namespace: IS_LOADING_HOMEY_GEO_COORDINATES.namespace}) isLoadingHomeyGeoCoordinates!: boolean;
     @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
-        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingGeolocation!: boolean;
-    @Getter(GET_HOMEY_GEO_COORDINATES.getterName,
-        {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
+        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingWeatherLocation!: boolean;
     @Getter(GET_LOCALE.getterName,
-        {namespace: GET_LOCALE.namespace}) currentLocale!: string;
+        {namespace: GET_LOCALE.namespace}) locale!: string;
     @Getter(GET_AVAILABLE_WEATHER_LOCATIONS.getterName,
-        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
+        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableWeatherLocations!: GeolocationDetails[];
     @Getter(GET_WEATHER_LOCATION.getterName,
-        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+        {namespace: GET_WEATHER_LOCATION.namespace}) weatherLocation?: GeolocationDetails;
     @Action(FETCH_AUTHENTICATED_USER.actionName,
         {namespace: FETCH_AUTHENTICATED_USER.namespace}) fetchAuthenticatedUser: any;
     @Action(FETCH_HOMEY.actionName,
-        {namespace: FETCH_HOMEY.namespace}) initialiseGeolocationCoordinates: any;
+        {namespace: FETCH_HOMEY.namespace}) fetchHomey: any;
     @Action(FETCH_WEATHER_LOCATIONS.actionName,
-        {namespace: FETCH_WEATHER_LOCATIONS.namespace}) initialiseGeolocationDetails: any;
+        {namespace: FETCH_WEATHER_LOCATIONS.namespace}) fetchWeatherLocations: any;
     @Action(CHANGE_WEATHER_LOCATION.actionName,
-        {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
+        {namespace: CHANGE_WEATHER_LOCATION.namespace}) changeWeatherLocation: any;
     @Action(CHANGE_LOCALE.actionName,
-        {namespace: CHANGE_LOCALE.namespace}) setLocale: any;
+        {namespace: CHANGE_LOCALE.namespace}) changeLocale: any;
     @Action(CHANGE_IS_SETUP_COMPLETED.actionName,
-        {namespace: CHANGE_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
+        {namespace: CHANGE_IS_SETUP_COMPLETED.namespace}) changeIsSetupCompleted: any;
     @Action(CHANGE_ATHOM_API_TOKEN.actionName,
         {namespace: CHANGE_ATHOM_API_TOKEN.namespace}) changeAthomApiToken: any;
 
@@ -167,6 +152,17 @@ export default class Setup extends Vue {
         required: (v: string) => !!v || this.$parent.$t('validations.required'),
         canDecode: (v: string) => !!this.decodeToken(v) || this.$parent.$t('validations.decodingTokenFailed')
     };
+
+    get isLoadingData(): boolean {
+        return this.isLoadingAuthentication ||
+            this.isLoadingUser ||
+            this.isLoadingHomeyGeoCoordinates ||
+            this.isLoadingWeatherLocation;
+    }
+
+    get availableLocales(): string[] {
+        return this.$i18n.availableLocales;
+    }
 
     @Watch('tokenInput')
     onTokenInputChange(newValue: string) {
@@ -212,7 +208,7 @@ export default class Setup extends Vue {
     }
 
     completeSetup(): void {
-        this.setIsSetupCompleted(true).then(() => {
+        this.changeIsSetupCompleted(true).then(() => {
             this.$router.push({
                 name: 'dashboard'
             });
@@ -223,9 +219,9 @@ export default class Setup extends Vue {
         this.changeAthomApiToken(token)
             .then(() => {
                 this.fetchAuthenticatedUser().then(() => {
-                    this.initialiseGeolocationCoordinates()
+                    this.fetchHomey()
                         .then(() => {
-                            this.initialiseGeolocationDetails()
+                            this.fetchWeatherLocations()
                                 .then(() => {
                                     this.isGeolocationLoaded = true;
                                 });
@@ -238,12 +234,12 @@ export default class Setup extends Vue {
         return (!!this.tokenDecoded);
     }
 
-    changeLocale(locale: string): void {
-        this.setLocale(locale);
+    updateLocale(locale: string): void {
+        this.changeLocale(locale);
     }
 
-    changeCurrentLocation(location: GeolocationDetails): void {
-        this.updateCurrentGeolocationDetails(location);
+    updateWeatherLocation(location: GeolocationDetails): void {
+        this.changeWeatherLocation(location);
     }
 }
 </script>

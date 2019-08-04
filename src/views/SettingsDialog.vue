@@ -18,27 +18,27 @@
 
                 <settings-list
                     v-if="currentSettingsComponent === settingsList"
-                    :currentLocale="currentLocale"
-                    :currentLocation="currentLocation"
+                    :locale="locale"
+                    :weatherLocation="weatherLocation"
                     @settingsItemClicked="settingsItemClicked"
-                    :isDetailsDataLoaded="isDetailsDataLoaded"
-                    :currentCoordinates="currentCoordinates"
-                    :isCoordinateDataLoaded="isCoordinateDataLoaded">
+                    :isWeatherLocationLoaded="isWeatherLocationLoaded"
+                    :homeyGeoCoordinates="homeyGeoCoordinates"
+                    :isHomeyGeoCoordinatesLoaded="isHomeyGeoCoordinatesLoaded">
                 </settings-list>
 
                 <locales-picker
                     v-if="currentSettingsComponent === localesPicker"
                     :availableLocales="availableLocales"
-                    :currentLocale="currentLocale"
-                    @updateCurrentLocale="updateCurrentLocale">
+                    :locale="locale"
+                    @updateLocale="updateLocale">
                 </locales-picker>
 
-                <locations-picker
+                <weather-locations-picker
                     v-if="currentSettingsComponent === locationPicker"
-                    :availableLocations="availableLocations"
-                    :currentLocation="currentLocation"
-                    @updateCurrentLocation="updateCurrentLocation">
-                </locations-picker>
+                    :availableWeatherLocations="availableWeatherLocations"
+                    :weatherLocation="weatherLocation"
+                    @updateWeatherLocation="updateWeatherLocation">
+                </weather-locations-picker>
             </v-card>
         </v-dialog>
     </div>
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import LocalesPicker from '@/components/LocalesPicker.vue';
-import LocationsPicker from '@/components/LocationsPicker.vue';
+import WeatherLocationsPicker from '@/components/WeatherLocationsPicker.vue';
 import SettingsList from '@/components/SettingsList.vue';
 import { coordinatesRefresh, localesPicker, locationPicker, settingsList } from '@/constants/settings';
 import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
@@ -65,42 +65,42 @@ import {
 @Component({
     components: {
         SettingsList,
-        LocationsPicker,
+        WeatherLocationsPicker,
         LocalesPicker
     }
 })
 export default class SettingsDialog extends Vue {
     @Getter(GET_WEATHER_LOCATION.getterName,
-        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+        {namespace: GET_WEATHER_LOCATION.namespace}) weatherLocation?: GeolocationDetails;
     @Getter(GET_HOMEY_GEO_COORDINATES.getterName,
-        {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
+        {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) homeyGeoCoordinates?: GeolocationCoordinates;
     @Getter(GET_AVAILABLE_WEATHER_LOCATIONS.getterName,
-        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
+        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableWeatherLocations!: GeolocationDetails[];
     @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
-        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isWeatherLocationLoaded!: boolean;
     @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
-        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
     @Getter(GET_LOCALE.getterName,
-        {namespace: GET_LOCALE.namespace}) currentLocale!: string;
+        {namespace: GET_LOCALE.namespace}) locale!: string;
     @Action(CHANGE_WEATHER_LOCATION.actionName,
-        {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
+        {namespace: CHANGE_WEATHER_LOCATION.namespace}) changeWeatherLocation: any;
     @Action(FETCH_HOMEY.actionName,
         {namespace: FETCH_HOMEY.namespace}) fetchHomey: any;
     @Action(CHANGE_LOCALE.actionName,
-        {namespace: CHANGE_LOCALE.namespace}) setLocale: any;
+        {namespace: CHANGE_LOCALE.namespace}) changeLocale: any;
     isDialogOpen: boolean = false;
     currentSettingsComponent: SettingsComponent = settingsList;
     localesPicker: SettingsComponent = localesPicker;
     locationPicker: SettingsComponent = locationPicker;
     settingsList: SettingsComponent = settingsList;
 
-    updateCurrentLocation(location: GeolocationDetails): void {
-        this.updateCurrentGeolocationDetails(location);
+    updateWeatherLocation(location: GeolocationDetails): void {
+        this.changeWeatherLocation(location);
         this.closeSubMenu();
     }
 
-    updateCurrentLocale(locale: string): void {
-        this.setLocale(locale);
+    updateLocale(locale: string): void {
+        this.changeLocale(locale);
         this.closeSubMenu();
     }
 

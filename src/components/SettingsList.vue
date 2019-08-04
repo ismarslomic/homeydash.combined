@@ -3,12 +3,12 @@
         <v-list>
             <v-list-tile avatar>
                 <v-list-tile-avatar color="teal">
-                    <span class="white--text headline">I</span>
+                    <img :src="user.avatar" alt="Avatar">
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
-                    <v-list-tile-title>Ismar Slomic</v-list-tile-title>
-                    <v-list-tile-sub-title>Admin</v-list-tile-sub-title>
+                    <v-list-tile-title>{{user.name}} ({{user.role}})</v-list-tile-title>
+                    <v-list-tile-sub-title>{{homey.name}} (v.{{homey.softwareVersion}})</v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -62,7 +62,9 @@
 <script lang="ts">
     import { coordinatesRefresh, localesPicker, locationPicker } from '@/constants/settings';
     import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
+    import { Homey } from '@/types/homey';
     import { SettingsComponent } from '@/types/settings';
+    import { User } from '@/types/user';
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
     @Component({})
@@ -77,6 +79,8 @@
         @Prop() private isWeatherLocationLoaded!: boolean;
         @Prop() private isHomeyGeoCoordinatesLoaded!: boolean;
         @Prop() private isLoadingHomeyGeoCoordinates!: boolean;
+        @Prop() private user!: User;
+        @Prop() private homey!: Homey;
 
     }
 </script>

@@ -38,7 +38,7 @@
                 </v-list-tile-content>
             </v-list-tile>
 
-            <v-list-tile avatar @click="$emit('settingsItemClicked', coordinatesRefresh)">
+            <v-list-tile avatar @click="">
                 <v-list-tile-avatar>
                     <v-icon class="grey lighten-1 white--text">place</v-icon>
                 </v-list-tile-avatar>

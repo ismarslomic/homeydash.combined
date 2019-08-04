@@ -1,15 +1,17 @@
 import store from '@/store/store';
-import { AthomApiToken } from '@/types/athomapi';
-import { GeolocationCoordinates } from '@/types/geolocation';
-import { User } from '@/types/user';
-import { AthomCloudAPI, HomeyAPI } from 'athom-api';
+import {AthomApiToken} from '@/types/athomapi';
+import {GeolocationCoordinates} from '@/types/geolocation';
+import {User} from '@/types/user';
+import {AthomCloudAPI, HomeyAPI} from 'athom-api';
 import {
     DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES,
     DONE_LOADING_USER,
-    DONE_LOADING_USER_AUTHENTICATION, START_LOADING_HOMEY_GEOLOCATION_COORDINATES,
+    DONE_LOADING_USER_AUTHENTICATION,
+    START_LOADING_HOMEY_GEOLOCATION_COORDINATES,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
+import {GET_ATHOM_API_TOKEN} from '@/store/getters.type';
 
 class AthomService {
     private readonly CLIENT_ID: string = '5cbb504da1fc782009f52e46';
@@ -25,64 +27,91 @@ class AthomService {
         this.homeyAPI = null;
     }
 
-    authenticate(token: AthomApiToken): Promise<void> {
-        this.athomCloudAPI.setToken(token);
-        store.dispatch(START_LOADING_USER_AUTHENTICATION.namespacedName);
-        return this.athomCloudAPI.getAuthenticatedUser()
-        // @ts-ignore
-            .then((authenticatedUser: any) => {
-                return authenticatedUser.getFirstHomey();
-            })
-            .then((firstHomey: any) => {
-                return firstHomey.authenticate();
-            })
-            .then((api: any) => {
-                this.homeyAPI = api;
-                store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
-                return Promise.resolve();
-            })
-            .catch((error: any) => {
-                // tslint:disable-next-line:no-console
-                console.error(error);
-                Promise.reject(error);
-            });
+    authenticate(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const token: AthomApiToken = store.getters[GET_ATHOM_API_TOKEN.namespacedName];
+            this.athomCloudAPI.setToken(token);
+            store.dispatch(START_LOADING_USER_AUTHENTICATION.namespacedName);
+            this.athomCloudAPI.getAuthenticatedUser()
+            // @ts-ignore
+                .then((authenticatedUser: any) => {
+                    return authenticatedUser.getFirstHomey();
+                })
+                .then((firstHomey: any) => {
+                    return firstHomey.authenticate();
+                })
+                .then((api: any) => {
+                    this.homeyAPI = api;
+                    store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
+                    resolve();
+                })
+                .catch((error: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error);
+                    store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
+                    reject(error);
+                });
+        });
     }
 
     getAuthenticatedUser(): Promise<User> {
         if (!this.homeyAPI) {
-            return Promise.reject('User not authenticated, homeyAPI not initiated');
-        } else {
-            store.dispatch(START_LOADING_USER.namespacedName);
-            return this.homeyAPI.users.getUserMe()
-            // @ts-ignore
-                .then((homeyUser: any) => {
-                    store.dispatch(DONE_LOADING_USER.namespacedName);
-                    return Promise.resolve(mapUser(homeyUser));
-                })
-                .catch((error: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.error(error);
-                    Promise.reject(error);
+            return this.authenticate()
+                .then(() => {
+                    return this._getAuthenticatedUser();
                 });
+        } else {
+            return this._getAuthenticatedUser();
         }
     }
 
-    getGeolocationCoordinatesForHomey(): Promise<GeolocationCoordinates> {
+    getHomeyGeoCoordinates(): Promise<GeolocationCoordinates> {
         if (!this.homeyAPI) {
-            return Promise.reject('User not authenticated');
+            return this.authenticate()
+                .then(() => {
+                    return this._getHomeyGeoCoordinates();
+                });
         } else {
-            store.dispatch(START_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
-            return this.homeyAPI.geolocation.getOptionLocation()
+            return this._getHomeyGeoCoordinates();
+        }
+    }
+
+    private _getAuthenticatedUser(): Promise<User> {
+        return new Promise((resolve, reject) => {
+            store.dispatch(START_LOADING_USER.namespacedName);
             // @ts-ignore
-                .then((homeyCoordinates: any) => {
-                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
-                    return Promise.resolve(mapGeolocationCoordinates(homeyCoordinates));
+            this.homeyAPI.users.getUserMe()
+            // @ts-ignore
+                .then((homeyUser: any) => {
+                    store.dispatch(DONE_LOADING_USER.namespacedName);
+                    resolve(mapUser(homeyUser));
                 })
                 .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error(error);
+                    store.dispatch(DONE_LOADING_USER.namespacedName);
+                    reject(error);
                 });
-        }
+        });
+    }
+
+    private _getHomeyGeoCoordinates(): Promise<GeolocationCoordinates> {
+        return new Promise((resolve, reject) => {
+            store.dispatch(START_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+            // @ts-ignore
+            this.homeyAPI.geolocation.getOptionLocation()
+            // @ts-ignore
+                .then((homeyCoordinates: any) => {
+                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+                    resolve(mapGeolocationCoordinates(homeyCoordinates));
+                })
+                .catch((error: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error);
+                    store.dispatch(DONE_LOADING_HOMEY_GEOLOCATION_COORDINATES.namespacedName);
+                    reject(error);
+                });
+        });
     }
 }
 

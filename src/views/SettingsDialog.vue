@@ -53,13 +53,13 @@ import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation'
 import { SettingsComponent } from '@/types/settings';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
-import {UPDATE_LOCALE, UPDATE_CURRENT_GEOLOCATION_DETAILS, UPDATE_GEOLOCATION_COORDINATES} from '@/store/actions.type';
+import {UPDATE_LOCALE, CHANGE_WEATHER_LOCATION, FETCH_HOMEY} from '@/store/actions.type';
 import {
-    GET_AVAILABLE_LOCATIONS,
-    GET_CURRENT_COORDINATES, GET_CURRENT_LOCALE,
-    GET_CURRENT_LOCATION,
-    IS_COORDINATE_DATA_LOADED,
-    IS_DETAILS_DATA_LOADED
+    GET_AVAILABLE_WEATHER_LOCATIONS,
+    GET_HOMEY_GEO_COORDINATES, GET_CURRENT_LOCALE,
+    GET_WEATHER_LOCATION,
+    IS_HOMEY_GEO_COORDINATES_LOADED,
+    IS_WEATHER_LOCATION_LOADED
 } from '@/store/getters.type';
 
 @Component({
@@ -70,22 +70,22 @@ import {
     }
 })
 export default class SettingsDialog extends Vue {
-    @Getter(GET_CURRENT_LOCATION.getterName,
-        {namespace: GET_CURRENT_LOCATION.namespace}) currentLocation?: GeolocationDetails;
-    @Getter(GET_CURRENT_COORDINATES.getterName,
-        {namespace: GET_CURRENT_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
-    @Getter(GET_AVAILABLE_LOCATIONS.getterName,
-        {namespace: GET_AVAILABLE_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
-    @Getter(IS_DETAILS_DATA_LOADED.getterName,
-        {namespace: IS_DETAILS_DATA_LOADED.namespace}) isDetailsDataLoaded!: boolean;
-    @Getter(IS_COORDINATE_DATA_LOADED.getterName,
-        {namespace: IS_COORDINATE_DATA_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+    @Getter(GET_WEATHER_LOCATION.getterName,
+        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+    @Getter(GET_HOMEY_GEO_COORDINATES.getterName,
+        {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
+    @Getter(GET_AVAILABLE_WEATHER_LOCATIONS.getterName,
+        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
+    @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
+        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+    @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
+        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
     @Getter(GET_CURRENT_LOCALE.getterName,
         {namespace: GET_CURRENT_LOCALE.namespace}) currentLocale!: string;
-    @Action(UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName,
-        {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
-    @Action(UPDATE_GEOLOCATION_COORDINATES.actionName,
-        {namespace: UPDATE_GEOLOCATION_COORDINATES.namespace}) updateGeolocationCoordinates: any;
+    @Action(CHANGE_WEATHER_LOCATION.actionName,
+        {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
+    @Action(FETCH_HOMEY.actionName,
+        {namespace: FETCH_HOMEY.namespace}) fetchHomey: any;
     @Action(UPDATE_LOCALE.actionName,
         {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
     isDialogOpen: boolean = false;
@@ -106,7 +106,7 @@ export default class SettingsDialog extends Vue {
 
     settingsItemClicked(component: SettingsComponent): void {
         if (component.id === coordinatesRefresh.id) {
-            this.updateGeolocationCoordinates();
+            this.fetchHomey();
         } else {
             this.showSettingsComponent(component);
         }

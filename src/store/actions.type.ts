@@ -12,21 +12,19 @@ class ActionsType {
     }
 }
 
-// Geolocation
-export const UPDATE_GEOLOCATION_DETAILS_NEW_LOCALE: ActionsType =
-    new ActionsType('updateGeolocationDetailsNewLocale', 'geolocation');
+// Homey
+export const FETCH_HOMEY: ActionsType =
+    new ActionsType('fetchHomey', 'homey');
 
-export const INITIALIZE_GEOLOCATION_COORDINATES: ActionsType =
-    new ActionsType('initialiseGeolocationCoordinates', 'geolocation');
+// Weather
+export const FETCH_WEATHER_FORECAST: ActionsType =
+    new ActionsType('fetchWeatherForecast', 'weather');
 
-export const INITIALIZE_GEOLOCATION_DETAILS: ActionsType =
-    new ActionsType('initialiseGeolocationDetails', 'geolocation');
+export const FETCH_WEATHER_LOCATIONS: ActionsType =
+    new ActionsType('fetchWeatherLocations', 'weather');
 
-export const UPDATE_CURRENT_GEOLOCATION_DETAILS: ActionsType =
-    new ActionsType('updateCurrentGeolocationDetails', 'geolocation');
-
-export const UPDATE_GEOLOCATION_COORDINATES: ActionsType =
-    new ActionsType('updateGeolocationCoordinates', 'geolocation');
+export const CHANGE_WEATHER_LOCATION: ActionsType =
+    new ActionsType('changeWeatherLocation', 'weather');
 
 // Locale
 export const INITIALIZE_LOCALE: ActionsType =
@@ -35,13 +33,12 @@ export const INITIALIZE_LOCALE: ActionsType =
 export const UPDATE_LOCALE: ActionsType =
     new ActionsType('updateLocale', 'locale');
 
-// Weather
-export const FETCH_WEATHER: ActionsType =
-    new ActionsType('fetchWeather', 'weather');
-
-// User
+// Auth
 export const FETCH_AUTHENTICATED_USER: ActionsType =
-    new ActionsType('fetchAuthenticatedUser', 'user');
+    new ActionsType('fetchAuthenticatedUser', 'auth');
+
+export const CHANGE_ATHOM_API_TOKEN: ActionsType =
+    new ActionsType('changeAthomApiToken', 'auth');
 
 // Setup
 export const UPDATE_IS_SETUP_COMPLETED: ActionsType =

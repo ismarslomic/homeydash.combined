@@ -120,11 +120,11 @@ import SettingsDialog from '@/views/SettingsDialog.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import {
-    GET_CURRENT_LOCATION, GET_WEATHER,
-    IS_COORDINATE_DATA_LOADED,
-    IS_DETAILS_DATA_LOADED,
+    GET_WEATHER_LOCATION, GET_WEATHER_FORECAST,
+    IS_HOMEY_GEO_COORDINATES_LOADED,
+    IS_WEATHER_LOCATION_LOADED,
     IS_LOADING_GEOLOCATION,
-    IS_LOADING_WEATHER, IS_WEATHER_DATA_LOADED
+    IS_LOADING_WEATHER, IS_WEATHER_FORECAST_LOADED
 } from '@/store/getters.type';
 
 @Component({
@@ -134,20 +134,20 @@ import {
     }
 })
 export default class Dashboard extends Vue {
-    @Getter(GET_CURRENT_LOCATION.getterName,
-        {namespace: GET_CURRENT_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+    @Getter(GET_WEATHER_LOCATION.getterName,
+        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
     @Getter(IS_LOADING_GEOLOCATION.getterName,
         {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
     @Getter(IS_LOADING_WEATHER.getterName,
         {namespace: IS_LOADING_WEATHER.namespace}) isLoadingWeather!: boolean;
-    @Getter(IS_WEATHER_DATA_LOADED.getterName,
-        {namespace: IS_WEATHER_DATA_LOADED.namespace}) isWeatherDataLoaded!: boolean;
-    @Getter(GET_WEATHER.getterName,
-        {namespace: GET_WEATHER.namespace}) weather?: Weatherdata;
-    @Getter(IS_COORDINATE_DATA_LOADED.getterName,
-        {namespace: IS_COORDINATE_DATA_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
-    @Getter(IS_DETAILS_DATA_LOADED.getterName,
-        {namespace: IS_DETAILS_DATA_LOADED.namespace}) isDetailsDataLoaded!: boolean;
+    @Getter(IS_WEATHER_FORECAST_LOADED.getterName,
+        {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherDataLoaded!: boolean;
+    @Getter(GET_WEATHER_FORECAST.getterName,
+        {namespace: GET_WEATHER_FORECAST.namespace}) weather?: Weatherdata;
+    @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
+        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isCoordinateDataLoaded!: boolean;
+    @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
+        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isDetailsDataLoaded!: boolean;
 
     now: Date = new Date();
 

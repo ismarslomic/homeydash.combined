@@ -1,27 +1,24 @@
 import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
 import {User} from '@/types/user';
 import {Weatherdata} from '@/types/weather';
+import {Homey} from '@/types/homey';
+import {AthomApiToken} from '@/types/athomapi';
 
 // Store root state
 export interface RootState {
     weatherState: WeatherState;
-    geolocationState: GeolocationState;
     loadingState: LoadingState;
     locale: LocaleState;
-    user: UserState;
+    user: AuthState;
     setup: SetupState;
-}
-
-// Store geolocation state
-export interface GeolocationState {
-    coordinates?: GeolocationCoordinates;
-    currentLocation?: GeolocationDetails;
-    availableLocations?: GeolocationDetails[];
+    homey: HomeyState;
 }
 
 // Store weather state for geolocation
 export interface WeatherState {
-    weather?: Weatherdata;
+    weatherForecast?: Weatherdata;
+    availableWeatherLocations?: GeolocationDetails[];
+    weatherLocation?: GeolocationDetails;
 }
 
 // Store locale state
@@ -38,12 +35,19 @@ export interface LoadingState {
     geolocationCoordinatesWaitingCount: number;
 }
 
-// Store homey user profile state
-export interface UserState {
+// Store homey authentication state
+export interface AuthState {
     user?: User;
+    athomApiToken?: AthomApiToken;
 }
 
 // Store setup state
 export interface SetupState {
     isSetupCompleted: boolean;
+}
+
+// Store homey state
+export interface HomeyState {
+    homeyGeoCoordinates?: GeolocationCoordinates;
+    homey?: Homey;
 }

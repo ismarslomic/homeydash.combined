@@ -6,15 +6,22 @@ class MutationsType {
     }
 }
 
-// Geolocation
-export const SET_CURRENT_LOCATION: MutationsType =
-    new MutationsType('setCurrentLocation');
+// Homey
+export const SET_HOMEY_GEO_COORDINATES: MutationsType =
+    new MutationsType('setHomeyGeoCoordinates');
 
-export const SET_COORDINATES: MutationsType =
-    new MutationsType('setCoordinates');
+export const SET_HOMEY: MutationsType =
+    new MutationsType('setHomey');
 
-export const SET_AVAILABLE_LOCATIONS: MutationsType =
-    new MutationsType('setAvailableLocations');
+// Weather
+export const SET_WEATHER_FORECAST: MutationsType =
+    new MutationsType('setWeatherForecast');
+
+export const SET_WEATHER_LOCATION: MutationsType =
+    new MutationsType('setWeatherLocation');
+
+export const SET_AVAILABLE_WEATHER_LOCATIONS: MutationsType =
+    new MutationsType('setAvailableWeatherLocations');
 
 // Loading
 export const INCREASE_GEOLOCATION_WAITING_COUNT: MutationsType =
@@ -51,13 +58,12 @@ export const DECREASE_GEOLOCATION_COORDINATES_WAITING_COUNT: MutationsType =
 export const SET_LOCALE: MutationsType =
     new MutationsType('setLocale');
 
-// User
-export const SET_USER: MutationsType =
-    new MutationsType('setUser');
+// Auth
+export const SET_AUTH_USER: MutationsType =
+    new MutationsType('setAuthUser');
 
-// Weather
-export const SET_WEATHER: MutationsType =
-    new MutationsType('setWeather');
+export const SET_ATHOM_API_TOKEN: MutationsType =
+    new MutationsType('setAthomApiToken');
 
 // Setup
 export const SET_IS_SETUP_COMPLETED: MutationsType =

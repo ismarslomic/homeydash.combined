@@ -12,21 +12,31 @@ class GettersType {
     }
 }
 
-// Geolocation
-export const IS_COORDINATE_DATA_LOADED: GettersType =
-    new GettersType('isCoordinateDataLoaded', 'geolocation');
+// Homey
+export const IS_HOMEY_GEO_COORDINATES_LOADED: GettersType =
+    new GettersType('isHomeyGeoCoordinatesLoaded', 'homey');
 
-export const IS_DETAILS_DATA_LOADED: GettersType =
-    new GettersType('isDetailsDataLoaded', 'geolocation');
+export const GET_HOMEY_GEO_COORDINATES: GettersType =
+    new GettersType('getHomeyGeoCoordinates', 'homey');
 
-export const GET_CURRENT_COORDINATES: GettersType =
-    new GettersType('currentCoordinates', 'geolocation');
+export const GET_HOMEY: GettersType =
+    new GettersType('getHomey', 'homey');
 
-export const GET_AVAILABLE_LOCATIONS: GettersType =
-    new GettersType('availableLocations', 'geolocation');
+// Weather
+export const IS_WEATHER_FORECAST_LOADED: GettersType =
+    new GettersType('isWeatherForecastLoaded', 'weather');
 
-export const GET_CURRENT_LOCATION: GettersType =
-    new GettersType('currentLocation', 'geolocation');
+export const IS_WEATHER_LOCATION_LOADED: GettersType =
+    new GettersType('isWeatherLocationLoaded', 'weather');
+
+export const GET_WEATHER_FORECAST: GettersType =
+    new GettersType('getWeatherForecast', 'weather');
+
+export const GET_WEATHER_LOCATION: GettersType =
+    new GettersType('getWeatherLocation', 'weather');
+
+export const GET_AVAILABLE_WEATHER_LOCATIONS: GettersType =
+    new GettersType('getAvailableWeatherLocations', 'weather');
 
 // Locale
 export const GET_CURRENT_LOCALE: GettersType =
@@ -48,19 +58,15 @@ export const IS_LOADING_AUTHENTICATION: GettersType =
 export const IS_LOADING_WEATHER: GettersType =
     new GettersType('isLoadingWeather', 'loading');
 
-// Weather
-export const IS_WEATHER_DATA_LOADED: GettersType =
-    new GettersType('isWeatherDataLoaded', 'weather');
-
-export const GET_WEATHER: GettersType =
-    new GettersType('weather', 'weather');
-
-// User
-export const GET_USER: GettersType =
-    new GettersType('user', 'user');
+// Auth
+export const GET_AUTH_USER: GettersType =
+    new GettersType('getAuthUser', 'auth');
 
 export const IS_USER_AUTHENTICATED: GettersType =
-    new GettersType('isUserAuthenticated', 'user');
+    new GettersType('isUserAuthenticated', 'auth');
+
+export const GET_ATHOM_API_TOKEN: GettersType =
+    new GettersType('getAthomApiToken', 'auth');
 
 // Setup
 export const IS_SETUP_COMPLETED: GettersType =

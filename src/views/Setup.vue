@@ -83,21 +83,19 @@
 <script lang="ts">
 import LocalesPicker from '@/components/LocalesPicker.vue';
 import LocationsPicker from '@/components/LocationsPicker.vue';
-import AthomService from '@/services/AthomService';
 import {
+    CHANGE_ATHOM_API_TOKEN,
+    CHANGE_WEATHER_LOCATION,
     FETCH_AUTHENTICATED_USER,
-    INITIALIZE_GEOLOCATION_COORDINATES,
-    INITIALIZE_GEOLOCATION_DETAILS,
-    UPDATE_IS_SETUP_COMPLETED,
-    UPDATE_LOCALE,
-    UPDATE_CURRENT_GEOLOCATION_DETAILS
+    FETCH_HOMEY,
+    FETCH_WEATHER_LOCATIONS,
+    UPDATE_IS_SETUP_COMPLETED, UPDATE_LOCALE
 } from '@/store/actions.type';
 import {
-    GET_AVAILABLE_LOCATIONS,
-    GET_CURRENT_COORDINATES,
+    GET_AVAILABLE_WEATHER_LOCATIONS,
     GET_CURRENT_LOCALE,
-    GET_CURRENT_LOCATION,
-    GET_USER,
+    GET_HOMEY_GEO_COORDINATES,
+    GET_WEATHER_LOCATION,
     IS_LOADING_AUTHENTICATION,
     IS_LOADING_COORDINATES,
     IS_LOADING_GEOLOCATION,
@@ -105,7 +103,6 @@ import {
 } from '@/store/getters.type';
 import {AthomApiToken} from '@/types/athomapi';
 import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
-import {User} from '@/types/user';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import {Action, Getter} from 'vuex-class';
 
@@ -136,26 +133,28 @@ export default class Setup extends Vue {
         {namespace: IS_LOADING_COORDINATES.namespace}) isLoadingCoordinates!: boolean;
     @Getter(IS_LOADING_GEOLOCATION.getterName,
         {namespace: IS_LOADING_GEOLOCATION.namespace}) isLoadingGeolocation!: boolean;
-    @Getter(GET_CURRENT_COORDINATES.getterName,
-        {namespace: GET_CURRENT_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
+    @Getter(GET_HOMEY_GEO_COORDINATES.getterName,
+        {namespace: GET_HOMEY_GEO_COORDINATES.namespace}) currentCoordinates?: GeolocationCoordinates;
     @Getter(GET_CURRENT_LOCALE.getterName,
         {namespace: GET_CURRENT_LOCALE.namespace}) currentLocale!: string;
-    @Getter(GET_AVAILABLE_LOCATIONS.getterName,
-        {namespace: GET_AVAILABLE_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
-    @Getter(GET_CURRENT_LOCATION.getterName,
-        {namespace: GET_CURRENT_LOCATION.namespace}) currentLocation?: GeolocationDetails;
+    @Getter(GET_AVAILABLE_WEATHER_LOCATIONS.getterName,
+        {namespace: GET_AVAILABLE_WEATHER_LOCATIONS.namespace}) availableLocations!: GeolocationDetails[];
+    @Getter(GET_WEATHER_LOCATION.getterName,
+        {namespace: GET_WEATHER_LOCATION.namespace}) currentLocation?: GeolocationDetails;
     @Action(FETCH_AUTHENTICATED_USER.actionName,
         {namespace: FETCH_AUTHENTICATED_USER.namespace}) fetchAuthenticatedUser: any;
-    @Action(INITIALIZE_GEOLOCATION_COORDINATES.actionName,
-        {namespace: INITIALIZE_GEOLOCATION_COORDINATES.namespace}) initialiseGeolocationCoordinates: any;
-    @Action(INITIALIZE_GEOLOCATION_DETAILS.actionName,
-        {namespace: INITIALIZE_GEOLOCATION_DETAILS.namespace}) initialiseGeolocationDetails: any;
-    @Action(UPDATE_CURRENT_GEOLOCATION_DETAILS.actionName,
-        {namespace: UPDATE_CURRENT_GEOLOCATION_DETAILS.namespace}) updateCurrentGeolocationDetails: any;
+    @Action(FETCH_HOMEY.actionName,
+        {namespace: FETCH_HOMEY.namespace}) initialiseGeolocationCoordinates: any;
+    @Action(FETCH_WEATHER_LOCATIONS.actionName,
+        {namespace: FETCH_WEATHER_LOCATIONS.namespace}) initialiseGeolocationDetails: any;
+    @Action(CHANGE_WEATHER_LOCATION.actionName,
+        {namespace: CHANGE_WEATHER_LOCATION.namespace}) updateCurrentGeolocationDetails: any;
     @Action(UPDATE_LOCALE.actionName,
         {namespace: UPDATE_LOCALE.namespace}) setLocale: any;
     @Action(UPDATE_IS_SETUP_COMPLETED.actionName,
         {namespace: UPDATE_IS_SETUP_COMPLETED.namespace}) setIsSetupCompleted: any;
+    @Action(CHANGE_ATHOM_API_TOKEN.actionName,
+        {namespace: CHANGE_ATHOM_API_TOKEN.namespace}) changeAthomApiToken: any;
 
     currentStep: number = 0;
     tokenInput: string = '';
@@ -221,20 +220,17 @@ export default class Setup extends Vue {
     }
 
     fetchGeolocationDetails(token: AthomApiToken) {
-        AthomService.authenticate(token)
+        this.changeAthomApiToken(token)
             .then(() => {
-                this.fetchAuthenticatedUser();
-                this.initialiseGeolocationCoordinates()
-                    .then(() => {
-                        this.initialiseGeolocationDetails()
-                            .then(() => {
-                                this.isGeolocationLoaded = true;
-                            });
-                    });
-            })
-            .catch((error: any) => {
-                // tslint:disable-next-line:no-console
-                console.error(error);
+                this.fetchAuthenticatedUser().then(() => {
+                    this.initialiseGeolocationCoordinates()
+                        .then(() => {
+                            this.initialiseGeolocationDetails()
+                                .then(() => {
+                                    this.isGeolocationLoaded = true;
+                                });
+                        });
+                });
             });
     }
 

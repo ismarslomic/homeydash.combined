@@ -1,21 +1,21 @@
+import GeolocationDetailsService from '@/services/GeolocationDetailsService';
 import WeatherService from '@/services/WeatherService';
-import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
-import {RootState, WeatherState} from '@/types/types';
-import {Weatherdata} from '@/types/weather';
-import {AxiosError} from 'axios';
-import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
-import {CHANGE_WEATHER_LOCATION, FETCH_WEATHER_FORECAST, FETCH_WEATHER_LOCATIONS} from '@/store/actions.type';
+import { CHANGE_WEATHER_LOCATION, FETCH_WEATHER_FORECAST, FETCH_WEATHER_LOCATIONS } from '@/store/actions.type';
 import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
-    GET_LOCALE,
     GET_HOMEY_GEO_COORDINATES,
+    GET_LOCALE,
     GET_WEATHER_FORECAST,
     GET_WEATHER_LOCATION,
     IS_WEATHER_FORECAST_LOADED,
     IS_WEATHER_LOCATION_LOADED
 } from '@/store/getters.type';
-import {SET_AVAILABLE_WEATHER_LOCATIONS, SET_WEATHER_FORECAST, SET_WEATHER_LOCATION} from '@/store/mutations.type';
-import GeolocationDetailsService from '@/services/GeolocationDetailsService';
+import { SET_AVAILABLE_WEATHER_LOCATIONS, SET_WEATHER_FORECAST, SET_WEATHER_LOCATION } from '@/store/mutations.type';
+import { GeolocationCoordinates, GeolocationDetails } from '@/types/geolocation';
+import { RootState, WeatherState } from '@/types/types';
+import { Weatherdata } from '@/types/weather';
+import { AxiosError } from 'axios';
+import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: WeatherState = {
     weatherForecast: undefined,
@@ -43,14 +43,15 @@ export const getters: GetterTree<WeatherState, RootState> = {
 };
 
 const mutations: MutationTree<WeatherState> = {
-    [SET_WEATHER_FORECAST.mutationName](theState: WeatherState, weatherdata: Weatherdata) {
-        theState.weatherForecast = weatherdata;
+    [SET_WEATHER_FORECAST.mutationName](theState: WeatherState, theWeatherForecast: Weatherdata) {
+        theState.weatherForecast = theWeatherForecast;
     },
-    [SET_WEATHER_LOCATION.mutationName](theState: WeatherState, currentLocation: GeolocationDetails) {
-        theState.weatherLocation = currentLocation;
+    [SET_WEATHER_LOCATION.mutationName](theState: WeatherState, theWeatherLocation: GeolocationDetails) {
+        theState.weatherLocation = theWeatherLocation;
     },
-    [SET_AVAILABLE_WEATHER_LOCATIONS.mutationName](theState: WeatherState, availableLocations: GeolocationDetails[]) {
-        theState.availableWeatherLocations = availableLocations;
+    [SET_AVAILABLE_WEATHER_LOCATIONS.mutationName](theState: WeatherState,
+                                                   theAvailableWeatherLocations: GeolocationDetails[]) {
+        theState.availableWeatherLocations = theAvailableWeatherLocations;
     }
 };
 
@@ -87,8 +88,8 @@ export const actions: ActionTree<WeatherState, RootState> = {
             if (!stateHomeyGeoCoordinates) {
                 resolve();
             } else {
-                const currentLocale: string = rootGetters[GET_LOCALE.namespacedName];
-                GeolocationDetailsService.getGeolocationDetails(stateHomeyGeoCoordinates, currentLocale)
+                const locale: string = rootGetters[GET_LOCALE.namespacedName];
+                GeolocationDetailsService.getGeolocationDetails(stateHomeyGeoCoordinates, locale)
                     .then((response: GeolocationDetails[]) => {
                         if (response && response.length > 0) {
                             let weatherLocation: GeolocationDetails | undefined;
@@ -118,7 +119,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             commit(SET_WEATHER_LOCATION.mutationName, weatherLocation);
             resolve();
         });
-    },
+    }
 };
 
 export const weather: Module<WeatherState, RootState> = {

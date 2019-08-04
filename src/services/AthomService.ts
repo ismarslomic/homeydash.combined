@@ -1,17 +1,18 @@
-import store from '@/store/store';
-import {AthomApiToken} from '@/types/athomapi';
-import {GeolocationCoordinates} from '@/types/geolocation';
-import {User} from '@/types/user';
-import {AthomCloudAPI, HomeyAPI} from 'athom-api';
 import {
-    DONE_LOADING_HOMEY_GEO_COORDINATES,
+    DONE_LOADING_HOMEY,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
-    START_LOADING_HOMEY_GEO_COORDINATES,
+    START_LOADING_HOMEY,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
-import {GET_ATHOM_API_TOKEN} from '@/store/getters.type';
+import { GET_ATHOM_API_TOKEN } from '@/store/getters.type';
+import store from '@/store/store';
+import { AthomApiToken } from '@/types/athomapi';
+import { GeolocationCoordinates } from '@/types/geolocation';
+import { Homey } from '@/types/homey';
+import { User } from '@/types/user';
+import { AthomCloudAPI, HomeyAPI } from 'athom-api';
 
 class AthomService {
     private readonly CLIENT_ID: string = '5cbb504da1fc782009f52e46';
@@ -65,14 +66,14 @@ class AthomService {
         }
     }
 
-    getHomeyGeoCoordinates(): Promise<GeolocationCoordinates> {
+    getHomey(): Promise<Homey> {
         if (!this.homeyAPI) {
             return this.authenticate()
                 .then(() => {
-                    return this._getHomeyGeoCoordinates();
+                    return this._getHomey();
                 });
         } else {
-            return this._getHomeyGeoCoordinates();
+            return this._getHomey();
         }
     }
 
@@ -95,20 +96,23 @@ class AthomService {
         });
     }
 
-    private _getHomeyGeoCoordinates(): Promise<GeolocationCoordinates> {
+    private _getHomey(): Promise<Homey> {
         return new Promise((resolve, reject) => {
-            store.dispatch(START_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
+            store.dispatch(START_LOADING_HOMEY.namespacedName);
             // @ts-ignore
-            this.homeyAPI.geolocation.getOptionLocation()
+            this.athomCloudAPI.getAuthenticatedUser()
             // @ts-ignore
-                .then((homeyCoordinates: any) => {
-                    store.dispatch(DONE_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
-                    resolve(mapGeolocationCoordinates(homeyCoordinates));
+                .then((authenticatedUser: any) => {
+                    return authenticatedUser.getFirstHomey();
+                })
+                .then((firstHomey: any) => {
+                    store.dispatch(DONE_LOADING_HOMEY.namespacedName);
+                    resolve(mapHomey(firstHomey));
                 })
                 .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error(error);
-                    store.dispatch(DONE_LOADING_HOMEY_GEO_COORDINATES.namespacedName);
+                    store.dispatch(DONE_LOADING_HOMEY.namespacedName);
                     reject(error);
                 });
         });
@@ -123,11 +127,27 @@ function mapUser(userJson: any): User {
     };
 }
 
-function mapGeolocationCoordinates(homeyJson: any): GeolocationCoordinates {
+function mapHomey(homeyJson: any): Homey {
     return {
-        latitude: homeyJson.value.latitude,
-        longitude: homeyJson.value.longitude,
-        accuracy: homeyJson.value.accuracy
+        _id: homeyJson._id,
+        name: homeyJson.name,
+        language: homeyJson.language,
+        softwareVersion: homeyJson.softwareVersion,
+        state: homeyJson.state,
+        stateSince: homeyJson.stateSince,
+        mobileAppVersionSupported: homeyJson.mobileAppVersionSupported,
+        apiVersion: homeyJson.apiVersion,
+        id: homeyJson.id,
+        role: homeyJson.role,
+        homeyGeoCoordinates: mapGeolocationCoordinates(homeyJson.geolocation)
+    };
+}
+
+function mapGeolocationCoordinates(geoLocationJson: any): GeolocationCoordinates {
+    return {
+        latitude: geoLocationJson.latitude,
+        longitude: geoLocationJson.longitude,
+        accuracy: geoLocationJson.accuracy
     };
 }
 

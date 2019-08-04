@@ -1,10 +1,10 @@
 import {
-    DONE_LOADING_HOMEY_GEO_COORDINATES,
+    DONE_LOADING_HOMEY,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
     DONE_LOADING_WEATHER_FORECAST,
     DONE_LOADING_WEATHER_LOCATION,
-    START_LOADING_HOMEY_GEO_COORDINATES,
+    START_LOADING_HOMEY,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION,
     START_LOADING_WEATHER_FORECAST,
@@ -19,11 +19,11 @@ import {
 } from '@/store/getters.type';
 import {
     DEACREASE_USER_WAITING_COUNT,
-    DECREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT,
+    DECREASE_HOMEY_WAITING_COUNT,
     DECREASE_USER_AUTHENTICATION_WAITING_COUNT,
     DECREASE_WEATHER_FORECAST_WAITING_COUNT,
     DECREASE_WEATHER_LOCATION_WAITING_COUNT,
-    INCREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT,
+    INCREASE_HOMEY_WAITING_COUNT,
     INCREASE_USER_AUTHENTICATION_WAITING_COUNT,
     INCREASE_USER_WAITING_COUNT,
     INCREASE_WEATHER_FORECAST_WAITING_COUNT,
@@ -37,7 +37,7 @@ const state: LoadingState = {
     weatherForecastWaitingCount: 0,
     userAuthenticationWaitingCount: 0,
     userWaitingCount: 0,
-    homeyGeoCoordinatesWaitingCount: 0
+    homeyWaitingCount: 0
 };
 
 export const getters: GetterTree<LoadingState, RootState> = {
@@ -48,7 +48,7 @@ export const getters: GetterTree<LoadingState, RootState> = {
         return theState.weatherForecastWaitingCount > 0;
     },
     [IS_LOADING_HOMEY_GEO_COORDINATES.getterName]: (theState: LoadingState): boolean => {
-        return theState.homeyGeoCoordinatesWaitingCount > 0;
+        return theState.homeyWaitingCount > 0;
     },
     [IS_LOADING_AUTHENTICATION.getterName]: (theState: LoadingState): boolean => {
         return theState.userAuthenticationWaitingCount > 0;
@@ -71,11 +71,11 @@ const mutations: MutationTree<LoadingState> = {
     [DECREASE_WEATHER_FORECAST_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.weatherForecastWaitingCount -= 1;
     },
-    [INCREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT.mutationName](theState: LoadingState) {
-        theState.homeyGeoCoordinatesWaitingCount += 1;
+    [INCREASE_HOMEY_WAITING_COUNT.mutationName](theState: LoadingState) {
+        theState.homeyWaitingCount += 1;
     },
-    [DECREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT.mutationName](theState: LoadingState) {
-        theState.homeyGeoCoordinatesWaitingCount -= 1;
+    [DECREASE_HOMEY_WAITING_COUNT.mutationName](theState: LoadingState) {
+        theState.homeyWaitingCount -= 1;
     },
     [INCREASE_USER_AUTHENTICATION_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userAuthenticationWaitingCount += 1;
@@ -115,17 +115,16 @@ export const actions: ActionTree<LoadingState, RootState> = {
             commit(DECREASE_WEATHER_FORECAST_WAITING_COUNT.mutationName);
             resolve();
         });
-    }
-    ,
-    [START_LOADING_HOMEY_GEO_COORDINATES.actionName]({commit}) {
+    },
+    [START_LOADING_HOMEY.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit(INCREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT.mutationName);
+            commit(INCREASE_HOMEY_WAITING_COUNT.mutationName);
             resolve();
         });
     },
-    [DONE_LOADING_HOMEY_GEO_COORDINATES.actionName]({commit}) {
+    [DONE_LOADING_HOMEY.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit(DECREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT.mutationName);
+            commit(DECREASE_HOMEY_WAITING_COUNT.mutationName);
             resolve();
         });
     },

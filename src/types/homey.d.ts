@@ -1,3 +1,5 @@
+import { GeolocationCoordinates } from '@/types/geolocation';
+
 export interface Homey {
     _id: string;
     name: string;
@@ -9,4 +11,5 @@ export interface Homey {
     apiVersion: number;
     id: string;
     role: string;
+    homeyGeoCoordinates: GeolocationCoordinates;
 }

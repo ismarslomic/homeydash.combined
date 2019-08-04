@@ -57,11 +57,11 @@ export const START_LOADING_WEATHER_FORECAST: ActionsType =
 export const DONE_LOADING_WEATHER_FORECAST: ActionsType =
     new ActionsType('doneLoadingWeatherForecast', 'loading');
 
-export const START_LOADING_HOMEY_GEO_COORDINATES: ActionsType =
-    new ActionsType('startLoadingHomeyGeoCoordinates', 'loading');
+export const START_LOADING_HOMEY: ActionsType =
+    new ActionsType('startLoadingHomey', 'loading');
 
-export const DONE_LOADING_HOMEY_GEO_COORDINATES: ActionsType =
-    new ActionsType('doneLoadingHomeyGeoCoordinates', 'loading');
+export const DONE_LOADING_HOMEY: ActionsType =
+    new ActionsType('doneLoadingHomey', 'loading');
 
 export const START_LOADING_USER_AUTHENTICATION: ActionsType =
     new ActionsType('startLoadingUserAuthentication', 'loading');

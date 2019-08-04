@@ -50,7 +50,7 @@
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                    <v-btn icon ripple :loading="isRefreshingCoordinates" :disabled="isRefreshingCoordinates" @click="$emit('settingsItemClicked', coordinatesRefresh)">
+                    <v-btn icon ripple :loading="isLoadingHomeyGeoCoordinates" :disabled="isLoadingHomeyGeoCoordinates" @click="$emit('settingsItemClicked', coordinatesRefresh)">
                         <v-icon color="grey lighten-1">refresh</v-icon>
                     </v-btn>
                 </v-list-tile-action>
@@ -76,7 +76,7 @@
         @Prop() private homeyGeoCoordinates!: GeolocationCoordinates;
         @Prop() private isWeatherLocationLoaded!: boolean;
         @Prop() private isHomeyGeoCoordinatesLoaded!: boolean;
-        @Prop() private isRefreshingCoordinates!: boolean;
+        @Prop() private isLoadingHomeyGeoCoordinates!: boolean;
 
     }
 </script>

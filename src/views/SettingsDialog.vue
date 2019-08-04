@@ -23,7 +23,8 @@
                     @settingsItemClicked="settingsItemClicked"
                     :isWeatherLocationLoaded="isWeatherLocationLoaded"
                     :homeyGeoCoordinates="homeyGeoCoordinates"
-                    :isHomeyGeoCoordinatesLoaded="isHomeyGeoCoordinatesLoaded">
+                    :isHomeyGeoCoordinatesLoaded="isHomeyGeoCoordinatesLoaded"
+                    :isLoadingHomeyGeoCoordinates="isLoadingHomeyGeoCoordinates">
                 </settings-list>
 
                 <locales-picker
@@ -58,7 +59,7 @@ import {
     GET_AVAILABLE_WEATHER_LOCATIONS,
     GET_HOMEY_GEO_COORDINATES, GET_LOCALE,
     GET_WEATHER_LOCATION,
-    IS_HOMEY_GEO_COORDINATES_LOADED,
+    IS_HOMEY_GEO_COORDINATES_LOADED, IS_LOADING_HOMEY_GEO_COORDINATES,
     IS_WEATHER_LOCATION_LOADED
 } from '@/store/getters.type';
 
@@ -82,6 +83,8 @@ export default class SettingsDialog extends Vue {
         {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
     @Getter(GET_LOCALE.getterName,
         {namespace: GET_LOCALE.namespace}) locale!: string;
+    @Getter(IS_LOADING_HOMEY_GEO_COORDINATES.getterName,
+        {namespace: IS_LOADING_HOMEY_GEO_COORDINATES.namespace}) isLoadingHomeyGeoCoordinates!: boolean;
     @Action(CHANGE_WEATHER_LOCATION.actionName,
         {namespace: CHANGE_WEATHER_LOCATION.namespace}) changeWeatherLocation: any;
     @Action(FETCH_HOMEY.actionName,

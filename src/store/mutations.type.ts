@@ -7,9 +7,6 @@ class MutationsType {
 }
 
 // Homey
-export const SET_HOMEY_GEO_COORDINATES: MutationsType =
-    new MutationsType('setHomeyGeoCoordinates');
-
 export const SET_HOMEY: MutationsType =
     new MutationsType('setHomey');
 
@@ -36,11 +33,11 @@ export const INCREASE_WEATHER_FORECAST_WAITING_COUNT: MutationsType =
 export const DECREASE_WEATHER_FORECAST_WAITING_COUNT: MutationsType =
     new MutationsType('decreaseWeatherForecastWaitingCount');
 
-export const INCREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT: MutationsType =
-    new MutationsType('increaseHomeyGeoCoordinatesWaitingCount');
+export const INCREASE_HOMEY_WAITING_COUNT: MutationsType =
+    new MutationsType('increaseHomeyWaitingCount');
 
-export const DECREASE_HOMEY_GEO_COORDINATES_WAITING_COUNT: MutationsType =
-    new MutationsType('decreaseHomeyGeoCoordinatesWaitingCount');
+export const DECREASE_HOMEY_WAITING_COUNT: MutationsType =
+    new MutationsType('decreaseHomeyWaitingCount');
 
 export const INCREASE_USER_AUTHENTICATION_WAITING_COUNT: MutationsType =
     new MutationsType('increaseUserAuthenticationWaitingCount');

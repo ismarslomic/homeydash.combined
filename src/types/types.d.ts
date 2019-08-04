@@ -29,7 +29,7 @@ export interface LocaleState {
 // Store api loading state
 export interface LoadingState {
     weatherLocationWaitingCount: number;
-    homeyGeoCoordinatesWaitingCount: number;
+    homeyWaitingCount: number;
     weatherForecastWaitingCount: number;
     userAuthenticationWaitingCount: number;
     userWaitingCount: number;
@@ -48,6 +48,5 @@ export interface SetupState {
 
 // Store homey state
 export interface HomeyState {
-    homeyGeoCoordinates?: GeolocationCoordinates;
     homey?: Homey;
 }

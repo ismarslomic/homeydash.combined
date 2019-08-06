@@ -1,7 +1,7 @@
 <template>
-    <v-app dark>
+    <v-app>
         <v-content>
-            <v-container fluid id="app-container" pa-0>
+            <v-container fluid id="app-container">
                 <v-fade-transition hide-on-leave>
                     <router-view></router-view>
                 </v-fade-transition>

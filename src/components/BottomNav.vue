@@ -1,39 +1,40 @@
 <template>
-    <v-bottom-nav fixed :value="true" flat app dark>
-        <v-layout row justify-space-between>
-            <template v-for="(item) in navItems">
-                <v-flex :class="item.visibilityClassNav">
-                    <v-btn :to="item.route">
-                        <span>{{$t(item.title)}}</span>
-                        <v-icon>{{item.icon}}</v-icon>
-                    </v-btn>
+    <v-bottom-navigation app fixed :value="true" flat>
+            <v-layout row align-center ma-0 pa-0>
+                <template v-for="(item) in navItems">
+                    <v-flex :class="item.visibilityClassNav">
+                        <v-btn :to="item.route">
+                            <span>{{$t(item.title)}}</span>
+                            <v-icon>{{item.icon}}</v-icon>
+                        </v-btn>
+                    </v-flex>
+                </template>
+                <v-flex class="hidden-lg-and-up">
+                    <v-bottom-sheet v-model="sheet">
+                        <template v-slot:activator="{ on }">
+                            <v-btn v-on="on">
+                                <span>{{$t('views.more')}}</span>
+                                <v-icon>mdi-dots-vertical</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item v-for="(item) in filterItems "
+                                :key="item.title"
+                                @click="sheet = false"
+                                :class="item.visibilityClassOverflow"
+                                :to="item.route">
+                                <v-list-item-action>
+                                    <v-icon>{{ item.icon}}</v-icon>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-bottom-sheet>
                 </v-flex>
-            </template>
-            <v-flex class="hidden-lg-and-up">
-                <v-bottom-sheet v-model="sheet">
-                    <v-btn slot="activator">
-                        <span>{{$t('views.more')}}</span>
-                        <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-
-                    <v-list>
-                        <v-list-tile v-for="(item) in filterItems "
-                            :key="item.title"
-                            @click="sheet = false"
-                            :class="item.visibilityClassOverflow"
-                            :to="item.route">
-                            <v-list-tile-action>
-                                <v-icon>{{ item.icon}}</v-icon>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ $t(item.title) }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                </v-bottom-sheet>
-            </v-flex>
-        </v-layout>
-    </v-bottom-nav>
+            </v-layout>
+    </v-bottom-navigation>
 </template>
 
 <script lang="ts">
@@ -108,3 +109,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .flex {
+        text-align: center;
+        height: 100%
+    }
+</style>

@@ -41,8 +41,8 @@
             </v-flex>
             <v-flex pa-0 v-if="isDataLoaded" shrink>
                 <v-card-actions class="pa-3">
-                    <v-container pa-0 text-xs-center>
-                        <v-layout row ma-0>
+                    <v-container pa-0 text-center>
+                        <v-layout ma-0>
                             <weather-forecast-hour
                                 v-for="interval in sixHoursForecasts"
                                 :key="interval.start.toString()"

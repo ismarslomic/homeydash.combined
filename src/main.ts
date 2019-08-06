@@ -3,12 +3,12 @@ import PrecipationFilter from '@/filters/precipitation';
 import TemperatureFilter from '@/filters/temperature';
 import WindSpeedFilter from '@/filters/windspeed';
 import i18n from '@/plugins/i18n';
-import '@/plugins/vuetify';
 import '@/registerServiceWorker';
 import router from '@/router';
 import store from '@/store/store';
 import Vue from 'vue';
 import VueSVGIcon from 'vue-svgicon';
+import vuetify from '@/plugins/vuetify';
 
 Vue.config.productionTip = false;
 
@@ -25,5 +25,6 @@ new Vue({
     router,
     store,
     i18n,
+    vuetify,
     render: (h) => h(App)
 }).$mount('#app');

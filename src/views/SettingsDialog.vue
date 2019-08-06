@@ -1,12 +1,14 @@
 <template>
     <div>
-        <v-btn icon dark @click="openDialog">
-            <v-icon>settings</v-icon>
-        </v-btn>
-        <v-dialog v-model="isDialogOpen" fullscreen hide-overlay transition="dialog-bottom-transition" scrollable>
-            <v-card tile>
-                <v-toolbar card dark>
-                    <v-btn icon dark @click="closeDialog" v-if="!isSubMenuOpen">
+        <v-dialog v-model="isDialogOpen" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <template v-slot:activator="{ on }">
+                <v-btn icon dark v-on="on">
+                    <v-icon>settings</v-icon>
+                </v-btn>
+            </template>
+            <v-card flat tile>
+                <v-toolbar color="accent" flat>
+                    <v-btn icon @click="closeDialog" v-if="!isSubMenuOpen">
                         <v-icon>close</v-icon>
                     </v-btn>
 

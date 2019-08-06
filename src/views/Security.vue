@@ -1,11 +1,11 @@
 <template>
     <v-container fluid id="view-container" pa-0>
-        <v-toolbar fixed app flat color="#303030">
+        <v-app-bar app fixed flat color="#303030">
             <v-toolbar-title class="display-2 text-uppercase">{{$t('views.security')}}</v-toolbar-title>
-        </v-toolbar>
-        <v-container grid-list-md fluid id="view-content-container">
+        </v-app-bar>
+        <v-container grid-list-md fluid id="view-content-container" pa-1>
             <v-layout row wrap>
-                <v-flex d-flex xs12 sm6 md4 shrink order-xs1>
+                <v-flex d-flex child-flex xs12 sm6 md4 shrink order-xs1>
                     <v-card tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
@@ -20,7 +20,7 @@
                         </v-layout>
                     </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 sm6 md4 order-xs2>
+                <v-flex d-flex child-flex xs12 sm6 md4 order-xs2>
                     <v-card color="pink" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
@@ -35,7 +35,7 @@
                         </v-layout>
                     </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 sm6 md4 order-xs3>
+                <v-flex d-flex child-flex xs12 sm6 md4 order-xs3>
                     <v-card color="purple darken-2" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
@@ -50,7 +50,7 @@
                         </v-layout>
                     </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 sm6 md4 shrink order-xs4>
+                <v-flex d-flex child-flex xs12 sm6 md4 shrink order-xs4>
                     <v-card color="cyan" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
@@ -65,7 +65,7 @@
                         </v-layout>
                     </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 sm6 md4 order-xs5>
+                <v-flex d-flex child-flex xs12 sm6 md4 order-xs5>
                     <v-card color="teal" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>
@@ -80,7 +80,7 @@
                         </v-layout>
                     </v-card>
                 </v-flex>
-                <v-flex d-flex xs12 sm6 md4 order-xs6>
+                <v-flex d-flex child-flex xs12 sm6 md4 order-xs6>
                     <v-card color="light-blue" tile>
                         <v-layout column ma-0 fill-height>
                             <v-flex shrink>

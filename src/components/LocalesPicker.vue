@@ -1,19 +1,19 @@
 <template>
     <v-list two-line>
-        <v-list-tile
+        <v-list-item
             v-for="option in availableLocalesOptions"
             :key="option.locale"
             @click="$emit('updateLocale', option.locale)">
-            <v-list-tile-content>
-                <v-list-tile-title>{{option.title}}</v-list-tile-title>
-                <v-list-tile-sub-title></v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
+            <v-list-item-content>
+                <v-list-item-title>{{option.title}}</v-list-item-title>
+                <v-list-item-subtitle></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
                 <v-btn icon ripple>
                     <v-icon color="grey lighten-1">{{locale === option.locale ? 'radio_button_checked' : 'radio_button_unchecked'}}</v-icon>
                 </v-btn>
-            </v-list-tile-action>
-        </v-list-tile>
+            </v-list-item-action>
+        </v-list-item>
     </v-list>
 </template>
 

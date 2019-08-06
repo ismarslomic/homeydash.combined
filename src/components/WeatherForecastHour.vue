@@ -1,5 +1,5 @@
 <template>
-    <v-container pa-0 text-xs-center>
+    <v-container pa-0 text-center>
         <v-layout column ma-0 wrap>
             <v-flex xs4 class="caption" pa-0>
                 {{$d(new Date(date), 'shortTime')}}

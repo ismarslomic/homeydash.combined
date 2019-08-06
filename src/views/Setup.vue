@@ -2,10 +2,10 @@
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md6>
-                <v-card class="elevation-12">
-                    <v-toolbar dark color="primary">
+                <v-card class="elevation-12" tile>
+                    <v-app-bar color="accent" flat>
                         <v-toolbar-title>{{$t('views.setup.title')}}</v-toolbar-title>
-                    </v-toolbar>
+                    </v-app-bar>
 
                     <v-stepper v-model="currentStep" vertical class="background: transparent">
                         <v-stepper-step step="1" :complete="isStepCompleted(1)" :editable="isStepEditable(1)" :color="stepColor(1)">
@@ -17,7 +17,7 @@
                                     :locale="locale"
                                     @updateLocale="changeLocale">
                             </locales-picker>
-                            <v-btn @click="nextStep(1)" color="primary" class="pa-0 ma-0">{{$t('actions.continue')}}</v-btn>
+                            <v-btn @click="nextStep(1)" color="primary">{{$t('actions.continue')}}</v-btn>
                         </v-stepper-content>
 
                         <v-stepper-step step="2" :complete="isStepCompleted(2)" :editable="isStepEditable(2)" :color="stepColor(2)">
@@ -25,8 +25,8 @@
                         </v-stepper-step>
                         <v-stepper-content step="2">
                             <p>{{$t('views.setup.welcome.introduction')}}</p>
-                            <v-btn @click="previousStep(2)" flat class="pa-0 ma-0">{{$t('actions.back')}}</v-btn>
-                            <v-btn @click="nextStep(2)" color="primary" class="pa-0 ma-0">{{$t('actions.continue')}}</v-btn>
+                            <v-btn @click="previousStep(2)" text>{{$t('actions.back')}}</v-btn>
+                            <v-btn @click="nextStep(2)" color="primary">{{$t('actions.continue')}}</v-btn>
                         </v-stepper-content>
 
                         <v-stepper-step step="3" :complete="isStepCompleted(3)" :editable="isStepEditable(3)" :color="stepColor(3)">
@@ -52,13 +52,13 @@
                                     auto-grow
                                     :readonly="isTokenDecodedValid()"
                                     :loading="isLoadingData"
-                                    box
+                                    filled
                                     class="caption"
                                     v-model="tokenInput"
                             >
                             </v-textarea>
-                            <v-btn @click="previousStep(3)" flat class="pa-0 ma-0">{{$t('actions.back')}}</v-btn>
-                            <v-btn @click="nextStep(3)" color="primary" class="pa-0 ma-0" :disabled="!isGeolocationLoaded">{{$t('actions.continue')}}</v-btn>
+                            <v-btn @click="previousStep(3)" text>{{$t('actions.back')}}</v-btn>
+                            <v-btn @click="nextStep(3)" color="primary"  :disabled="!isGeolocationLoaded">{{$t('actions.continue')}}</v-btn>
                         </v-stepper-content>
 
                         <v-stepper-step step="4">
@@ -70,8 +70,8 @@
                                     :weatherLocation="weatherLocation"
                                     @updateWeatherLocation="updateWeatherLocation">
                             </weather-locations-picker>
-                            <v-btn @click="previousStep(4)" flat class="pa-0 ma-0">{{$t('actions.back')}}</v-btn>
-                            <v-btn @click="completeSetup()" color="primary" class="pa-0 ma-0">{{$t('actions.finish')}}</v-btn>
+                            <v-btn @click="previousStep(4)" text>{{$t('actions.back')}}</v-btn>
+                            <v-btn @click="completeSetup()" color="primary">{{$t('actions.finish')}}</v-btn>
                         </v-stepper-content>
                     </v-stepper>
                 </v-card>

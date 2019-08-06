@@ -74,3 +74,13 @@ export const START_LOADING_USER: ActionsType =
 
 export const DONE_LOADING_USER: ActionsType =
     new ActionsType('doneLoadingUser', 'loading');
+
+export const START_LOADING_NOTIFICATIONS: ActionsType =
+    new ActionsType('startLoadingNotifications', 'loading');
+
+export const DONE_LOADING_NOTIFICATIONS: ActionsType =
+    new ActionsType('doneLoadingNotifications', 'loading');
+
+// Notification
+export const FETCH_NOTIFICATIONS: ActionsType =
+    new ActionsType('fetchNotifications', 'notification');

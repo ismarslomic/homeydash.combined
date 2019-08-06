@@ -113,58 +113,73 @@
 </template>
 
 <script lang="ts">
-import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
-import { GeolocationDetails } from '@/types/geolocation';
-import { Weatherdata } from '@/types/weather';
-import SettingsDialog from '@/views/SettingsDialog.vue';
-import { Component, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
-import {
-    GET_WEATHER_LOCATION, GET_WEATHER_FORECAST,
-    IS_HOMEY_GEO_COORDINATES_LOADED,
-    IS_WEATHER_LOCATION_LOADED,
-    IS_LOADING_WEATHER_LOCATION,
-    IS_LOADING_WEATHER_FORECAST, IS_WEATHER_FORECAST_LOADED
-} from '@/store/getters.type';
+    import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
+    import { FETCH_NOTIFICATIONS } from '@/store/actions.type';
+    import {
+        GET_NOTIFICATIONS,
+        GET_WEATHER_FORECAST,
+        GET_WEATHER_LOCATION,
+        IS_HOMEY_GEO_COORDINATES_LOADED,
+        IS_LOADING_NOTIFICATIONS,
+        IS_LOADING_WEATHER_FORECAST,
+        IS_LOADING_WEATHER_LOCATION,
+        IS_WEATHER_FORECAST_LOADED,
+        IS_WEATHER_LOCATION_LOADED
+    } from '@/store/getters.type';
+    import { GeolocationDetails } from '@/types/geolocation';
+    import { Weatherdata } from '@/types/weather';
+    import SettingsDialog from '@/views/SettingsDialog.vue';
+    import { Component, Vue } from 'vue-property-decorator';
+    import { Action, Getter } from 'vuex-class';
 
-@Component({
-    components: {
-        WeatherForecastSummary,
-        SettingsDialog
+    @Component({
+        components: {
+            WeatherForecastSummary,
+            SettingsDialog
+        }
+    })
+    export default class Dashboard extends Vue {
+        @Getter(GET_WEATHER_LOCATION.getterName,
+            {namespace: GET_WEATHER_LOCATION.namespace}) weatherLocation?: GeolocationDetails;
+        @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
+            {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingWeatherLocation!: boolean;
+        @Getter(IS_LOADING_WEATHER_FORECAST.getterName,
+            {namespace: IS_LOADING_WEATHER_FORECAST.namespace}) isLoadingWeatherForecast!: boolean;
+        @Getter(IS_WEATHER_FORECAST_LOADED.getterName,
+            {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherForecastLoaded!: boolean;
+        @Getter(GET_WEATHER_FORECAST.getterName,
+            {namespace: GET_WEATHER_FORECAST.namespace}) weatherForecast?: Weatherdata;
+        @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
+            {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
+        @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
+            {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isWeatherLocationLoaded!: boolean;
+        @Getter(GET_NOTIFICATIONS.getterName,
+            {namespace: GET_NOTIFICATIONS.namespace}) notifications!: Notification[];
+        @Getter(IS_LOADING_NOTIFICATIONS.getterName,
+            {namespace: IS_LOADING_NOTIFICATIONS.namespace}) isLoadingNotifications!: boolean;
+        @Action(FETCH_NOTIFICATIONS.actionName,
+            {namespace: FETCH_NOTIFICATIONS.namespace}) fetchNotifications!: any;
+
+        now: Date = new Date();
+
+        private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
+
+        get isRefreshingWeather(): boolean {
+            return this.isLoadingWeatherLocation || this.isLoadingWeatherForecast;
+        }
+
+        get isWeatherLoaded(): boolean {
+            return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
+        }
+
+        private updateNow(): void {
+            this.now = new Date();
+        }
+
+        created() {
+            this.fetchNotifications();
+        }
     }
-})
-export default class Dashboard extends Vue {
-    @Getter(GET_WEATHER_LOCATION.getterName,
-        {namespace: GET_WEATHER_LOCATION.namespace}) weatherLocation?: GeolocationDetails;
-    @Getter(IS_LOADING_WEATHER_LOCATION.getterName,
-        {namespace: IS_LOADING_WEATHER_LOCATION.namespace}) isLoadingWeatherLocation!: boolean;
-    @Getter(IS_LOADING_WEATHER_FORECAST.getterName,
-        {namespace: IS_LOADING_WEATHER_FORECAST.namespace}) isLoadingWeatherForecast!: boolean;
-    @Getter(IS_WEATHER_FORECAST_LOADED.getterName,
-        {namespace: IS_WEATHER_FORECAST_LOADED.namespace}) isWeatherForecastLoaded!: boolean;
-    @Getter(GET_WEATHER_FORECAST.getterName,
-        {namespace: GET_WEATHER_FORECAST.namespace}) weatherForecast?: Weatherdata;
-    @Getter(IS_HOMEY_GEO_COORDINATES_LOADED.getterName,
-        {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
-    @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
-        {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isWeatherLocationLoaded!: boolean;
-
-    now: Date = new Date();
-
-    private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
-
-    get isRefreshingWeather(): boolean {
-        return this.isLoadingWeatherLocation || this.isLoadingWeatherForecast;
-    }
-
-    get isWeatherLoaded(): boolean {
-        return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
-    }
-
-    private updateNow(): void {
-        this.now = new Date();
-    }
-}
 </script>
 
 <style scoped>

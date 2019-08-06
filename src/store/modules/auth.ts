@@ -45,7 +45,7 @@ export const actions: ActionTree<AuthState, RootState> = {
                     }
                     resolve();
                 })
-                .catch((error: AxiosError) => {
+                .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error('Fetching user from Athom Homey failed');
                     // tslint:disable-next-line:no-console

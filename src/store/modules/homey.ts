@@ -40,7 +40,7 @@ export const actions: ActionTree<HomeyState, RootState> = {
                     }
                     resolve();
                 })
-                .catch((error: AxiosError) => {
+                .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error('Fetching homey from Athom failed');
                     // tslint:disable-next-line:no-console

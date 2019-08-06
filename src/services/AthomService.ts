@@ -1,8 +1,10 @@
 import {
     DONE_LOADING_HOMEY,
+    DONE_LOADING_NOTIFICATIONS,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
     START_LOADING_HOMEY,
+    START_LOADING_NOTIFICATIONS,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
@@ -11,8 +13,10 @@ import store from '@/store/store';
 import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationCoordinates } from '@/types/geolocation';
 import { Homey } from '@/types/homey';
+import { Notification } from '@/types/notification';
 import { User } from '@/types/user';
 import { AthomCloudAPI, HomeyAPI } from 'athom-api';
+import * as _ from 'lodash';
 
 class AthomService {
     private readonly CLIENT_ID: string = '5cbb504da1fc782009f52e46';
@@ -43,6 +47,11 @@ class AthomService {
                 })
                 .then((api: any) => {
                     this.homeyAPI = api;
+                    // @ts-ignore
+                    this.homeyAPI.notifications.on('notification.create', (notification: any) => {
+                        // tslint:disable-next-line:no-console
+                        console.log(notification);
+                    });
                     store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
                     resolve();
                 })
@@ -74,6 +83,17 @@ class AthomService {
                 });
         } else {
             return this._getHomey();
+        }
+    }
+
+    getNotifications(): Promise<Notification[]> {
+        if (!this.homeyAPI) {
+            return this.authenticate()
+                .then(() => {
+                    return this._getNotifications();
+                });
+        } else {
+            return this._getNotifications();
         }
     }
 
@@ -117,6 +137,28 @@ class AthomService {
                 });
         });
     }
+
+    private _getNotifications(): Promise<Notification[]> {
+        return new Promise((resolve, reject) => {
+            store.dispatch(START_LOADING_NOTIFICATIONS.namespacedName);
+            // @ts-ignore
+            this.homeyAPI.notifications.getNotifications()
+            // @ts-ignore
+                .then((notificationsJson: any) => {
+                    const notificationsJsonArray: any[] = _.values(notificationsJson);
+                    const notifications: Notification[] = notificationsJsonArray.map(mapNotification);
+                    const sortedNotifications: Notification[] = _.orderBy(notifications, 'dateCreated', 'desc');
+                    store.dispatch(DONE_LOADING_NOTIFICATIONS.namespacedName);
+                    resolve(sortedNotifications);
+                })
+                .catch((error: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error);
+                    store.dispatch(DONE_LOADING_NOTIFICATIONS.namespacedName);
+                    reject(error);
+                });
+        });
+    }
 }
 
 function mapUser(userJson: any): User {
@@ -148,6 +190,16 @@ function mapGeolocationCoordinates(geoLocationJson: any): GeolocationCoordinates
         latitude: geoLocationJson.latitude,
         longitude: geoLocationJson.longitude,
         accuracy: geoLocationJson.accuracy
+    };
+}
+
+function mapNotification(notificationJson: any): Notification {
+    return {
+        id: notificationJson.id,
+        ownerUri: notificationJson.ownerUri,
+        dateCreated: notificationJson.dateCreated,
+        excerpt: notificationJson.excerpt,
+        priority: notificationJson.priority
     };
 }
 

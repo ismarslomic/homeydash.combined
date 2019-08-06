@@ -1,8 +1,9 @@
-import {GeolocationCoordinates, GeolocationDetails} from '@/types/geolocation';
-import {User} from '@/types/user';
-import {Weatherdata} from '@/types/weather';
-import {Homey} from '@/types/homey';
-import {AthomApiToken} from '@/types/athomapi';
+import { AthomApiToken } from '@/types/athomapi';
+import { GeolocationDetails } from '@/types/geolocation';
+import { Homey } from '@/types/homey';
+import { Notification } from '@/types/notification';
+import { User } from '@/types/user';
+import { Weatherdata } from '@/types/weather';
 
 // Store root state
 export interface RootState {
@@ -33,6 +34,7 @@ export interface LoadingState {
     weatherForecastWaitingCount: number;
     userAuthenticationWaitingCount: number;
     userWaitingCount: number;
+    notificationsWaitingCount: number;
 }
 
 // Store homey authentication state
@@ -49,4 +51,9 @@ export interface SetupState {
 // Store homey state
 export interface HomeyState {
     homey?: Homey;
+}
+
+// Store notification state
+export interface NotificationState {
+    notifications: Notification[];
 }

@@ -114,13 +114,13 @@
 
 <script lang="ts">
     import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
-    import { FETCH_NOTIFICATIONS } from '@/store/actions.type';
+    import { FETCH_ACTIVITIES } from '@/store/actions.type';
     import {
-        GET_NOTIFICATIONS,
+        GET_ACTIVITIES,
         GET_WEATHER_FORECAST,
         GET_WEATHER_LOCATION,
         IS_HOMEY_GEO_COORDINATES_LOADED,
-        IS_LOADING_NOTIFICATIONS,
+        IS_LOADING_ACTIVITIES,
         IS_LOADING_WEATHER_FORECAST,
         IS_LOADING_WEATHER_LOCATION,
         IS_WEATHER_FORECAST_LOADED,
@@ -131,6 +131,7 @@
     import SettingsDialog from '@/views/SettingsDialog.vue';
     import { Component, Vue } from 'vue-property-decorator';
     import { Action, Getter } from 'vuex-class';
+    import { Activity } from '@/types/activity';
 
     @Component({
         components: {
@@ -153,12 +154,12 @@
             {namespace: IS_HOMEY_GEO_COORDINATES_LOADED.namespace}) isHomeyGeoCoordinatesLoaded!: boolean;
         @Getter(IS_WEATHER_LOCATION_LOADED.getterName,
             {namespace: IS_WEATHER_LOCATION_LOADED.namespace}) isWeatherLocationLoaded!: boolean;
-        @Getter(GET_NOTIFICATIONS.getterName,
-            {namespace: GET_NOTIFICATIONS.namespace}) notifications!: Notification[];
-        @Getter(IS_LOADING_NOTIFICATIONS.getterName,
-            {namespace: IS_LOADING_NOTIFICATIONS.namespace}) isLoadingNotifications!: boolean;
-        @Action(FETCH_NOTIFICATIONS.actionName,
-            {namespace: FETCH_NOTIFICATIONS.namespace}) fetchNotifications!: any;
+        @Getter(GET_ACTIVITIES.getterName,
+            {namespace: GET_ACTIVITIES.namespace}) activities!: Activity[];
+        @Getter(IS_LOADING_ACTIVITIES.getterName,
+            {namespace: IS_LOADING_ACTIVITIES.namespace}) isLoadingActivities!: boolean;
+        @Action(FETCH_ACTIVITIES.actionName,
+            {namespace: FETCH_ACTIVITIES.namespace}) fetchActivities!: any;
 
         now: Date = new Date();
 
@@ -172,12 +173,12 @@
             return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
         }
 
-        private updateNow(): void {
-            this.now = new Date();
+        created() {
+            this.fetchActivities();
         }
 
-        created() {
-            this.fetchNotifications();
+        private updateNow(): void {
+            this.now = new Date();
         }
     }
 </script>

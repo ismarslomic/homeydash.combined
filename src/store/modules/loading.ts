@@ -1,12 +1,12 @@
 import {
     DONE_LOADING_HOMEY,
-    DONE_LOADING_NOTIFICATIONS,
+    DONE_LOADING_ACTIVITIES,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
     DONE_LOADING_WEATHER_FORECAST,
     DONE_LOADING_WEATHER_LOCATION,
     START_LOADING_HOMEY,
-    START_LOADING_NOTIFICATIONS,
+    START_LOADING_ACTIVITIES,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION,
     START_LOADING_WEATHER_FORECAST,
@@ -14,20 +14,20 @@ import {
 } from '@/store/actions.type';
 import {
     IS_LOADING_AUTHENTICATION,
-    IS_LOADING_HOMEY_GEO_COORDINATES, IS_LOADING_NOTIFICATIONS,
+    IS_LOADING_HOMEY_GEO_COORDINATES, IS_LOADING_ACTIVITIES,
     IS_LOADING_USER,
     IS_LOADING_WEATHER_FORECAST,
     IS_LOADING_WEATHER_LOCATION
 } from '@/store/getters.type';
 import {
-    DEACREASE_NOTIFICATIONS_WAITING_COUNT,
+    DEACREASE_ACTIVITIES_WAITING_COUNT,
     DEACREASE_USER_WAITING_COUNT,
     DECREASE_HOMEY_WAITING_COUNT,
     DECREASE_USER_AUTHENTICATION_WAITING_COUNT,
     DECREASE_WEATHER_FORECAST_WAITING_COUNT,
     DECREASE_WEATHER_LOCATION_WAITING_COUNT,
     INCREASE_HOMEY_WAITING_COUNT,
-    INCREASE_NOTIFICATIONS_WAITING_COUNT,
+    INCREASE_ACTIVITIES_WAITING_COUNT,
     INCREASE_USER_AUTHENTICATION_WAITING_COUNT,
     INCREASE_USER_WAITING_COUNT,
     INCREASE_WEATHER_FORECAST_WAITING_COUNT,
@@ -42,7 +42,7 @@ const state: LoadingState = {
     userAuthenticationWaitingCount: 0,
     userWaitingCount: 0,
     homeyWaitingCount: 0,
-    notificationsWaitingCount: 0
+    activitiesWaitingCount: 0
 };
 
 export const getters: GetterTree<LoadingState, RootState> = {
@@ -61,8 +61,8 @@ export const getters: GetterTree<LoadingState, RootState> = {
     [IS_LOADING_USER.getterName]: (theState: LoadingState): boolean => {
         return theState.userWaitingCount > 0;
     },
-    [IS_LOADING_NOTIFICATIONS.getterName]: (theState: LoadingState): boolean => {
-        return theState.notificationsWaitingCount > 0;
+    [IS_LOADING_ACTIVITIES.getterName]: (theState: LoadingState): boolean => {
+        return theState.activitiesWaitingCount > 0;
     }
 };
 
@@ -97,11 +97,11 @@ const mutations: MutationTree<LoadingState> = {
     [DEACREASE_USER_WAITING_COUNT.mutationName](theState: LoadingState) {
         theState.userWaitingCount -= 1;
     },
-    [INCREASE_NOTIFICATIONS_WAITING_COUNT.mutationName](theState: LoadingState) {
-        theState.notificationsWaitingCount += 1;
+    [INCREASE_ACTIVITIES_WAITING_COUNT.mutationName](theState: LoadingState) {
+        theState.activitiesWaitingCount += 1;
     },
-    [DEACREASE_NOTIFICATIONS_WAITING_COUNT.mutationName](theState: LoadingState) {
-        theState.notificationsWaitingCount -= 1;
+    [DEACREASE_ACTIVITIES_WAITING_COUNT.mutationName](theState: LoadingState) {
+        theState.activitiesWaitingCount -= 1;
     }
 };
 
@@ -166,15 +166,15 @@ export const actions: ActionTree<LoadingState, RootState> = {
             resolve();
         });
     },
-    [START_LOADING_NOTIFICATIONS.actionName]({commit}) {
+    [START_LOADING_ACTIVITIES.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit(INCREASE_NOTIFICATIONS_WAITING_COUNT.mutationName);
+            commit(INCREASE_ACTIVITIES_WAITING_COUNT.mutationName);
             resolve();
         });
     },
-    [DONE_LOADING_NOTIFICATIONS.actionName]({commit}) {
+    [DONE_LOADING_ACTIVITIES.actionName]({commit}) {
         return new Promise((resolve) => {
-            commit(DEACREASE_NOTIFICATIONS_WAITING_COUNT.mutationName);
+            commit(DEACREASE_ACTIVITIES_WAITING_COUNT.mutationName);
             resolve();
         });
     }

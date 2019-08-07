@@ -1,7 +1,7 @@
 import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationDetails } from '@/types/geolocation';
 import { Homey } from '@/types/homey';
-import { Notification } from '@/types/notification';
+import { Activity } from '@/types/activity';
 import { User } from '@/types/user';
 import { Weatherdata } from '@/types/weather';
 
@@ -34,7 +34,7 @@ export interface LoadingState {
     weatherForecastWaitingCount: number;
     userAuthenticationWaitingCount: number;
     userWaitingCount: number;
-    notificationsWaitingCount: number;
+    activitiesWaitingCount: number;
 }
 
 // Store homey authentication state
@@ -53,7 +53,7 @@ export interface HomeyState {
     homey?: Homey;
 }
 
-// Store notification state
-export interface NotificationState {
-    notifications: Notification[];
+// Store activity state
+export interface ActivityState {
+    activities: Activity[];
 }

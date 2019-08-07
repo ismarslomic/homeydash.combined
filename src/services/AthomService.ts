@@ -1,10 +1,10 @@
 import {
     DONE_LOADING_HOMEY,
-    DONE_LOADING_NOTIFICATIONS,
+    DONE_LOADING_ACTIVITIES,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
     START_LOADING_HOMEY,
-    START_LOADING_NOTIFICATIONS,
+    START_LOADING_ACTIVITIES,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
@@ -13,7 +13,7 @@ import store from '@/store/store';
 import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationCoordinates } from '@/types/geolocation';
 import { Homey } from '@/types/homey';
-import { Notification } from '@/types/notification';
+import { Activity } from '@/types/activity';
 import { User } from '@/types/user';
 import { AthomCloudAPI, HomeyAPI } from 'athom-api';
 import * as _ from 'lodash';
@@ -86,14 +86,14 @@ class AthomService {
         }
     }
 
-    getNotifications(): Promise<Notification[]> {
+    getActivities(): Promise<Activity[]> {
         if (!this.homeyAPI) {
             return this.authenticate()
                 .then(() => {
-                    return this._getNotifications();
+                    return this._getActivities();
                 });
         } else {
-            return this._getNotifications();
+            return this._getActivities();
         }
     }
 
@@ -138,23 +138,23 @@ class AthomService {
         });
     }
 
-    private _getNotifications(): Promise<Notification[]> {
+    private _getActivities(): Promise<Activity[]> {
         return new Promise((resolve, reject) => {
-            store.dispatch(START_LOADING_NOTIFICATIONS.namespacedName);
+            store.dispatch(START_LOADING_ACTIVITIES.namespacedName);
             // @ts-ignore
             this.homeyAPI.notifications.getNotifications()
             // @ts-ignore
-                .then((notificationsJson: any) => {
-                    const notificationsJsonArray: any[] = _.values(notificationsJson);
-                    const notifications: Notification[] = notificationsJsonArray.map(mapNotification);
-                    const sortedNotifications: Notification[] = _.orderBy(notifications, 'dateCreated', 'desc');
-                    store.dispatch(DONE_LOADING_NOTIFICATIONS.namespacedName);
-                    resolve(sortedNotifications);
+                .then((notifications: any) => {
+                    const notificationsArray: any[] = _.values(notifications);
+                    const activities: Activity[] = notificationsArray.map(mapActivity);
+                    const sortedActivities: Activity[] = _.orderBy(activities, 'dateCreated', 'desc');
+                    store.dispatch(DONE_LOADING_ACTIVITIES.namespacedName);
+                    resolve(sortedActivities);
                 })
                 .catch((error: any) => {
                     // tslint:disable-next-line:no-console
                     console.error(error);
-                    store.dispatch(DONE_LOADING_NOTIFICATIONS.namespacedName);
+                    store.dispatch(DONE_LOADING_ACTIVITIES.namespacedName);
                     reject(error);
                 });
         });
@@ -193,7 +193,7 @@ function mapGeolocationCoordinates(geoLocationJson: any): GeolocationCoordinates
     };
 }
 
-function mapNotification(notificationJson: any): Notification {
+function mapActivity(notificationJson: any): Activity {
     return {
         id: notificationJson.id,
         ownerUri: notificationJson.ownerUri,

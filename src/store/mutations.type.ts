@@ -51,11 +51,11 @@ export const INCREASE_USER_WAITING_COUNT: MutationsType =
 export const DEACREASE_USER_WAITING_COUNT: MutationsType =
     new MutationsType('decreaseUserWaitingCount');
 
-export const INCREASE_NOTIFICATIONS_WAITING_COUNT: MutationsType =
-    new MutationsType('increaseNotificationsWaitingCount');
+export const INCREASE_ACTIVITIES_WAITING_COUNT: MutationsType =
+    new MutationsType('increaseActivitiesWaitingCount');
 
-export const DEACREASE_NOTIFICATIONS_WAITING_COUNT: MutationsType =
-    new MutationsType('decreaseNotificationsWaitingCount');
+export const DEACREASE_ACTIVITIES_WAITING_COUNT: MutationsType =
+    new MutationsType('decreaseActivitiesWaitingCount');
 
 // Locale
 export const SET_LOCALE: MutationsType =
@@ -72,7 +72,7 @@ export const SET_ATHOM_API_TOKEN: MutationsType =
 export const SET_IS_SETUP_COMPLETED: MutationsType =
     new MutationsType('setIsSetupCompleted');
 
-// Notification
-export const SET_NOTIFICATIONS: MutationsType =
-    new MutationsType('setNotifications');
+// Activities
+export const SET_ACTIVITIES: MutationsType =
+    new MutationsType('setActivities');
 

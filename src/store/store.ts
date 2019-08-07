@@ -4,7 +4,7 @@ import { auth } from '@/store/modules/auth';
 import { homey } from '@/store/modules/homey';
 import { loading } from '@/store/modules/loading';
 import { locale } from '@/store/modules/locale';
-import { notification } from '@/store/modules/notification';
+import { activity } from '@/store/modules/activity';
 import { setup } from '@/store/modules/setup';
 import { weather } from '@/store/modules/weather';
 import { RootState } from '@/types/types';
@@ -27,7 +27,7 @@ const storeOptions: StoreOptions<RootState> = {
         locale,
         auth,
         setup,
-        notification,
+        activity,
         homey
     },
     plugins: [vuexLocal.plugin]

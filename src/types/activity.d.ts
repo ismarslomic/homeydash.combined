@@ -1,4 +1,4 @@
-export interface Notification {
+export interface Activity {
     id: string;
     ownerUri: string;
     dateCreated: Date;

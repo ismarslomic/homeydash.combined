@@ -65,9 +65,6 @@ export const IS_LOADING_ACTIVITIES: GettersType =
 export const GET_AUTH_USER: GettersType =
     new GettersType('getAuthUser', 'auth');
 
-export const IS_USER_AUTHENTICATED: GettersType =
-    new GettersType('isUserAuthenticated', 'auth');
-
 export const GET_ATHOM_API_TOKEN: GettersType =
     new GettersType('getAthomApiToken', 'auth');
 

@@ -114,7 +114,6 @@
 
 <script lang="ts">
     import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
-    import { FETCH_ACTIVITIES } from '@/store/actions.type';
     import {
         GET_ACTIVITIES,
         GET_WEATHER_FORECAST,
@@ -130,7 +129,7 @@
     import { Weatherdata } from '@/types/weather';
     import SettingsDialog from '@/views/SettingsDialog.vue';
     import { Component, Vue } from 'vue-property-decorator';
-    import { Action, Getter } from 'vuex-class';
+    import { Getter } from 'vuex-class';
     import { Activity } from '@/types/activity';
 
     @Component({
@@ -158,8 +157,6 @@
             {namespace: GET_ACTIVITIES.namespace}) activities!: Activity[];
         @Getter(IS_LOADING_ACTIVITIES.getterName,
             {namespace: IS_LOADING_ACTIVITIES.namespace}) isLoadingActivities!: boolean;
-        @Action(FETCH_ACTIVITIES.actionName,
-            {namespace: FETCH_ACTIVITIES.namespace}) fetchActivities!: any;
 
         now: Date = new Date();
 
@@ -171,10 +168,6 @@
 
         get isWeatherLoaded(): boolean {
             return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
-        }
-
-        created() {
-            this.fetchActivities();
         }
 
         private updateNow(): void {

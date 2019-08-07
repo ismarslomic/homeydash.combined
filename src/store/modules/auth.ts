@@ -1,12 +1,11 @@
 import AthomService from '@/services/AthomService';
-import {AuthState, RootState} from '@/types/types';
-import {User} from '@/types/user';
-import {AxiosError} from 'axios';
-import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
-import {CHANGE_ATHOM_API_TOKEN, FETCH_AUTHENTICATED_USER} from '@/store/actions.type';
-import {GET_ATHOM_API_TOKEN, GET_AUTH_USER, IS_USER_AUTHENTICATED} from '@/store/getters.type';
-import {SET_ATHOM_API_TOKEN, SET_AUTH_USER} from '@/store/mutations.type';
-import {AthomApiToken} from '@/types/athomapi';
+import { CHANGE_ATHOM_API_TOKEN, FETCH_AUTHENTICATED_USER } from '@/store/actions.type';
+import { GET_ATHOM_API_TOKEN, GET_AUTH_USER } from '@/store/getters.type';
+import { SET_ATHOM_API_TOKEN, SET_AUTH_USER } from '@/store/mutations.type';
+import { AthomApiToken } from '@/types/athomapi';
+import { AuthState, RootState } from '@/types/types';
+import { User } from '@/types/user';
+import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: AuthState = {
     user: undefined,
@@ -14,9 +13,6 @@ const state: AuthState = {
 };
 
 export const getters: GetterTree<AuthState, RootState> = {
-    [IS_USER_AUTHENTICATED.getterName]: (theState: AuthState): boolean => {
-        return !!(theState.user);
-    },
     [GET_AUTH_USER.getterName]: (theState: AuthState): User | undefined => {
         return theState.user;
     },

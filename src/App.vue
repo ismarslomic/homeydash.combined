@@ -1,29 +1,23 @@
 <template>
     <v-app>
-        <v-content>
-            <v-container fluid id="app-container">
-                <v-fade-transition hide-on-leave>
-                    <router-view></router-view>
-                </v-fade-transition>
-            </v-container>
-        </v-content>
-        <BottomNav v-if="isUserAuthenticated"></BottomNav>
+        <component :is="layout">
+            <router-view></router-view>
+        </component>
     </v-app>
 </template>
 
-<script lang="ts">
-    import BottomNav from '@/components/BottomNav.vue';
+<script>
     import { Component, Vue } from 'vue-property-decorator';
-    import { Getter } from 'vuex-class';
-    import {IS_USER_AUTHENTICATED} from '@/store/getters.type';
 
-    @Component({
-        components: {
-            BottomNav
+    const DEFAULT_LAYOUT = 'no-toolbar';
+    @Component({})
+    export default class App extends Vue {
+        get layout() {
+            return (this.$route.meta.layout || DEFAULT_LAYOUT) + '-layout';
         }
-    })
-    export default class extends Vue {
-        @Getter(IS_USER_AUTHENTICATED.getterName,
-            {namespace: IS_USER_AUTHENTICATED.namespace}) isUserAuthenticated?: boolean;
     }
 </script>
+
+<style scoped>
+
+</style>

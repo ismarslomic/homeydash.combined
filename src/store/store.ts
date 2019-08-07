@@ -16,7 +16,16 @@ Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence<RootState>({
     storage: window.localStorage,
-    modules: ['locale', 'weather', 'auth', 'setup', 'homey'],
+    reducer: (state) => ({
+        weather: {
+            availableWeatherLocations: state.weather.availableWeatherLocations,
+            weatherLocation: state.weather.weatherLocation
+        },
+        locale: state.locale,
+        auth: state.auth,
+        setup: state.setup,
+        homey: state.homey
+    }),
     key: 'homeydash.combined'
 });
 
@@ -45,6 +54,8 @@ store.watch(() => store.getters[GET_LOCALE.namespacedName], (newlocale, oldLocal
         store.dispatch(FETCH_WEATHER_LOCATIONS.namespacedName);
     }
 });
+
+
 
 store.dispatch(INITIALIZE_LOCALE.namespacedName);
 

@@ -7,12 +7,13 @@ import { Weatherdata } from '@/types/weather';
 
 // Store root state
 export interface RootState {
-    weatherState: WeatherState;
-    loadingState: LoadingState;
+    weather: WeatherState;
+    loading: LoadingState;
     locale: LocaleState;
     user: AuthState;
     setup: SetupState;
     homey: HomeyState;
+    auth: AuthState;
 }
 
 // Store weather state for geolocation

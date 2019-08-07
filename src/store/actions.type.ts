@@ -84,3 +84,6 @@ export const DONE_LOADING_ACTIVITIES: ActionsType =
 // Activities
 export const FETCH_ACTIVITIES: ActionsType =
     new ActionsType('fetchActivities', 'activity');
+
+export const ADD_NEW_ACTIVITY: ActionsType =
+    new ActionsType('addNewActivity', 'activity');

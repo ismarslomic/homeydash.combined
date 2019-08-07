@@ -76,3 +76,6 @@ export const IS_SETUP_COMPLETED: GettersType =
 export const GET_ACTIVITIES: GettersType =
     new GettersType('getActivities', 'activity');
 
+export const IS_ACTIVITIES_LOADED: GettersType =
+    new GettersType('isActivitiesLoaded', 'activity');
+

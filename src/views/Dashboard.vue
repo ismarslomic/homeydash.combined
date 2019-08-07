@@ -89,22 +89,11 @@
                     </v-card>
                 </v-flex>
                 <v-flex d-flex child-flex xs12 sm6 md4 order-xs6>
-                    <v-card color="light-blue" tile>
-                        <v-layout column ma-0 fill-height>
-                            <v-flex>
-                                <v-card-title>
-                                    <v-icon class="mr-2">sms</v-icon>
-                                    {{$t('components.activity.title')}}
-                                </v-card-title>
-                            </v-flex>
-                            <v-flex>
-                                <v-card-text>Content<br /><br /><br /><br /><br /></v-card-text>
-                            </v-flex>
-                            <v-flex>
-                                <v-card-actions class="pa-3">Actions</v-card-actions>
-                            </v-flex>
-                        </v-layout>
-                    </v-card>
+                    <activity-timeline
+                        :activities="activities"
+                        :isRefreshingData="isLoadingActivities"
+                        isDataLoaded="isActivitiesLoaded">
+                    </activity-timeline>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -113,11 +102,13 @@
 </template>
 
 <script lang="ts">
+    import ActivityTimeline from '@/components/ActivityTimeline.vue';
     import WeatherForecastSummary from '@/components/WeatherForecastSummary.vue';
     import {
         GET_ACTIVITIES,
         GET_WEATHER_FORECAST,
         GET_WEATHER_LOCATION,
+        IS_ACTIVITIES_LOADED,
         IS_HOMEY_GEO_COORDINATES_LOADED,
         IS_LOADING_ACTIVITIES,
         IS_LOADING_WEATHER_FORECAST,
@@ -125,17 +116,18 @@
         IS_WEATHER_FORECAST_LOADED,
         IS_WEATHER_LOCATION_LOADED
     } from '@/store/getters.type';
+    import { Activity } from '@/types/activity';
     import { GeolocationDetails } from '@/types/geolocation';
     import { Weatherdata } from '@/types/weather';
     import SettingsDialog from '@/views/SettingsDialog.vue';
     import { Component, Vue } from 'vue-property-decorator';
     import { Getter } from 'vuex-class';
-    import { Activity } from '@/types/activity';
 
     @Component({
         components: {
             WeatherForecastSummary,
-            SettingsDialog
+            SettingsDialog,
+            ActivityTimeline
         }
     })
     export default class Dashboard extends Vue {
@@ -157,6 +149,8 @@
             {namespace: GET_ACTIVITIES.namespace}) activities!: Activity[];
         @Getter(IS_LOADING_ACTIVITIES.getterName,
             {namespace: IS_LOADING_ACTIVITIES.namespace}) isLoadingActivities!: boolean;
+        @Getter(IS_ACTIVITIES_LOADED.getterName,
+            {namespace: IS_ACTIVITIES_LOADED.namespace}) isActivitiesLoaded!: boolean;
 
         now: Date = new Date();
 

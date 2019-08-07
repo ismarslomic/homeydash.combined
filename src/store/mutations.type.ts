@@ -76,3 +76,6 @@ export const SET_IS_SETUP_COMPLETED: MutationsType =
 export const SET_ACTIVITIES: MutationsType =
     new MutationsType('setActivities');
 
+export const ADD_ACTIVITY: MutationsType =
+    new MutationsType('addActivity');
+

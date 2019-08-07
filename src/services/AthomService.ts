@@ -1,19 +1,20 @@
 import {
-    DONE_LOADING_HOMEY,
+    ADD_NEW_ACTIVITY,
     DONE_LOADING_ACTIVITIES,
+    DONE_LOADING_HOMEY,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
-    START_LOADING_HOMEY,
     START_LOADING_ACTIVITIES,
+    START_LOADING_HOMEY,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
 import { GET_ATHOM_API_TOKEN } from '@/store/getters.type';
 import store from '@/store/store';
+import { Activity } from '@/types/activity';
 import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationCoordinates } from '@/types/geolocation';
 import { Homey } from '@/types/homey';
-import { Activity } from '@/types/activity';
 import { User } from '@/types/user';
 import { AthomCloudAPI, HomeyAPI } from 'athom-api';
 import * as _ from 'lodash';
@@ -49,8 +50,8 @@ class AthomService {
                     this.homeyAPI = api;
                     // @ts-ignore
                     this.homeyAPI.notifications.on('notification.create', (notification: any) => {
-                        // tslint:disable-next-line:no-console
-                        console.log(notification);
+                        const activity: Activity = mapActivity(notification);
+                        store.dispatch(ADD_NEW_ACTIVITY.namespacedName, activity);
                     });
                     store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
                     resolve();

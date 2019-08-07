@@ -74,3 +74,16 @@ export const START_LOADING_USER: ActionsType =
 
 export const DONE_LOADING_USER: ActionsType =
     new ActionsType('doneLoadingUser', 'loading');
+
+export const START_LOADING_ACTIVITIES: ActionsType =
+    new ActionsType('startLoadingActivities', 'loading');
+
+export const DONE_LOADING_ACTIVITIES: ActionsType =
+    new ActionsType('doneLoadingActivities', 'loading');
+
+// Activities
+export const FETCH_ACTIVITIES: ActionsType =
+    new ActionsType('fetchActivities', 'activity');
+
+export const ADD_NEW_ACTIVITY: ActionsType =
+    new ActionsType('addNewActivity', 'activity');

@@ -1,5 +1,5 @@
 <template>
-    <v-card tile>
+    <v-card tile :loading="isRefreshingData">
         <v-layout column ma-0 fill-height>
             <v-flex pa-0 shrink>
                 <v-card-title>
@@ -7,7 +7,6 @@
                     {{$t('components.weather.title')}}
                 </v-card-title>
             </v-flex>
-            <progress-bar :show="isRefreshingData" title="Refreshing weather..."></progress-bar>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
                     <h2>{{weatherLocation.name}}</h2>
@@ -63,7 +62,6 @@
 </template>
 
 <script lang="ts">
-    import ProgressBar from '@/components/ProgressBar.vue';
     import WeatherForecastHour from '@/components/WeatherForecastHour.vue';
     import '@/icons/yws';
     import { Weatherdata, WeatherInterval } from '@/types/weather';
@@ -71,8 +69,7 @@
 
     @Component({
         components: {
-            WeatherForecastHour,
-            ProgressBar
+            WeatherForecastHour
         }
     })
     export default class WeatherForecastSummary extends Vue {

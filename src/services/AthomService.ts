@@ -1,18 +1,23 @@
 import {
+    ADD_NEW_ACTIVITY,
+    DONE_LOADING_ACTIVITIES,
     DONE_LOADING_HOMEY,
     DONE_LOADING_USER,
     DONE_LOADING_USER_AUTHENTICATION,
+    START_LOADING_ACTIVITIES,
     START_LOADING_HOMEY,
     START_LOADING_USER,
     START_LOADING_USER_AUTHENTICATION
 } from '@/store/actions.type';
 import { GET_ATHOM_API_TOKEN } from '@/store/getters.type';
 import store from '@/store/store';
+import { Activity } from '@/types/activity';
 import { AthomApiToken } from '@/types/athomapi';
 import { GeolocationCoordinates } from '@/types/geolocation';
 import { Homey } from '@/types/homey';
 import { User } from '@/types/user';
 import { AthomCloudAPI, HomeyAPI } from 'athom-api';
+import * as _ from 'lodash';
 
 class AthomService {
     private readonly CLIENT_ID: string = '5cbb504da1fc782009f52e46';
@@ -43,6 +48,11 @@ class AthomService {
                 })
                 .then((api: any) => {
                     this.homeyAPI = api;
+                    // @ts-ignore
+                    this.homeyAPI.notifications.on('notification.create', (notification: any) => {
+                        const activity: Activity = mapActivity(notification);
+                        store.dispatch(ADD_NEW_ACTIVITY.namespacedName, activity);
+                    });
                     store.dispatch(DONE_LOADING_USER_AUTHENTICATION.namespacedName);
                     resolve();
                 })
@@ -74,6 +84,17 @@ class AthomService {
                 });
         } else {
             return this._getHomey();
+        }
+    }
+
+    getActivities(): Promise<Activity[]> {
+        if (!this.homeyAPI) {
+            return this.authenticate()
+                .then(() => {
+                    return this._getActivities();
+                });
+        } else {
+            return this._getActivities();
         }
     }
 
@@ -117,6 +138,28 @@ class AthomService {
                 });
         });
     }
+
+    private _getActivities(): Promise<Activity[]> {
+        return new Promise((resolve, reject) => {
+            store.dispatch(START_LOADING_ACTIVITIES.namespacedName);
+            // @ts-ignore
+            this.homeyAPI.notifications.getNotifications()
+            // @ts-ignore
+                .then((notifications: any) => {
+                    const notificationsArray: any[] = _.values(notifications);
+                    const activities: Activity[] = notificationsArray.map(mapActivity);
+                    const sortedActivities: Activity[] = _.orderBy(activities, 'dateCreated', 'desc');
+                    store.dispatch(DONE_LOADING_ACTIVITIES.namespacedName);
+                    resolve(sortedActivities);
+                })
+                .catch((error: any) => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error);
+                    store.dispatch(DONE_LOADING_ACTIVITIES.namespacedName);
+                    reject(error);
+                });
+        });
+    }
 }
 
 function mapUser(userJson: any): User {
@@ -148,6 +191,16 @@ function mapGeolocationCoordinates(geoLocationJson: any): GeolocationCoordinates
         latitude: geoLocationJson.latitude,
         longitude: geoLocationJson.longitude,
         accuracy: geoLocationJson.accuracy
+    };
+}
+
+function mapActivity(notificationJson: any): Activity {
+    return {
+        id: notificationJson.id,
+        ownerUri: notificationJson.ownerUri,
+        dateCreated: notificationJson.dateCreated,
+        excerpt: notificationJson.excerpt,
+        priority: notificationJson.priority
     };
 }
 

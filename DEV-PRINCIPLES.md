@@ -18,7 +18,7 @@
 state `watch` shall be used and should be registered in the `store.ts`
 
 ## Initiating state on refresh
-1. States that must be initiated when application is refresh/accessing for the first time shall be done from `store.ts`
+1. States that must be initiated when application is refreshed/accessed for the first time shall be done in the Default.vue layout
     
 ## i18n
 1. Static text that needs to be translated shall be stored in `locales` folder

@@ -9,20 +9,33 @@
             </v-flex>
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
-                    <v-timeline align-top dense>
-                        <v-timeline-item
-                            v-for="activity in latestActivities"
-                            :key="activity.id"
-                            icon="mdi-arrow-decision-auto">
-                            <v-layout pt-1>
-                                <v-flex xs3>
-                                    <strong> {{$d(new Date(activity.dateCreated), 'shortTime')}}</strong>
-                                </v-flex>
-                                <v-flex>
-                                    <strong> {{activity.excerpt}}</strong>
-                                </v-flex>
-                            </v-layout>
-                        </v-timeline-item>
+                    <v-timeline dense>
+                        <v-list two-line>
+                            <v-list-item-group
+                                v-model="selected"
+                                multiple
+                                active-class="">
+                                <v-slide-x-transition group>
+                                    <template v-for="(activity, index) in latestActivities">
+                                        <v-timeline-item
+                                            :key="activity.id"
+                                            :icon="activity.icon"
+                                            :color="index % 2 === 0 ? 'accent' : 'primary'"
+                                            fill-dot>
+                                            <v-list-item two-line :key="activity.id">
+                                                <template v-slot:default="{ active, toggle }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{activity.excerpt}}</v-list-item-title>
+                                                        <v-list-item-subtitle v-if="!active">{{activity.dateCreated | fromNow(now)}}</v-list-item-subtitle>
+                                                        <v-list-item-subtitle v-else>{{activity.dateCreated | calendarTime}}</v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-list-item>
+                                        </v-timeline-item>
+                                    </template>
+                                </v-slide-x-transition>
+                            </v-list-item-group>
+                        </v-list>
                     </v-timeline>
                 </v-card-text>
             </v-flex>
@@ -37,12 +50,21 @@
 
     @Component
     export default class ActivityTimeline extends Vue {
+        now: Date = new Date();
+        selected = [-1];
+
         @Prop() private activities!: Activity[];
         @Prop() private isRefreshingData!: boolean;
         @Prop() private isDataLoaded!: boolean;
 
         get latestActivities() {
             return this.activities.slice(0, 10);
+        }
+
+        created() {
+            setInterval(() => {
+                this.now = new Date();
+            }, 1000 * 60); // every 60 seconds
         }
     }
 </script>

@@ -1,4 +1,5 @@
 import App from '@/App.vue';
+import { CalendarTimeFilter, FromNowFilter } from '@/filters/moment';
 import PrecipationFilter from '@/filters/precipitation';
 import TemperatureFilter from '@/filters/temperature';
 import WindSpeedFilter from '@/filters/windspeed';
@@ -20,6 +21,8 @@ Vue.config.productionTip = false;
 Vue.filter('temperature', TemperatureFilter);
 Vue.filter('precipation', PrecipationFilter);
 Vue.filter('windspeed', WindSpeedFilter);
+Vue.filter('fromNow', FromNowFilter);
+Vue.filter('calendarTime', CalendarTimeFilter);
 
 Vue.use(VueSVGIcon, {
     tagName: 'svgicon',

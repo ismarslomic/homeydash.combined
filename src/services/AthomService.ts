@@ -199,9 +199,26 @@ function mapActivity(notificationJson: any): Activity {
         id: notificationJson.id,
         ownerUri: notificationJson.ownerUri,
         dateCreated: notificationJson.dateCreated,
-        excerpt: notificationJson.excerpt,
-        priority: notificationJson.priority
+        excerpt: stripMarkdown(notificationJson.excerpt),
+        priority: notificationJson.priority,
+        icon: mapIcon(notificationJson.ownerUri)
     };
+}
+
+function mapIcon(ownerUri: string): string {
+    const unknownIcon: string = '';
+    const knownIcons: {[uri: string]: string; } = {
+        'homey:manager:presence': 'person',
+        'homey:manager:flow': 'mdi-arrow-decision-auto',
+        'homey:manager:apps': 'apps',
+        'homey:manager:updates': 'updates'
+    };
+
+    return !ownerUri || !knownIcons[ownerUri] ? unknownIcon : knownIcons[ownerUri];
+}
+
+function stripMarkdown(markdownString: string): string {
+    return markdownString ? markdownString.replace(/\*/g, '') : markdownString;
 }
 
 export default new AthomService();

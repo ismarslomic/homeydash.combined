@@ -1,9 +1,11 @@
 import i18n from '@/plugins/i18n';
-import {LocaleState, RootState} from '@/types/types';
-import {ActionTree, GetterTree, Module, MutationTree} from 'vuex';
-import {INITIALIZE_LOCALE, CHANGE_LOCALE} from '@/store/actions.type';
-import {GET_LOCALE} from '@/store/getters.type';
-import {SET_LOCALE} from '@/store/mutations.type';
+import { CHANGE_LOCALE, INITIALIZE_LOCALE } from '@/store/actions.type';
+import { GET_LOCALE } from '@/store/getters.type';
+import { SET_LOCALE } from '@/store/mutations.type';
+import { LocaleState, RootState } from '@/types/types';
+import moment from 'moment';
+import 'moment/locale/nb'; // norwegian-bokmål
+import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 const state: LocaleState = {
     locale: ''
@@ -28,6 +30,7 @@ export const actions: ActionTree<LocaleState, RootState> = {
         return new Promise((resolve) => {
             commit(SET_LOCALE.mutationName, theLocale);
             i18n.locale = theLocale;
+            moment.locale(theLocale);
             resolve();
         });
     },
@@ -37,6 +40,7 @@ export const actions: ActionTree<LocaleState, RootState> = {
             const stateLocale: string = getters[GET_LOCALE.getterName];
             if (stateLocale) {
                 i18n.locale = stateLocale;
+                moment.locale(stateLocale);
                 resolve();
             } else {
                 return dispatch(CHANGE_LOCALE.actionName, DEFAULT_LOCALE);

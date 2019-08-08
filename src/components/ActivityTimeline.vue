@@ -10,6 +10,10 @@
             <v-flex pa-0 v-if="isDataLoaded" grow>
                 <v-card-text>
                     <v-timeline align-top dense>
+                        <v-slide-x-reverse-transition
+                            group
+                            hide-on-leave
+                        >
                         <v-timeline-item
                             v-for="activity in latestActivities"
                             :key="activity.id"
@@ -23,6 +27,7 @@
                                 </v-flex>
                             </v-layout>
                         </v-timeline-item>
+                        </v-slide-x-reverse-transition>
                     </v-timeline>
                 </v-card-text>
             </v-flex>

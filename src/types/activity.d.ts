@@ -4,4 +4,5 @@ export interface Activity {
     dateCreated: Date;
     excerpt: string;
     priority: string;
+    icon: string;
 }

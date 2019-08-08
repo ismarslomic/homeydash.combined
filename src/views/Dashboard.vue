@@ -154,7 +154,11 @@
 
         now: Date = new Date();
 
-        private timerID = setInterval(this.updateNow, 1000); // 1000 ms = 1 sec
+        created() {
+            setInterval(() => {
+                this.now = new Date();
+            }, 1000 * 30); // every 30 seconds
+        }
 
         get isRefreshingWeather(): boolean {
             return this.isLoadingWeatherLocation || this.isLoadingWeatherForecast;
@@ -162,10 +166,6 @@
 
         get isWeatherLoaded(): boolean {
             return this.isWeatherForecastLoaded && this.isHomeyGeoCoordinatesLoaded && this.isWeatherLocationLoaded;
-        }
-
-        private updateNow(): void {
-            this.now = new Date();
         }
     }
 </script>

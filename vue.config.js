@@ -18,6 +18,8 @@ module.exports = {
         appleMobileWebAppStatusBarStyle: 'black',
     },
 
+    transpileDependencies: ['vuetify'],
+
     publicPath: process.env.CONTEXT_PATH ? process.env.CONTEXT_PATH : '/',
 
     pluginOptions: {

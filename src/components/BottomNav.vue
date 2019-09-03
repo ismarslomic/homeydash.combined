@@ -9,7 +9,7 @@
                         </v-btn>
                     </v-flex>
                 </template>
-                <v-flex class="hidden-lg-and-up">
+                <v-flex v-if="$vuetify.breakpoint.mdAndDown" id="bottomsheet-overflow">
                     <v-bottom-sheet v-model="sheet">
                         <template v-slot:activator="{ on }">
                             <v-btn v-on="on">

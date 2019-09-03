@@ -1,18 +1,17 @@
 import BottomNav from '@/components/BottomNav.vue';
 import routes from '@/router/routes';
-import VueTestUtils, { createLocalVue, mount, shallowMount, Wrapper, WrapperArray } from '@vue/test-utils';
+import VueTestUtils, { createLocalVue, mount, Wrapper } from '@vue/test-utils';
 import Router from 'vue-router';
 import Vuetify from 'vuetify';
-import VBtn from 'vuetify/lib';
-
 // @ts-ignore
 import { Breakpoint } from 'vuetify/lib/services';
 
 const localVue = createLocalVue();
 localVue.use(Router);
 
+/* tslint:disable:no-empty */
 // @ts-ignore
-VueTestUtils.config.mocks['$t'] = () => {
+VueTestUtils.config.mocks.$t = () => {
 };
 
 describe('BottomNav', () => {
